@@ -50,15 +50,15 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
         body: SafeArea(
           top: true,
           child: Align(
-            alignment: AlignmentDirectional(0.0, -1.0),
+            alignment: const AlignmentDirectional(0.0, -1.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        0.0, 25.0, 0.0, 0.0),
                     child: Text(
                       'Pengumuman Perpustakaan',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -71,9 +71,9 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                   ),
                 ),
                 Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 20.0),
-                  child: Container(
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      20.0, 20.0, 20.0, 20.0),
+                  child: SizedBox(
                     width: double.infinity,
                     child: TextFormField(
                       controller: _model.textController,
@@ -91,18 +91,18 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                         hintStyle:
                             FlutterFlowTheme.of(context).labelMedium.override(
                                   fontFamily: 'Inter',
-                                  color: Color(0xFFD9D9D9),
+                                  color: const Color(0xFFD9D9D9),
                                   letterSpacing: 0.0,
                                 ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.black,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(14.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0x00000000),
                             width: 1.0,
                           ),
@@ -125,7 +125,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                         filled: true,
                         fillColor:
                             FlutterFlowTheme.of(context).secondaryBackground,
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.search_sharp,
                         ),
                       ),
@@ -141,16 +141,16 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                 ),
                 Flexible(
                   child: Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
+                    alignment: const AlignmentDirectional(0.0, 0.0),
                     child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 0.0, 0.0, 10.0),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: InkWell(
                                 splashColor: Colors.transparent,
@@ -163,12 +163,13 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFEDEDED),
+                                    color: const Color(0xFFEDEDED),
                                     borderRadius: BorderRadius.circular(6.0),
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        20.0, 10.0, 20.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            20.0, 10.0, 20.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -178,7 +179,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Inter',
-                                                color: Color(0xFFFF0000),
+                                                color: const Color(0xFFFF0000),
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -194,14 +195,14 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                                 ),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 10.0)),
+                                      ].divide(const SizedBox(width: 10.0)),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: InkWell(
                                 splashColor: Colors.transparent,
@@ -214,12 +215,13 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFEDEDED),
+                                    color: const Color(0xFFEDEDED),
                                     borderRadius: BorderRadius.circular(6.0),
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        20.0, 10.0, 20.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            20.0, 10.0, 20.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -229,7 +231,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Inter',
-                                                color: Color(0xFFFF0000),
+                                                color: const Color(0xFFFF0000),
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -245,14 +247,14 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                                 ),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 10.0)),
+                                      ].divide(const SizedBox(width: 10.0)),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: InkWell(
                                 splashColor: Colors.transparent,
@@ -265,12 +267,13 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFEDEDED),
+                                    color: const Color(0xFFEDEDED),
                                     borderRadius: BorderRadius.circular(6.0),
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        20.0, 10.0, 20.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            20.0, 10.0, 20.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -280,7 +283,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Inter',
-                                                color: Color(0xFFFF0000),
+                                                color: const Color(0xFFFF0000),
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -296,23 +299,23 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                                 ),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 10.0)),
+                                      ].divide(const SizedBox(width: 10.0)),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFEDEDED),
+                                  color: const Color(0xFFEDEDED),
                                   borderRadius: BorderRadius.circular(6.0),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       20.0, 10.0, 20.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -323,7 +326,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Inter',
-                                              color: Color(0xFFFF0000),
+                                              color: const Color(0xFFFF0000),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -339,22 +342,22 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               ),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 10.0)),
+                                    ].divide(const SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFEDEDED),
+                                  color: const Color(0xFFEDEDED),
                                   borderRadius: BorderRadius.circular(6.0),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       20.0, 10.0, 20.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -365,7 +368,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Inter',
-                                              color: Color(0xFFFF0000),
+                                              color: const Color(0xFFFF0000),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -381,22 +384,22 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               ),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 10.0)),
+                                    ].divide(const SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFEDEDED),
+                                  color: const Color(0xFFEDEDED),
                                   borderRadius: BorderRadius.circular(6.0),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       20.0, 10.0, 20.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -407,7 +410,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Inter',
-                                              color: Color(0xFFFF0000),
+                                              color: const Color(0xFFFF0000),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -423,22 +426,22 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               ),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 10.0)),
+                                    ].divide(const SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFEDEDED),
+                                  color: const Color(0xFFEDEDED),
                                   borderRadius: BorderRadius.circular(6.0),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       20.0, 10.0, 20.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -449,7 +452,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Inter',
-                                              color: Color(0xFFFF0000),
+                                              color: const Color(0xFFFF0000),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -465,22 +468,22 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               ),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 10.0)),
+                                    ].divide(const SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFEDEDED),
+                                  color: const Color(0xFFEDEDED),
                                   borderRadius: BorderRadius.circular(6.0),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       20.0, 10.0, 20.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -491,7 +494,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Inter',
-                                              color: Color(0xFFFF0000),
+                                              color: const Color(0xFFFF0000),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -507,22 +510,22 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               ),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 10.0)),
+                                    ].divide(const SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFEDEDED),
+                                  color: const Color(0xFFEDEDED),
                                   borderRadius: BorderRadius.circular(6.0),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       20.0, 10.0, 20.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -533,7 +536,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Inter',
-                                              color: Color(0xFFFF0000),
+                                              color: const Color(0xFFFF0000),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -549,23 +552,23 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                               ),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 10.0)),
+                                    ].divide(const SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ),
                             ),
-                          ].divide(SizedBox(height: 10.0)),
+                          ].divide(const SizedBox(height: 10.0)),
                         ),
                       ),
                     ),
                   ),
                 ),
                 Align(
-                  alignment: AlignmentDirectional(0.0, 1.0),
+                  alignment: const AlignmentDirectional(0.0, 1.0),
                   child: wrapWithModel(
                     model: _model.bottomBarPengumumanModel,
                     updateCallback: () => safeSetState(() {}),
-                    child: BottomBarPengumumanWidget(),
+                    child: const BottomBarPengumumanWidget(),
                   ),
                 ),
               ],

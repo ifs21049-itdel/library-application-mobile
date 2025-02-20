@@ -282,8 +282,8 @@ void showSnackbar(
         children: [
           if (loading)
             Padding(
-              padding: EdgeInsetsDirectional.only(end: 10.0),
-              child: Container(
+              padding: const EdgeInsetsDirectional.only(end: 10.0),
+              child: SizedBox(
                 height: 20,
                 width: 20,
                 child: const CircularProgressIndicator(

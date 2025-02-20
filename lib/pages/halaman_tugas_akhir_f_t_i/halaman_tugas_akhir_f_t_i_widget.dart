@@ -64,7 +64,8 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      20.0, 0.0, 20.0, 0.0),
                   child: Flex(
                     direction: Axis.horizontal,
                     mainAxisSize: MainAxisSize.max,
@@ -105,7 +106,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
                 child: Stack(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(0.0),
@@ -117,7 +118,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                       ),
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
                       child: Text(
                         'Fakultas Teknik Industri',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -136,7 +137,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                 child: Column(
                   children: [
                     Align(
-                      alignment: Alignment(-1.0, 0),
+                      alignment: const Alignment(-1.0, 0),
                       child: TabBar(
                         labelColor: FlutterFlowTheme.of(context).primaryText,
                         unselectedLabelColor:
@@ -154,7 +155,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                   letterSpacing: 0.0,
                                 ),
                         indicatorColor: FlutterFlowTheme.of(context).primary,
-                        tabs: [
+                        tabs: const [
                           Tab(
                             text: 'Manajemen Rekayasa',
                           ),
@@ -184,7 +185,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -218,21 +219,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -243,7 +244,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -277,21 +278,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -302,7 +303,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -336,21 +337,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -361,7 +362,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -395,21 +396,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -420,7 +421,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -454,21 +455,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -479,7 +480,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -513,21 +514,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -538,7 +539,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -572,21 +573,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -597,7 +598,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -631,21 +632,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -656,7 +657,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -690,21 +691,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Manajemen Rekayasa, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -722,7 +723,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -756,21 +757,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -781,7 +782,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -815,21 +816,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -840,7 +841,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -874,21 +875,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -899,7 +900,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -933,21 +934,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -958,7 +959,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -992,21 +993,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -1017,7 +1018,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -1051,21 +1052,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -1076,7 +1077,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -1110,21 +1111,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -1135,7 +1136,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -1169,21 +1170,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),
@@ -1194,7 +1195,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                       .secondaryBackground,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       15.0, 10.0, 15.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -1228,21 +1229,21 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                                             ),
                                             Text(
                                               'Teknik Metalurgi, Tugas Akhir',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
-                                                        fontSize: 10.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    color:
+                                                        const Color(0xFF6E6E6E),
+                                                    fontSize: 10.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
-                                          ].divide(SizedBox(height: 5.0)),
+                                          ].divide(const SizedBox(height: 5.0)),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
                                   ),
                                 ),
                               ),

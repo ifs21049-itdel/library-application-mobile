@@ -64,7 +64,8 @@ class _HalamanTugasAkhirFITEWidgetState
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      20.0, 0.0, 20.0, 0.0),
                   child: Flex(
                     direction: Axis.horizontal,
                     mainAxisSize: MainAxisSize.max,
@@ -105,7 +106,7 @@ class _HalamanTugasAkhirFITEWidgetState
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
                 child: Stack(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(0.0),
@@ -117,7 +118,7 @@ class _HalamanTugasAkhirFITEWidgetState
                       ),
                     ),
                     Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
                       child: Text(
                         'Fakultas Informatika dan Teknik Elektro',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -136,7 +137,7 @@ class _HalamanTugasAkhirFITEWidgetState
                 child: Column(
                   children: [
                     Align(
-                      alignment: Alignment(0.0, 0),
+                      alignment: const Alignment(0.0, 0),
                       child: TabBar(
                         isScrollable: true,
                         labelColor: FlutterFlowTheme.of(context).primaryText,
@@ -155,7 +156,7 @@ class _HalamanTugasAkhirFITEWidgetState
                                   letterSpacing: 0.0,
                                 ),
                         indicatorColor: FlutterFlowTheme.of(context).primary,
-                        tabs: [
+                        tabs: const [
                           Tab(
                             text: 'Informatika',
                           ),
@@ -199,8 +200,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                           .secondaryBackground,
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          15.0, 10.0, 15.0, 10.0),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              15.0, 10.0, 15.0, 10.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
@@ -240,16 +242,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                       .bodyMedium
                                                       .override(
                                                         fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF6E6E6E),
+                                                        color: const Color(
+                                                            0xFF6E6E6E),
                                                         fontSize: 10.0,
                                                         letterSpacing: 0.0,
                                                       ),
                                                 ),
-                                              ].divide(SizedBox(height: 5.0)),
+                                              ].divide(
+                                                  const SizedBox(height: 5.0)),
                                             ),
                                           ),
-                                        ].divide(SizedBox(width: 5.0)),
+                                        ].divide(const SizedBox(width: 5.0)),
                                       ),
                                     ),
                                   ),
@@ -265,8 +268,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -305,16 +309,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -329,8 +334,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -369,16 +375,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -393,8 +400,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -433,16 +441,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -457,8 +466,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -497,16 +507,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -521,8 +532,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -561,16 +573,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -585,8 +598,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -625,16 +639,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -649,8 +664,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -689,16 +705,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -713,8 +730,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -753,16 +771,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -784,8 +803,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -824,16 +844,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -844,8 +865,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -884,16 +906,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -904,8 +927,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -944,16 +968,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -964,8 +989,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1004,16 +1030,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1024,8 +1051,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1064,16 +1092,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1084,8 +1113,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1124,16 +1154,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1144,8 +1175,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1184,16 +1216,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1204,8 +1237,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1244,16 +1278,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1264,8 +1299,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1304,16 +1340,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1331,8 +1368,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1371,16 +1409,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1391,8 +1430,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1431,16 +1471,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1451,8 +1492,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1491,16 +1533,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1511,8 +1554,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1551,16 +1595,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1571,8 +1616,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1611,16 +1657,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1631,8 +1678,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1671,16 +1719,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1691,8 +1740,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1731,16 +1781,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1751,8 +1802,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1791,16 +1843,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),
@@ -1811,8 +1864,9 @@ class _HalamanTugasAkhirFITEWidgetState
                                         .secondaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15.0, 10.0, 15.0, 10.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            15.0, 10.0, 15.0, 10.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1851,16 +1905,17 @@ class _HalamanTugasAkhirFITEWidgetState
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
-                                                          color:
-                                                              Color(0xFF6E6E6E),
+                                                          color: const Color(
+                                                              0xFF6E6E6E),
                                                           fontSize: 10.0,
                                                           letterSpacing: 0.0,
                                                         ),
                                               ),
-                                            ].divide(SizedBox(height: 5.0)),
+                                            ].divide(
+                                                const SizedBox(height: 5.0)),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: 5.0)),
+                                      ].divide(const SizedBox(width: 5.0)),
                                     ),
                                   ),
                                 ),

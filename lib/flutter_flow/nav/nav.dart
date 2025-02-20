@@ -39,82 +39,84 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => LoginPageWidget(),
+      errorBuilder: (context, state) => const LoginPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => LoginPageWidget(),
+          builder: (context, _) => const LoginPageWidget(),
         ),
         FFRoute(
           name: 'LoginPage',
           path: '/loginPage',
-          builder: (context, params) => LoginPageWidget(),
+          builder: (context, params) => const LoginPageWidget(),
         ),
         FFRoute(
           name: 'HalamanTugasAkhirFITE',
           path: '/halamanTugasAkhirFITE',
-          builder: (context, params) => HalamanTugasAkhirFITEWidget(),
+          builder: (context, params) => const HalamanTugasAkhirFITEWidget(),
         ),
         FFRoute(
           name: 'HalamanTugasAkhirFTI',
           path: '/halamanTugasAkhirFTI',
-          builder: (context, params) => HalamanTugasAkhirFTIWidget(),
+          builder: (context, params) => const HalamanTugasAkhirFTIWidget(),
         ),
         FFRoute(
           name: 'HalamanTugasAkhirVokasi',
           path: '/halamanTugasAkhirVokasi',
-          builder: (context, params) => HalamanTugasAkhirVokasiWidget(),
+          builder: (context, params) => const HalamanTugasAkhirVokasiWidget(),
         ),
         FFRoute(
           name: 'HalamanTugasAkhirBioproses',
           path: '/halamanTugasAkhirBioproses',
-          builder: (context, params) => HalamanTugasAkhirBioprosesWidget(),
+          builder: (context, params) =>
+              const HalamanTugasAkhirBioprosesWidget(),
         ),
         FFRoute(
           name: 'DetailTugasAkhir',
           path: '/detailTugasAkhir',
-          builder: (context, params) => DetailTugasAkhirWidget(),
+          builder: (context, params) => const DetailTugasAkhirWidget(),
         ),
         FFRoute(
           name: 'HalamanPencarianTugasAkhir',
           path: '/halamanPencarianTugasAkhir',
-          builder: (context, params) => HalamanPencarianTugasAkhirWidget(),
+          builder: (context, params) =>
+              const HalamanPencarianTugasAkhirWidget(),
         ),
         FFRoute(
           name: 'HomePage',
           path: '/homePage',
-          builder: (context, params) => HomePageWidget(),
+          builder: (context, params) => const HomePageWidget(),
         ),
         FFRoute(
           name: 'DetailBuku',
           path: '/detailBuku',
-          builder: (context, params) => DetailBukuWidget(),
+          builder: (context, params) => const DetailBukuWidget(),
         ),
         FFRoute(
           name: 'HomePengumuman',
           path: '/homePengumuman',
-          builder: (context, params) => HomePengumumanWidget(),
+          builder: (context, params) => const HomePengumumanWidget(),
         ),
         FFRoute(
           name: 'ProfilePage',
           path: '/profilePage',
-          builder: (context, params) => ProfilePageWidget(),
+          builder: (context, params) => const ProfilePageWidget(),
         ),
         FFRoute(
           name: 'DetailPengumuman',
           path: '/detailPengumuman',
-          builder: (context, params) => DetailPengumumanWidget(),
+          builder: (context, params) => const DetailPengumumanWidget(),
         ),
         FFRoute(
           name: 'PinjamBuku',
           path: '/pinjamBuku',
-          builder: (context, params) => PinjamBukuWidget(),
+          builder: (context, params) => const PinjamBukuWidget(),
         ),
         FFRoute(
           name: 'RiwayatPeminjaman',
           path: '/riwayatPeminjaman',
-          builder: (context, params) => RiwayatPeminjamanWidget(),
+          builder: (context, params) => const RiwayatPeminjamanWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -278,7 +280,8 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() =>
+      const TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

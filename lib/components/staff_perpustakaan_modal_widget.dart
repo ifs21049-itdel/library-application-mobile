@@ -43,12 +43,12 @@ class _StaffPerpustakaanModalWidgetState
     return Stack(
       children: [
         Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+          padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   blurRadius: 7.0,
                   color: Color(0x2F1D2429),
@@ -61,7 +61,8 @@ class _StaffPerpustakaanModalWidgetState
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 12.0),
+              padding:
+                  const EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 12.0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,9 +99,9 @@ class _StaffPerpustakaanModalWidgetState
                                   ),
                         ),
                         Align(
-                          alignment: AlignmentDirectional(-0.97, -0.35),
+                          alignment: const AlignmentDirectional(-0.97, -0.35),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 4.0, 0.0, 0.0),
                             child: Text(
                               'jesikahutabarat@gmail.com',
@@ -114,9 +115,9 @@ class _StaffPerpustakaanModalWidgetState
                           ),
                         ),
                         Align(
-                          alignment: AlignmentDirectional(-0.97, 0.38),
+                          alignment: const AlignmentDirectional(-0.97, 0.38),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 4.0, 0.0, 0.0),
                             child: Text(
                               '+62 812-6997-6520',
@@ -149,9 +150,9 @@ class _StaffPerpustakaanModalWidgetState
                                   ),
                         ),
                         Align(
-                          alignment: AlignmentDirectional(-0.99, -0.39),
+                          alignment: const AlignmentDirectional(-0.99, -0.39),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 4.0, 0.0, 0.0),
                             child: Text(
                               'trislevia@gmail.com',
@@ -165,9 +166,9 @@ class _StaffPerpustakaanModalWidgetState
                           ),
                         ),
                         Align(
-                          alignment: AlignmentDirectional(-0.99, 0.29),
+                          alignment: const AlignmentDirectional(-0.99, 0.29),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 4.0, 0.0, 0.0),
                             child: Text(
                               '+62 896-5746-8685',

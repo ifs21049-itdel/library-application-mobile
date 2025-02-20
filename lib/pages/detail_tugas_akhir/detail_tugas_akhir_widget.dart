@@ -49,15 +49,16 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
           child: Stack(
             children: [
               Align(
-                alignment: AlignmentDirectional(0.0, -1.0),
+                alignment: const AlignmentDirectional(0.0, -1.0),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 64.0, 0.0, 0.0),
+                  padding:
+                      const EdgeInsetsDirectional.fromSTEB(0.0, 64.0, 0.0, 0.0),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Stack(
-                          alignment: AlignmentDirectional(0.0, 0.0),
+                          alignment: const AlignmentDirectional(0.0, 0.0),
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(0.0),
@@ -71,14 +72,14 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                             Container(
                               width: double.infinity,
                               height: 200.0,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color(0x5D000000),
                               ),
                             ),
                             Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
+                              alignment: const AlignmentDirectional(0.0, 0.0),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     10.0, 0.0, 10.0, 0.0),
                                 child: Text(
                                   'Pembangunan Aplikasi Auto Grading Del Code Checker Menggunakan Unity Game Engine: Studi Kasus Institut Teknologi Del',
@@ -104,7 +105,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                 .secondaryBackground,
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 10.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -122,7 +123,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                       ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -146,7 +147,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                           ],
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 20.0)),
+                                    ].divide(const SizedBox(width: 20.0)),
                                   ),
                                 ),
                               ],
@@ -164,7 +165,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                 .secondaryBackground,
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -182,7 +183,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                       ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -206,7 +207,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                           ],
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 20.0)),
+                                    ].divide(const SizedBox(width: 20.0)),
                                   ),
                                 ),
                               ],
@@ -224,7 +225,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                 .secondaryBackground,
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -242,7 +243,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                       ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -266,7 +267,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                           ],
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 20.0)),
+                                    ].divide(const SizedBox(width: 20.0)),
                                   ),
                                 ),
                               ],
@@ -284,7 +285,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                 .secondaryBackground,
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -302,7 +303,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                       ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -326,7 +327,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                           ],
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 20.0)),
+                                    ].divide(const SizedBox(width: 20.0)),
                                   ),
                                 ),
                               ],
@@ -344,7 +345,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                 .secondaryBackground,
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -362,7 +363,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                       ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -383,7 +384,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                           ),
                                         ],
                                       ),
-                                    ].divide(SizedBox(width: 20.0)),
+                                    ].divide(const SizedBox(width: 20.0)),
                                   ),
                                 ),
                               ],
@@ -401,7 +402,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                 .secondaryBackground,
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -419,7 +420,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                       ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -443,7 +444,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                           ],
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 20.0)),
+                                    ].divide(const SizedBox(width: 20.0)),
                                   ),
                                 ),
                               ],
@@ -461,7 +462,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                 .secondaryBackground,
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -479,7 +480,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                       ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -503,7 +504,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                           ],
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 20.0)),
+                                    ].divide(const SizedBox(width: 20.0)),
                                   ),
                                 ),
                               ],
@@ -516,16 +517,16 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                 ),
               ),
               Align(
-                alignment: AlignmentDirectional(0.0, -1.0),
+                alignment: const AlignmentDirectional(0.0, -1.0),
                 child: Container(
                   width: double.infinity,
                   height: 64.0,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color(0xFF4A97F1),
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        20.0, 0.0, 20.0, 0.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -543,7 +544,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                           },
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 150.0, 0.0),
                           child: Text(
                             'Detail',

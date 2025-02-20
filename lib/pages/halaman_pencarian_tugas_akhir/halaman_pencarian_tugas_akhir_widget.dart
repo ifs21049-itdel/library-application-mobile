@@ -55,7 +55,8 @@ class _HalamanPencarianTugasAkhirWidgetState
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 0.0),
+                padding:
+                    const EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 0.0),
                 child: Container(
                   width: double.infinity,
                   height: 64.0,
@@ -63,8 +64,8 @@ class _HalamanPencarianTugasAkhirWidgetState
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        20.0, 0.0, 20.0, 0.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,7 +83,7 @@ class _HalamanPencarianTugasAkhirWidgetState
                           },
                         ),
                         Expanded(
-                          child: Container(
+                          child: SizedBox(
                             width: 200.0,
                             child: TextFormField(
                               controller: _model.searchTextController,
@@ -106,14 +107,14 @@ class _HalamanPencarianTugasAkhirWidgetState
                                       fontWeight: FontWeight.w600,
                                     ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Color(0x00000000),
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Color(0x00000000),
                                     width: 1.0,
                                   ),

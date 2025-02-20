@@ -75,7 +75,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       child: Stack(
-                        alignment: AlignmentDirectional(0.0, 0.0),
+                        alignment: const AlignmentDirectional(0.0, 0.0),
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(0.0),
@@ -89,12 +89,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           Container(
                             width: double.infinity,
                             height: 200.0,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color(0x5E000000),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -110,7 +110,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   ),
                                 ),
                                 Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  alignment:
+                                      const AlignmentDirectional(0.0, 0.0),
                                   child: Text(
                                     'Perpustakaan Digital\nIntitut Teknologi Del',
                                     style: FlutterFlowTheme.of(context)
@@ -148,12 +149,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             15.0, 20.0, 15.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Container(
+                            SizedBox(
                               width: double.infinity,
                               child: TextFormField(
                                 controller: _model.textController,
@@ -176,14 +177,14 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                         letterSpacing: 0.0,
                                       ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0xFF222222),
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(24.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.black,
                                       width: 1.0,
                                     ),
@@ -206,7 +207,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   filled: true,
                                   fillColor: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
-                                  prefixIcon: Icon(
+                                  prefixIcon: const Icon(
                                     Icons.search_rounded,
                                   ),
                                 ),
@@ -233,12 +234,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             15.0, 20.0, 15.0, 0.0),
                         child: Column(
                           children: [
                             Align(
-                              alignment: Alignment(0.0, 0),
+                              alignment: const Alignment(0.0, 0),
                               child: FlutterFlowButtonTabBar(
                                 useToggleButtonStyle: true,
                                 labelStyle: FlutterFlowTheme.of(context)
@@ -259,17 +260,18 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 labelColor: Colors.white,
                                 unselectedLabelColor:
                                     FlutterFlowTheme.of(context).secondaryText,
-                                backgroundColor: Color(0xFF2679C2),
+                                backgroundColor: const Color(0xFF2679C2),
                                 unselectedBackgroundColor: Colors.white,
-                                borderColor: Color(0xFF2679C2),
+                                borderColor: const Color(0xFF2679C2),
                                 unselectedBorderColor:
                                     FlutterFlowTheme.of(context).alternate,
                                 borderWidth: 2.0,
                                 borderRadius: 8.0,
                                 elevation: 0.0,
-                                buttonMargin: EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 0.0, 8.0, 0.0),
-                                tabs: [
+                                buttonMargin:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 0.0, 8.0, 0.0),
+                                tabs: const [
                                   Tab(
                                     text: 'Katalog Buku',
                                   ),
@@ -288,19 +290,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 controller: _model.tabBarController,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        20.0, 20.0, 20.0, 0.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            20.0, 20.0, 20.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
                                       height: double.infinity,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFFF7F7F7),
+                                        color: const Color(0xFFF7F7F7),
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                       ),
                                       child: Align(
-                                        alignment:
-                                            AlignmentDirectional(0.0, 0.0),
+                                        alignment: const AlignmentDirectional(
+                                            0.0, 0.0),
                                         child: SingleChildScrollView(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
@@ -308,14 +311,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                 MainAxisAlignment.end,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets.all(5.0),
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
                                                 child: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   children: [
                                                     Align(
                                                       alignment:
-                                                          AlignmentDirectional(
+                                                          const AlignmentDirectional(
                                                               -1.0, 0.0),
                                                       child: Text(
                                                         'Buku Terbaru',
@@ -335,19 +339,19 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                       width: double.infinity,
                                                       height: 300.0,
                                                       decoration:
-                                                          BoxDecoration(),
+                                                          const BoxDecoration(),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                                EdgeInsetsDirectional
+                                                                const EdgeInsetsDirectional
                                                                     .fromSTEB(
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0,
-                                                                        0.0),
+                                                                    0.0,
+                                                                    10.0,
+                                                                    0.0,
+                                                                    0.0),
                                                             child: Row(
                                                               mainAxisSize:
                                                                   MainAxisSize
@@ -502,12 +506,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                           ),
                                                           Padding(
                                                             padding:
-                                                                EdgeInsetsDirectional
+                                                                const EdgeInsetsDirectional
                                                                     .fromSTEB(
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0,
-                                                                        0.0),
+                                                                    0.0,
+                                                                    10.0,
+                                                                    0.0,
+                                                                    0.0),
                                                             child: Row(
                                                               mainAxisSize:
                                                                   MainAxisSize
@@ -671,7 +675,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                 children: [
                                                   Align(
                                                     alignment:
-                                                        AlignmentDirectional(
+                                                        const AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Buku Favorit',
@@ -688,19 +692,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   Container(
                                                     width: double.infinity,
                                                     height: 300.0,
-                                                    decoration: BoxDecoration(),
+                                                    decoration:
+                                                        const BoxDecoration(),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
-                                                                      0.0,
-                                                                      10.0,
-                                                                      0.0,
-                                                                      0.0),
+                                                                  0.0,
+                                                                  10.0,
+                                                                  0.0,
+                                                                  0.0),
                                                           child: Row(
                                                             mainAxisSize:
                                                                 MainAxisSize
@@ -864,12 +869,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
-                                                                      0.0,
-                                                                      10.0,
-                                                                      0.0,
-                                                                      0.0),
+                                                                  0.0,
+                                                                  10.0,
+                                                                  0.0,
+                                                                  0.0),
                                                           child: Row(
                                                             mainAxisSize:
                                                                 MainAxisSize
@@ -1043,19 +1048,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        20.0, 20.0, 20.0, 20.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            20.0, 20.0, 20.0, 20.0),
                                     child: Container(
                                       width: double.infinity,
                                       height: double.infinity,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFFF7F7F7),
+                                        color: const Color(0xFFF7F7F7),
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 20.0, 20.0, 20.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(20.0, 20.0, 20.0, 20.0),
                                         child: SingleChildScrollView(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
@@ -1065,8 +1071,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Align(
-                                                alignment: AlignmentDirectional(
-                                                    0.0, 0.0),
+                                                alignment:
+                                                    const AlignmentDirectional(
+                                                        0.0, 0.0),
                                                 child: Text(
                                                   'Fakultas',
                                                   style: FlutterFlowTheme.of(
@@ -1089,7 +1096,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   Container(
                                                     width: 120.0,
                                                     height: 150.0,
-                                                    decoration: BoxDecoration(),
+                                                    decoration:
+                                                        const BoxDecoration(),
                                                     child: InkWell(
                                                       splashColor:
                                                           Colors.transparent,
@@ -1110,7 +1118,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Icon(
+                                                          const Icon(
                                                             Icons
                                                                 .folder_rounded,
                                                             color: Color(
@@ -1127,7 +1135,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 .override(
                                                                   fontFamily:
                                                                       'Inter',
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xFF686D76),
                                                                   letterSpacing:
                                                                       0.0,
@@ -1143,7 +1151,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   Container(
                                                     width: 120.0,
                                                     height: 150.0,
-                                                    decoration: BoxDecoration(),
+                                                    decoration:
+                                                        const BoxDecoration(),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1151,7 +1160,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        Icon(
+                                                        const Icon(
                                                           Icons.folder_rounded,
                                                           color:
                                                               Color(0xFF686D76),
@@ -1167,7 +1176,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                               .override(
                                                                 fontFamily:
                                                                     'Inter',
-                                                                color: Color(
+                                                                color: const Color(
                                                                     0xFF686D76),
                                                                 letterSpacing:
                                                                     0.0,
@@ -1190,7 +1199,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   Container(
                                                     width: 120.0,
                                                     height: 150.0,
-                                                    decoration: BoxDecoration(),
+                                                    decoration:
+                                                        const BoxDecoration(),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1198,7 +1208,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        Icon(
+                                                        const Icon(
                                                           Icons.folder_rounded,
                                                           color:
                                                               Color(0xFF686D76),
@@ -1214,7 +1224,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                               .override(
                                                                 fontFamily:
                                                                     'Inter',
-                                                                color: Color(
+                                                                color: const Color(
                                                                     0xFF686D76),
                                                                 letterSpacing:
                                                                     0.0,
@@ -1229,7 +1239,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   Container(
                                                     width: 120.0,
                                                     height: 150.0,
-                                                    decoration: BoxDecoration(),
+                                                    decoration:
+                                                        const BoxDecoration(),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1237,7 +1248,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        Icon(
+                                                        const Icon(
                                                           Icons.folder_rounded,
                                                           color:
                                                               Color(0xFF686D76),
@@ -1253,7 +1264,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                               .override(
                                                                 fontFamily:
                                                                     'Inter',
-                                                                color: Color(
+                                                                color: const Color(
                                                                     0xFF686D76),
                                                                 letterSpacing:
                                                                     0.0,
@@ -1285,7 +1296,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                 wrapWithModel(
                   model: _model.bottomBarBerandaModel,
                   updateCallback: () => safeSetState(() {}),
-                  child: BottomBarBerandaWidget(),
+                  child: const BottomBarBerandaWidget(),
                 ),
               ],
             ),

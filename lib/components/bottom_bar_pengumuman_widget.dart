@@ -40,13 +40,13 @@ class _BottomBarPengumumanWidgetState extends State<BottomBarPengumumanWidget> {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: AlignmentDirectional(0.0, 1.0),
+      alignment: const AlignmentDirectional(0.0, 1.0),
       child: Container(
         width: double.infinity,
         height: 65.0,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 4.0,
               color: Color(0x33000000),
@@ -62,7 +62,7 @@ class _BottomBarPengumumanWidgetState extends State<BottomBarPengumumanWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Align(
-              alignment: AlignmentDirectional(0.0, 0.0),
+              alignment: const AlignmentDirectional(0.0, 0.0),
               child: InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
@@ -76,7 +76,7 @@ class _BottomBarPengumumanWidgetState extends State<BottomBarPengumumanWidget> {
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                   ),
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +87,7 @@ class _BottomBarPengumumanWidgetState extends State<BottomBarPengumumanWidget> {
                           borderRadius: BorderRadius.circular(24.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 0.0),
                           child: Icon(
                             Icons.house,
@@ -103,7 +103,7 @@ class _BottomBarPengumumanWidgetState extends State<BottomBarPengumumanWidget> {
                               letterSpacing: 0.0,
                             ),
                       ),
-                    ].divide(SizedBox(height: 5.0)),
+                    ].divide(const SizedBox(height: 5.0)),
                   ),
                 ),
               ),
@@ -128,11 +128,11 @@ class _BottomBarPengumumanWidgetState extends State<BottomBarPengumumanWidget> {
                     Container(
                       width: 60.0,
                       decoration: BoxDecoration(
-                        color: Color(0xFF84BDE4),
+                        color: const Color(0xFF84BDE4),
                         borderRadius: BorderRadius.circular(24.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             10.0, 3.0, 10.0, 3.0),
                         child: Icon(
                           Icons.announcement_outlined,
@@ -148,7 +148,7 @@ class _BottomBarPengumumanWidgetState extends State<BottomBarPengumumanWidget> {
                             letterSpacing: 0.0,
                           ),
                     ),
-                  ].divide(SizedBox(height: 5.0)),
+                  ].divide(const SizedBox(height: 5.0)),
                 ),
               ),
             ),
@@ -181,7 +181,7 @@ class _BottomBarPengumumanWidgetState extends State<BottomBarPengumumanWidget> {
                             letterSpacing: 0.0,
                           ),
                     ),
-                  ].divide(SizedBox(height: 5.0)),
+                  ].divide(const SizedBox(height: 5.0)),
                 ),
               ),
             ),

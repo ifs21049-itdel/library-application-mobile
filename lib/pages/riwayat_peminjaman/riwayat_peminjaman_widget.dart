@@ -81,7 +81,7 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                   letterSpacing: 0.0,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: false,
           elevation: 0.0,
         ),
@@ -101,12 +101,12 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               15.0, 20.0, 15.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: double.infinity,
                                 child: TextFormField(
                                   controller: _model.textController,
@@ -129,14 +129,14 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                           letterSpacing: 0.0,
                                         ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Color(0xFF222222),
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.black,
                                         width: 1.0,
                                       ),
@@ -161,7 +161,7 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.search_rounded,
                                     ),
                                   ),
@@ -188,7 +188,7 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                   child: Column(
                     children: [
                       Align(
-                        alignment: Alignment(-1.0, 0),
+                        alignment: const Alignment(-1.0, 0),
                         child: FlutterFlowButtonTabBar(
                           useToggleButtonStyle: false,
                           isScrollable: true,
@@ -197,22 +197,22 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                     fontFamily: 'Inter Tight',
                                     letterSpacing: 0.0,
                                   ),
-                          unselectedLabelStyle: TextStyle(),
+                          unselectedLabelStyle: const TextStyle(),
                           labelColor: Colors.white,
                           unselectedLabelColor:
                               FlutterFlowTheme.of(context).secondaryText,
-                          backgroundColor: Color(0xFF2679C2),
-                          borderColor: Color(0xFF2679C2),
+                          backgroundColor: const Color(0xFF2679C2),
+                          borderColor: const Color(0xFF2679C2),
                           borderWidth: 2.0,
                           borderRadius: 12.0,
                           elevation: 0.0,
-                          labelPadding: EdgeInsetsDirectional.fromSTEB(
+                          labelPadding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          buttonMargin: EdgeInsetsDirectional.fromSTEB(
+                          buttonMargin: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 12.0, 16.0, 0.0),
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          tabs: [
+                          tabs: const [
                             Tab(
                               text: 'Riwayat',
                             ),
@@ -233,8 +233,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 8.0, 16.0, 0.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 8.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
@@ -244,8 +245,8 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                             BorderRadius.circular(12.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 8.0, 12.0, 8.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(8.0, 8.0, 12.0, 8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -262,8 +263,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
                                               child: Text(
                                                 'Kalkulus Edition 5',
@@ -282,8 +284,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 12.0, 16.0, 0.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 12.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
@@ -293,8 +296,8 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                             BorderRadius.circular(12.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 8.0, 12.0, 8.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(8.0, 8.0, 12.0, 8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -311,8 +314,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
                                               child: Text(
                                                 'Kalkulus Edition 5',
@@ -331,8 +335,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 8.0, 16.0, 0.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 8.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
@@ -342,8 +347,8 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                             BorderRadius.circular(12.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 8.0, 12.0, 8.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(8.0, 8.0, 12.0, 8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -360,8 +365,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
                                               child: Text(
                                                 'Kalkulus Edition 5',
@@ -380,8 +386,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 8.0, 16.0, 0.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 8.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
@@ -391,8 +398,8 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                             BorderRadius.circular(12.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 8.0, 12.0, 8.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(8.0, 8.0, 12.0, 8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -409,8 +416,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
                                               child: Text(
                                                 'Kalkulus Edition 5',
@@ -429,8 +437,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 8.0, 16.0, 0.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 8.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
@@ -440,8 +449,8 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                             BorderRadius.circular(12.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 8.0, 12.0, 8.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(8.0, 8.0, 12.0, 8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -458,8 +467,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
                                               child: Text(
                                                 'Kalkulus Edition 5',
@@ -478,8 +488,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 8.0, 16.0, 0.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 8.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
@@ -489,8 +500,8 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                             BorderRadius.circular(12.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 8.0, 12.0, 8.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(8.0, 8.0, 12.0, 8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -507,8 +518,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
                                               child: Text(
                                                 'Kalkulus Edition 5',
@@ -527,8 +539,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 8.0, 16.0, 44.0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 8.0, 16.0, 44.0),
                                     child: Container(
                                       width: double.infinity,
                                       decoration: BoxDecoration(
@@ -538,8 +551,8 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                             BorderRadius.circular(12.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 8.0, 12.0, 8.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(8.0, 8.0, 12.0, 8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -556,8 +569,9 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
                                               child: Text(
                                                 'Kalkulus Edition 5',
@@ -589,7 +603,7 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget>
             wrapWithModel(
               model: _model.bottomBarProfileModel,
               updateCallback: () => safeSetState(() {}),
-              child: BottomBarProfileWidget(),
+              child: const BottomBarProfileWidget(),
             ),
           ],
         ),

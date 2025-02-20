@@ -45,7 +45,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(200.0),
+          preferredSize: const Size.fromHeight(200.0),
           child: AppBar(
             backgroundColor: FlutterFlowTheme.of(context).info,
             automaticallyImplyLeading: false,
@@ -61,14 +61,14 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                 context.safePop();
               },
             ),
-            actions: [],
+            actions: const [],
             flexibleSpace: FlexibleSpaceBar(
               background: ClipRRect(
                 borderRadius: BorderRadius.circular(0.0),
                 child: Image.asset(
                   'assets/images/Teori-dan-Aplikasi-Kalkulus-Dasar-Neww-1_page-0001.jpg',
                   fit: BoxFit.cover,
-                  alignment: Alignment(0.0, 1.0),
+                  alignment: const Alignment(0.0, 1.0),
                 ),
               ),
             ),
@@ -83,7 +83,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Align(
-                  alignment: AlignmentDirectional(0.0, -1.0),
+                  alignment: const AlignmentDirectional(0.0, -1.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -94,7 +94,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 10.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -126,7 +126,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -144,7 +144,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                     ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 10.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -167,7 +167,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                         ],
                                       ),
                                     ),
-                                  ].divide(SizedBox(width: 20.0)),
+                                  ].divide(const SizedBox(width: 20.0)),
                                 ),
                               ),
                             ],
@@ -185,7 +185,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -203,7 +203,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                     ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 10.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -226,7 +226,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                         ],
                                       ),
                                     ),
-                                  ].divide(SizedBox(width: 20.0)),
+                                  ].divide(const SizedBox(width: 20.0)),
                                 ),
                               ),
                             ],
@@ -244,7 +244,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -262,7 +262,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                     ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 10.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -285,7 +285,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                         ],
                                       ),
                                     ),
-                                  ].divide(SizedBox(width: 20.0)),
+                                  ].divide(const SizedBox(width: 20.0)),
                                 ),
                               ),
                             ],
@@ -303,7 +303,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -321,7 +321,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                     ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 10.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -342,7 +342,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(width: 20.0)),
+                                  ].divide(const SizedBox(width: 20.0)),
                                 ),
                               ),
                             ],
@@ -360,7 +360,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -378,7 +378,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                     ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 10.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -399,7 +399,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(width: 20.0)),
+                                  ].divide(const SizedBox(width: 20.0)),
                                 ),
                               ),
                             ],
@@ -417,7 +417,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -435,7 +435,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                     ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 10.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -456,7 +456,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(width: 20.0)),
+                                  ].divide(const SizedBox(width: 20.0)),
                                 ),
                               ),
                             ],
@@ -474,7 +474,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -492,7 +492,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                     ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 10.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -515,7 +515,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                         ],
                                       ),
                                     ),
-                                  ].divide(SizedBox(width: 20.0)),
+                                  ].divide(const SizedBox(width: 20.0)),
                                 ),
                               ),
                             ],
@@ -533,7 +533,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -551,7 +551,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                     ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 10.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -574,7 +574,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                         ],
                                       ),
                                     ),
-                                  ].divide(SizedBox(width: 20.0)),
+                                  ].divide(const SizedBox(width: 20.0)),
                                 ),
                               ),
                             ],
@@ -585,7 +585,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -598,10 +598,10 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                         options: FFButtonOptions(
                           width: 170.0,
                           height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
                           iconAlignment: IconAlignment.start,
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primaryBackground,
                           textStyle:
@@ -626,9 +626,9 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                         options: FFButtonOptions(
                           width: 170.0,
                           height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:

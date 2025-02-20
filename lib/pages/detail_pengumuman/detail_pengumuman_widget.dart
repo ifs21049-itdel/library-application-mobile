@@ -47,16 +47,16 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
         body: SafeArea(
           top: true,
           child: Align(
-            alignment: AlignmentDirectional(0.0, -1.0),
+            alignment: const AlignmentDirectional(0.0, -1.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        0.0, 25.0, 0.0, 0.0),
                     child: Text(
                       'Pengumuman Perpustakaan',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -70,33 +70,33 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                 ),
                 Flexible(
                   child: Align(
-                    alignment: AlignmentDirectional(0.0, -1.0),
+                    alignment: const AlignmentDirectional(0.0, -1.0),
                     child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 10.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          0.0, 20.0, 0.0, 10.0),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(0.0),
                                     bottomRight: Radius.circular(0.0),
                                     topLeft: Radius.circular(0.0),
                                     topRight: Radius.circular(0.0),
                                   ),
                                   border: Border.all(
-                                    color: Color(0xFFE4E4E4),
+                                    color: const Color(0xFFE4E4E4),
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       20.0, 10.0, 20.0, 10.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -107,7 +107,7 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Inter',
-                                              color: Color(0xFFFF0000),
+                                              color: const Color(0xFFFF0000),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -123,28 +123,28 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                                               ),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 10.0)),
+                                    ].divide(const SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(0.0),
                                     bottomRight: Radius.circular(0.0),
                                     topLeft: Radius.circular(0.0),
                                     topRight: Radius.circular(0.0),
                                   ),
                                   border: Border.all(
-                                    color: Color(0xFFE4E4E4),
+                                    color: const Color(0xFFE4E4E4),
                                   ),
                                 ),
-                                alignment: AlignmentDirectional(0.0, 1.0),
+                                alignment: const AlignmentDirectional(0.0, 1.0),
                                 child: Text(
                                   'Dear Students,\nPerpustakaan IT Del mengadakan kegiatan Webinar dengan tema “Pelatihan Pemanfaatan Reference Manager: Mendeley”\nHari/Tanggal: Kamis, 09 November 2023\nWaktu: 15.00-17.00 WIB\nMedia: Zoom\nNarasumber: Ibu Tiurma Lumban Gaol, SP., M.P\nModerator: Ibu Jesicha Ulina Hutabarat, S.Sos\nPendaftaran:\nhttps://bit.ly/PelatihanMendeley_09November2023\nInfo lebih lanjut:\nNo Hp : +62 896 5746 8685 (Trislevia)\n[TERBUKA UNTUK UMUM]\n\n\n\n\nFile: Flayer-Webinar.jpeg',
                                   style: FlutterFlowTheme.of(context)
@@ -156,7 +156,7 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                                 ),
                               ),
                             ),
-                          ].divide(SizedBox(height: 10.0)),
+                          ].divide(const SizedBox(height: 10.0)),
                         ),
                       ),
                     ),
@@ -165,7 +165,7 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                 wrapWithModel(
                   model: _model.bottomBarPengumumanModel,
                   updateCallback: () => safeSetState(() {}),
-                  child: BottomBarPengumumanWidget(),
+                  child: const BottomBarPengumumanWidget(),
                 ),
               ],
             ),
