@@ -87,9 +87,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _model.textController1,
-                  focusNode: _model.textFieldFocusNode1,
-                  decoration: InputDecoration(
+                  controller:
+                      _usernameController, // Menggunakan controller yang sudah dideklarasikan
+                  decoration: const InputDecoration(
                     labelText: 'Username',
                     border: OutlineInputBorder(),
                   ),
