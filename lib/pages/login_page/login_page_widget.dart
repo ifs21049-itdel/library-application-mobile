@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:library_application/flutter_flow/flutter_flow_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'login_page_model.dart';
 
 class LoginPageWidget extends StatefulWidget {
   const LoginPageWidget({super.key});
@@ -14,34 +14,17 @@ class LoginPageWidget extends StatefulWidget {
 }
 
 class _LoginPageWidgetState extends State<LoginPageWidget> {
-  late LoginPageModel _model;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    _model = createModel(context, () => LoginPageModel());
-
-    _model.textController1 ??= TextEditingController();
-    _model.textFieldFocusNode1 ??= FocusNode();
-
-    _model.textController2 ??= TextEditingController();
-    _model.textFieldFocusNode2 ??= FocusNode();
-  }
-
-  @override
-  void dispose() {
-    _model.dispose();
-    super.dispose();
-  }
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool passwordVisible = false;
 
   Future<void> loginUser() async {
-    final String username = _model.textController1!.text;
-    final String password = _model.textController2!.text;
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Harap isi semua kolom')),
+        const SnackBar(content: Text('Harap isi semua kolom')),
       );
       return;
     }
@@ -59,18 +42,23 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
       if (response.statusCode == 200 && data['result'] == true) {
         if (data['user']['role'] == 'Mahasiswa') {
+          // Simpan data user ke SharedPreferences
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('user_data', jsonEncode(data['user']));
+
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login berhasil')),
+            const SnackBar(content: Text('Login berhasil')),
           );
           context.pushNamed('HomePage'); // Navigasi ke halaman utama
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login gagal. Akun tidak diizinkan.')),
+            const SnackBar(content: Text('Login gagal. Akun tidak diizinkan.')),
           );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login gagal. Periksa kembali kredensial.')),
+          const SnackBar(
+              content: Text('Login gagal. Periksa kembali kredensial.')),
         );
       }
     } catch (error) {
@@ -83,14 +71,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
-          top: true,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
@@ -103,9 +87,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _model.textController1,
-                  focusNode: _model.textFieldFocusNode1,
-                  decoration: InputDecoration(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(),
                   ),
@@ -113,22 +96,20 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
-                  controller: _model.textController2,
-                  focusNode: _model.textFieldFocusNode2,
-                  obscureText: !_model.passwordVisibility,
+                  controller: _passwordController,
+                  obscureText: !passwordVisible,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _model.passwordVisibility
+                        passwordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
                       ),
                       onPressed: () {
                         setState(() {
-                          _model.passwordVisibility =
-                              !_model.passwordVisibility;
+                          passwordVisible = !passwordVisible;
                         });
                       },
                     ),
@@ -136,13 +117,13 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 ),
                 const SizedBox(height: 20),
                 FFButtonWidget(
-                  onPressed: loginUser, // Panggil fungsi login
+                  onPressed: loginUser,
                   text: 'Login',
                   options: FFButtonOptions(
                     width: double.infinity,
                     height: 40.0,
                     color: const Color(0xFF5B4D81),
-                    textStyle: TextStyle(color: Colors.white),
+                    textStyle: const TextStyle(color: Colors.white),
                   ),
                 ),
               ],
