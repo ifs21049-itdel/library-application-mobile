@@ -106,10 +106,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                   controller: _model.textController1,
                   focusNode: _model.textFieldFocusNode1,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: 'Username',
                     border: OutlineInputBorder(),
                   ),
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
