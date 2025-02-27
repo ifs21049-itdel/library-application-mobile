@@ -44,7 +44,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => const LoginPageWidget(),
+          builder: (context, _) => const HomePageWidget(),
         ),
         FFRoute(
           name: 'LoginPage',
