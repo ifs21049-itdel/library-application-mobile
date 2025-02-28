@@ -50,10 +50,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       final Map<String, dynamic> data = json.decode(response.body);
       debugPrint(data.toString());
 
-
       if (response.statusCode == 200) {
-        if (data['data']['user']['role'] == 'Mahasiswa') {
-          // Simpan data user ke SharedPreferences
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('user_data', jsonEncode(data['data']['user']));
 
@@ -68,12 +65,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
           } else {
             Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CompleteData()));
           }
-        } else {
-          if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(data['message'])),
-          );
-        }
       } else {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
