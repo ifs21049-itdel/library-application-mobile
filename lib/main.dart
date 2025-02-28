@@ -16,7 +16,7 @@ void main() async {
   await FlutterFlowTheme.initialize();
   await dotenv.load(fileName: ".env");
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // Class untuk mengabaikan validasi SSL

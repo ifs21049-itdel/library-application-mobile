@@ -98,12 +98,14 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                 padding: const EdgeInsets.all(2.0),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
+                                  child: currentUser?['foto_profil'] != null ? Image.network(
                                     '${dotenv.env['API_URL']!}/${currentUser?['foto_profil']}',
                                     width: 80.0,
                                     height: 80.0,
                                     fit: BoxFit.cover,
-                                  ),
+                                  ) : Image.asset('assets/images/me.png', width: 80.0,
+                                    height: 80.0,
+                                    fit: BoxFit.cover,),
                                 ),
                               ),
                             ),
