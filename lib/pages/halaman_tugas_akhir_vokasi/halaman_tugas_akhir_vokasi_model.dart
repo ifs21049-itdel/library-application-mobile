@@ -20,3 +20,53 @@ class HalamanTugasAkhirVokasiModel
     tabBarController?.dispose();
   }
 }
+
+class Thesis {
+  final int id;
+  final String title;
+  final String author;
+  final String supervisor;
+  final String examiner;
+  final String faculty;
+  final String program;
+  final String keywords;
+  final String year;
+  final String location;
+  final String abstractText;
+  final String createdAt;
+  final String updatedAt;
+
+  Thesis({
+    required this.id,
+    required this.title,
+    required this.author,
+    required this.supervisor,
+    required this.examiner,
+    required this.faculty,
+    required this.program,
+    required this.keywords,
+    required this.year,
+    required this.location,
+    required this.abstractText,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Thesis.fromJson(Map<String, dynamic> json) {
+    return Thesis(
+      id: json['id'],
+      title: json['judul'],
+      author: json['penulis'],
+      supervisor: json['pembimbing'],
+      examiner: json['penguji'],
+      faculty: json['fakultas'],
+      program: json['prodi'],
+      keywords: json['katakunci'],
+      year: json['tahun'],
+      location: json['lokasi'],
+      abstractText: json['abstrak'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+    );
+  }
+}
