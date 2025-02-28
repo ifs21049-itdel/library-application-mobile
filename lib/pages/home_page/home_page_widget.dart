@@ -1,4 +1,5 @@
 import 'package:library_application/config.dart';
+import 'package:library_application/pages/detail_buku/detail_buku_widget.dart';
 
 import '/components/bottom_bar_beranda_widget.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
@@ -181,83 +182,60 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            15.0, 20.0, 15.0, 0.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: TextFormField(
-                                controller: _model.textController,
-                                focusNode: _model.textFieldFocusNode,
-                                autofocus: false,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        letterSpacing: 0.0,
-                                      ),
-                                  hintText: 'Cari berdasarkan judul ',
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        letterSpacing: 0.0,
-                                      ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF222222),
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(24.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          15.0, 20.0, 15.0, 20.0), // Tambahkan padding bottom
+                      child: TextFormField(
+                        controller: _model.textController,
+                        focusNode: _model.textFieldFocusNode,
+                        autofocus: false,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          labelStyle:
+                              FlutterFlowTheme.of(context).labelMedium.override(
+                                    fontFamily: 'Inter',
+                                    letterSpacing: 0.0,
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Colors.black,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(24.0),
+                          hintText: 'Cari berdasarkan judul',
+                          hintStyle:
+                              FlutterFlowTheme.of(context).labelMedium.override(
+                                    fontFamily: 'Inter',
+                                    letterSpacing: 0.0,
                                   ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(24.0),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(24.0),
-                                  ),
-                                  filled: true,
-                                  fillColor: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  prefixIcon: const Icon(
-                                    Icons.search_rounded,
-                                  ),
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Inter',
-                                      letterSpacing: 0.0,
-                                    ),
-                                cursorColor:
-                                    FlutterFlowTheme.of(context).primaryText,
-                                validator: _model.textControllerValidator
-                                    .asValidator(context),
-                              ),
-                            ),
-                          ],
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF222222), width: 1.0),
+                            borderRadius: BorderRadius.circular(24.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 1.0),
+                            borderRadius: BorderRadius.circular(24.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0),
+                            borderRadius: BorderRadius.circular(24.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0),
+                            borderRadius: BorderRadius.circular(24.0),
+                          ),
+                          filled: true,
+                          fillColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          prefixIcon: const Icon(Icons.search_rounded),
                         ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Inter',
+                              letterSpacing: 0.0,
+                            ),
+                        cursorColor: FlutterFlowTheme.of(context).primaryText,
+                        validator:
+                            _model.textControllerValidator.asValidator(context),
                       ),
                     ),
                     // Tab Bar dan Konten
@@ -267,6 +245,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           Align(
                             alignment: const Alignment(0.0, 0),
                             child: FlutterFlowButtonTabBar(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30.0),
                               useToggleButtonStyle: true,
                               labelStyle: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -347,8 +327,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   final book = books[index];
                                                   return InkWell(
                                                     onTap: () {
-                                                      context.pushNamed(
-                                                          'DetailBuku');
+                                                      // Navigasi ke halaman detail buku
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              DetailBukuWidget(
+                                                            bookId: book['id']
+                                                                .toString(),
+                                                          ),
+                                                        ),
+                                                      );
                                                     },
                                                     child: Container(
                                                       width: 120.0,
@@ -429,8 +418,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   final book = books[index];
                                                   return InkWell(
                                                     onTap: () {
-                                                      context.pushNamed(
-                                                          'DetailBuku');
+                                                      // Navigasi ke halaman detail buku
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              DetailBukuWidget(
+                                                            bookId: book['id']
+                                                                .toString(),
+                                                          ),
+                                                        ),
+                                                      );
                                                     },
                                                     child: Container(
                                                       width: 120.0,
@@ -531,6 +529,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
+                                                // Folder Fakultas Informatika dan Teknik Elektro
                                                 Container(
                                                   width: 120.0,
                                                   height: 150.0,
@@ -585,45 +584,59 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                     ),
                                                   ),
                                                 ),
+                                                // Folder Fakultas Teknik Industri
                                                 Container(
                                                   width: 120.0,
                                                   height: 150.0,
                                                   decoration:
                                                       const BoxDecoration(),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.folder_rounded,
-                                                        color:
-                                                            Color(0xFF686D76),
-                                                        size: 24.0,
-                                                      ),
-                                                      Text(
-                                                        'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  color: const Color(
-                                                                      0xFF686D76),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                      ),
-                                                    ],
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                          'HalamanTugasAkhirFTI');
+                                                    },
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const Icon(
+                                                          Icons.folder_rounded,
+                                                          color:
+                                                              Color(0xFF686D76),
+                                                          size: 24.0,
+                                                        ),
+                                                        Text(
+                                                          'FAKULTAS TEKNIK INDUSTRI',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: const Color(
+                                                                    0xFF686D76),
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -634,86 +647,114 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
+                                                // Folder Fakultas Bioproses
                                                 Container(
                                                   width: 120.0,
                                                   height: 150.0,
                                                   decoration:
                                                       const BoxDecoration(),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.folder_rounded,
-                                                        color:
-                                                            Color(0xFF686D76),
-                                                        size: 24.0,
-                                                      ),
-                                                      Text(
-                                                        'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  color: const Color(
-                                                                      0xFF686D76),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                      ),
-                                                    ],
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                          'HalamanTugasAkhirBioproses');
+                                                    },
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const Icon(
+                                                          Icons.folder_rounded,
+                                                          color:
+                                                              Color(0xFF686D76),
+                                                          size: 24.0,
+                                                        ),
+                                                        Text(
+                                                          'FAKULTAS BIOPROSES',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: const Color(
+                                                                    0xFF686D76),
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
+                                                // Folder Fakultas Vokasi
                                                 Container(
                                                   width: 120.0,
                                                   height: 150.0,
                                                   decoration:
                                                       const BoxDecoration(),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.folder_rounded,
-                                                        color:
-                                                            Color(0xFF686D76),
-                                                        size: 24.0,
-                                                      ),
-                                                      Text(
-                                                        'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  color: const Color(
-                                                                      0xFF686D76),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                      ),
-                                                    ],
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                          'HalamanTugasAkhirVokasi');
+                                                    },
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const Icon(
+                                                          Icons.folder_rounded,
+                                                          color:
+                                                              Color(0xFF686D76),
+                                                          size: 24.0,
+                                                        ),
+                                                        Text(
+                                                          'FAKULTAS VOKASI',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: const Color(
+                                                                    0xFF686D76),
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ],

@@ -91,7 +91,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'DetailBuku',
           path: '/detailBuku',
-          builder: (context, params) => const DetailBukuWidget(),
+          builder: (context, params) => const DetailBukuWidget(
+            bookId: '',
+          ),
         ),
         FFRoute(
           name: 'HomePengumuman',
