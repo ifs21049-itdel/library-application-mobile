@@ -1,3 +1,5 @@
+import 'package:library_application/config.dart';
+
 import '/components/bottom_bar_beranda_widget.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -47,8 +49,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   Future<void> fetchBooks() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://10.0.2.2:3000/api/book'));
+      final response = await http.get(Uri.parse('$apiUrl/api/book'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
