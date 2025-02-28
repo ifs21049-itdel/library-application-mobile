@@ -40,7 +40,7 @@ class _StaffPerpustakaanModalWidgetState
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Container(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.5, // Setengah layar
+        height: 1000, // Setengah layar
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
           boxShadow: const [
