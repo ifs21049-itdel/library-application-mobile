@@ -6,11 +6,7 @@ import '/components/staff_perpustakaan_modal_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'profile_page_model.dart';
 export 'profile_page_model.dart';
@@ -469,6 +465,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           0.0, 24.0, 0.0, 40.0),
                       child: FFButtonWidget(
                         onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.remove('user_data');
                           context.pushNamed('LoginPage');
                         },
                         text: 'Log Out',
