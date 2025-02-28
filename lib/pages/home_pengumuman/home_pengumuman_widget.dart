@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_pengumuman_model.dart';
 export 'home_pengumuman_model.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class HomePengumumanWidget extends StatefulWidget {
   const HomePengumumanWidget({super.key});
@@ -18,22 +20,58 @@ class HomePengumumanWidget extends StatefulWidget {
 
 class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
   late HomePengumumanModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<dynamic> pengumuman = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => HomePengumumanModel());
-
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
+    fetchPengumuman();
+  }
+
+  Future<void> fetchPengumuman() async {
+    try {
+      final response =
+          await http.get(Uri.parse('http://10.0.2.2:3000/api/pengumuman/'));
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print('Data from API: $data'); // Cetak data yang diterima dari API
+
+        if (data['data'] != null) {
+          setState(() {
+            pengumuman = data['data'];
+            isLoading = false;
+          });
+        } else {
+          print('Key "data" not found in API response');
+          setState(() {
+            isLoading = false;
+          });
+        }
+      } else {
+        print('Failed to load pengumuman: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching pengumuman: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
   }
 
@@ -54,6 +92,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
+                // Judul Halaman
                 Align(
                   alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Padding(
@@ -70,6 +109,8 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                     ),
                   ),
                 ),
+
+                // Search Bar
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(
                       20.0, 20.0, 20.0, 20.0),
@@ -125,9 +166,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                         filled: true,
                         fillColor:
                             FlutterFlowTheme.of(context).secondaryBackground,
-                        prefixIcon: const Icon(
-                          Icons.search_sharp,
-                        ),
+                        prefixIcon: const Icon(Icons.search_sharp),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
@@ -139,430 +178,71 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                     ),
                   ),
                 ),
+
+                // Daftar Pengumuman
                 Flexible(
-                  child: Align(
-                    alignment: const AlignmentDirectional(0.0, 0.0),
-                    child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(
-                          0.0, 0.0, 0.0, 10.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  context.pushNamed('DetailPengumuman');
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFEDEDED),
-                                    borderRadius: BorderRadius.circular(6.0),
-                                  ),
-                                  child: Padding(
-                                    padding:
+                  child: isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : pengumuman.isEmpty
+                          ? Center(child: Text('Tidak ada pengumuman.'))
+                          : ListView.builder(
+                              itemCount: pengumuman.length,
+                              itemBuilder: (context, index) {
+                                final item = pengumuman[index];
+                                return InkWell(
+                                  onTap: () {
+                                    context.pushNamed('DetailPengumuman');
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    margin:
                                         const EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 10.0, 20.0, 10.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text(
-                                          '[EVENT]',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                color: const Color(0xFFFF0000),
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            'Dorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                            20.0, 0.0, 20.0, 10.0),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFEDEDED),
+                                      borderRadius: BorderRadius.circular(6.0),
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              20.0, 10.0, 20.0, 10.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                            '[${item['kategori']}]',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
                                                   fontFamily: 'Inter',
+                                                  color:
+                                                      const Color(0xFFFF0000),
                                                   letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                           ),
-                                        ),
-                                      ].divide(const SizedBox(width: 10.0)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  context.pushNamed('DetailPengumuman');
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFEDEDED),
-                                    borderRadius: BorderRadius.circular(6.0),
-                                  ),
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 10.0, 20.0, 10.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text(
-                                          '[HIMBAUAN]',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                color: const Color(0xFFFF0000),
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            'Dorem ipsum dolor sit amet, consectetur adipiscing elit. Dorem ipsum dolor sit amet, consectetur adipiscing elit',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Inter',
-                                                  letterSpacing: 0.0,
-                                                ),
+                                          Expanded(
+                                            child: Text(
+                                              item['judul'],
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Inter',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            ),
                                           ),
-                                        ),
-                                      ].divide(const SizedBox(width: 10.0)),
+                                        ].divide(const SizedBox(width: 10.0)),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  context.pushNamed('DetailPengumuman');
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFEDEDED),
-                                    borderRadius: BorderRadius.circular(6.0),
-                                  ),
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 10.0, 20.0, 10.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text(
-                                          '[UPDATE]',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                color: const Color(0xFFFF0000),
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            'Dorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Inter',
-                                                  letterSpacing: 0.0,
-                                                ),
-                                          ),
-                                        ),
-                                      ].divide(const SizedBox(width: 10.0)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEDEDED),
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      20.0, 10.0, 20.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        '[EVENT]',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              color: const Color(0xFFFF0000),
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Dorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEDEDED),
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      20.0, 10.0, 20.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        '[HIMBAUAN]',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              color: const Color(0xFFFF0000),
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Dorem ipsum dolor sit amet, consectetur adipiscing elit. Dorem ipsum dolor sit amet, consectetur adipiscing elit',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEDEDED),
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      20.0, 10.0, 20.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        '[UPDATE]',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              color: const Color(0xFFFF0000),
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Dorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEDEDED),
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      20.0, 10.0, 20.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        '[EVENT]',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              color: const Color(0xFFFF0000),
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Dorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEDEDED),
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      20.0, 10.0, 20.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        '[HIMBAUAN]',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              color: const Color(0xFFFF0000),
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Dorem ipsum dolor sit amet, consectetur adipiscing elit. Dorem ipsum dolor sit amet, consectetur adipiscing elit',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEDEDED),
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      20.0, 10.0, 20.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        '[HIMBAUAN]',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              color: const Color(0xFFFF0000),
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Dorem ipsum dolor sit amet, consectetur adipiscing elit. Dorem ipsum dolor sit amet, consectetur adipiscing elit',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ].divide(const SizedBox(height: 10.0)),
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
+
+                // Bottom Bar
                 Align(
                   alignment: const AlignmentDirectional(0.0, 1.0),
                   child: wrapWithModel(

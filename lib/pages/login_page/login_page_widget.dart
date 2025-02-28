@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/flutter_flow/flutter_flow_util.dart';
+import 'package:library_application/pages/complete_data/complete_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -31,37 +33,56 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://103.167.217.134/api/jwt-api/do-auth'),
-        body: {
+        Uri.parse('${dotenv.env['API_URL']!}/api/auth/login-mobile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode({
           'username': username,
           'password': password,
-        },
+        }),
       );
 
-      final Map<String, dynamic> data = json.decode(response.body);
+      debugPrint(username);
+      debugPrint(password);
 
-      if (response.statusCode == 200 && data['result'] == true) {
-        if (data['user']['role'] == 'Mahasiswa') {
+      final Map<String, dynamic> data = json.decode(response.body);
+      debugPrint(data.toString());
+
+
+      if (response.statusCode == 200) {
+        if (data['data']['user']['role'] == 'Mahasiswa') {
           // Simpan data user ke SharedPreferences
           final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('user_data', jsonEncode(data['user']));
+          await prefs.setString('user_data', jsonEncode(data['data']['user']));
+
+          if (!mounted) return;
 
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login berhasil')),
+            SnackBar(content: Text(data['message'])),
           );
-          context.pushNamed('HomePage'); // Navigasi ke halaman utama
+
+          if (data['data']['is_complete']) {
+            context.pushNamed('HomePage'); // Navigasi ke halaman utama
+          } else {
+            Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CompleteData()));
+          }
         } else {
+          if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login gagal. Akun tidak diizinkan.')),
+            SnackBar(content: Text(data['message'])),
           );
         }
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Login gagal. Periksa kembali kredensial.')),
+          SnackBar(
+              content: Text(data['message'])),
         );
       }
     } catch (error) {
+      debugPrint(error.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Terjadi kesalahan: $error')),
       );
@@ -120,11 +141,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 FFButtonWidget(
                   onPressed: loginUser,
                   text: 'Login',
-                  options: FFButtonOptions(
+                  options: const FFButtonOptions(
                     width: double.infinity,
                     height: 40.0,
-                    color: const Color(0xFF5B4D81),
-                    textStyle: const TextStyle(color: Colors.white),
+                    color: Color(0xFF5B4D81),
+                    textStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

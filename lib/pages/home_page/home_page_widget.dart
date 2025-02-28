@@ -1,3 +1,5 @@
+import 'package:library_application/config.dart';
+
 import '/components/bottom_bar_beranda_widget.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -9,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_page_model.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 export 'home_page_model.dart';
 
 class HomePageWidget extends StatefulWidget {
@@ -21,8 +26,9 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget>
     with TickerProviderStateMixin {
   late HomePageModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<dynamic> books = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -37,12 +43,37 @@ class _HomePageWidgetState extends State<HomePageWidget>
       length: 2,
       initialIndex: 0,
     )..addListener(() => safeSetState(() {}));
+
+    fetchBooks();
+  }
+
+  Future<void> fetchBooks() async {
+    try {
+      final response = await http.get(Uri.parse('$apiUrl/api/book'));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          books = data['data'];
+          isLoading = false;
+        });
+      } else {
+        print('Failed to load books: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching books: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
   }
 
@@ -69,6 +100,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                 Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    // Bagian atas dengan gambar dan notifikasi
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -143,6 +175,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         ],
                       ),
                     ),
+                    // Search Bar
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -227,910 +260,356 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         ),
                       ),
                     ),
-                    Container(
-                      width: double.infinity,
-                      height: 450.0,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            15.0, 20.0, 15.0, 0.0),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: const Alignment(0.0, 0),
-                              child: FlutterFlowButtonTabBar(
-                                useToggleButtonStyle: true,
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .titleMedium
-                                    .override(
-                                      fontFamily: 'Inter Tight',
-                                      fontSize: 14.0,
-                                      letterSpacing: 0.0,
-                                    ),
-                                unselectedLabelStyle:
-                                    FlutterFlowTheme.of(context)
-                                        .titleMedium
-                                        .override(
-                                          fontFamily: 'Inter Tight',
-                                          fontSize: 14.0,
-                                          letterSpacing: 0.0,
-                                        ),
-                                labelColor: Colors.white,
-                                unselectedLabelColor:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                backgroundColor: const Color(0xFF2679C2),
-                                unselectedBackgroundColor: Colors.white,
-                                borderColor: const Color(0xFF2679C2),
-                                unselectedBorderColor:
-                                    FlutterFlowTheme.of(context).alternate,
-                                borderWidth: 2.0,
-                                borderRadius: 8.0,
-                                elevation: 0.0,
-                                buttonMargin:
-                                    const EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 8.0, 0.0),
-                                tabs: const [
-                                  Tab(
-                                    text: 'Katalog Buku',
+                    // Tab Bar dan Konten
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: const Alignment(0.0, 0),
+                            child: FlutterFlowButtonTabBar(
+                              useToggleButtonStyle: true,
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .titleMedium
+                                  .override(
+                                    fontFamily: 'Inter Tight',
+                                    fontSize: 14.0,
+                                    letterSpacing: 0.0,
                                   ),
-                                  Tab(
-                                    text: 'Tugas Akhir',
+                              unselectedLabelStyle: FlutterFlowTheme.of(context)
+                                  .titleMedium
+                                  .override(
+                                    fontFamily: 'Inter Tight',
+                                    fontSize: 14.0,
+                                    letterSpacing: 0.0,
                                   ),
-                                ],
-                                controller: _model.tabBarController,
-                                onTap: (i) async {
-                                  [() async {}, () async {}][i]();
-                                },
-                              ),
+                              labelColor: Colors.white,
+                              unselectedLabelColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              backgroundColor: const Color(0xFF2679C2),
+                              unselectedBackgroundColor: Colors.white,
+                              borderColor: const Color(0xFF2679C2),
+                              unselectedBorderColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                              borderWidth: 2.0,
+                              borderRadius: 8.0,
+                              elevation: 0.0,
+                              buttonMargin:
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 8.0, 0.0),
+                              tabs: const [
+                                Tab(
+                                  text: 'Katalog Buku',
+                                ),
+                                Tab(
+                                  text: 'Tugas Akhir',
+                                ),
+                              ],
+                              controller: _model.tabBarController,
+                              onTap: (i) async {
+                                [() async {}, () async {}][i]();
+                              },
                             ),
-                            Expanded(
-                              child: TabBarView(
-                                controller: _model.tabBarController,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 20.0, 20.0, 0.0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFF7F7F7),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      child: Align(
-                                        alignment: const AlignmentDirectional(
-                                            0.0, 0.0),
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Align(
-                                                      alignment:
-                                                          const AlignmentDirectional(
-                                                              -1.0, 0.0),
-                                                      child: Text(
-                                                        'Buku Terbaru',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              controller: _model.tabBarController,
+                              children: [
+                                // Tab Katalog Buku
+                                SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      // Buku Terbaru
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(20.0, 20.0, 20.0, 0.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Buku Terbaru',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .override(
+                                                        fontFamily:
+                                                            'Inter Tight',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            ),
+                                            SizedBox(
+                                              height: 200.0,
+                                              child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: books.length,
+                                                itemBuilder: (context, index) {
+                                                  final book = books[index];
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      context.pushNamed(
+                                                          'DetailBuku');
+                                                    },
+                                                    child: Container(
+                                                      width: 120.0,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 10.0),
+                                                      child: Column(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child:
+                                                                Image.network(
+                                                              'https://picsum.photos/seed/760/600',
+                                                              width: 100.0,
+                                                              height: 110.0,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 8.0),
+                                                          Text(
+                                                            book['judul']
+                                                                        .length >
+                                                                    20
+                                                                ? '${book['judul'].substring(0, 20)}...'
+                                                                : book['judul'],
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Inter Tight',
+                                                                      'Inter',
                                                                   letterSpacing:
                                                                       0.0,
                                                                 ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: double.infinity,
-                                                      height: 300.0,
-                                                      decoration:
-                                                          const BoxDecoration(),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                    0.0,
-                                                                    10.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onTap:
-                                                                      () async {
-                                                                    context.pushNamed(
-                                                                        'DetailBuku');
-                                                                  },
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          'https://picsum.photos/seed/760/600',
-                                                                          width:
-                                                                              100.0,
-                                                                          height:
-                                                                              110.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'Hello World',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Inter',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onTap:
-                                                                      () async {
-                                                                    context.pushNamed(
-                                                                        'DetailBuku');
-                                                                  },
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          'https://picsum.photos/seed/760/600',
-                                                                          width:
-                                                                              100.0,
-                                                                          height:
-                                                                              110.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'Hello World',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Inter',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onTap:
-                                                                      () async {
-                                                                    context.pushNamed(
-                                                                        'DetailBuku');
-                                                                  },
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          'https://picsum.photos/seed/760/600',
-                                                                          width:
-                                                                              100.0,
-                                                                          height:
-                                                                              110.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'Hello World',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Inter',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                    0.0,
-                                                                    10.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onTap:
-                                                                      () async {
-                                                                    context.pushNamed(
-                                                                        'DetailBuku');
-                                                                  },
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          'https://picsum.photos/seed/760/600',
-                                                                          width:
-                                                                              100.0,
-                                                                          height:
-                                                                              110.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'Hello World',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Inter',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onTap:
-                                                                      () async {
-                                                                    context.pushNamed(
-                                                                        'DetailBuku');
-                                                                  },
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          'https://picsum.photos/seed/760/600',
-                                                                          width:
-                                                                              100.0,
-                                                                          height:
-                                                                              110.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'Hello World',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Inter',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onTap:
-                                                                      () async {
-                                                                    context.pushNamed(
-                                                                        'DetailBuku');
-                                                                  },
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          'https://picsum.photos/seed/760/600',
-                                                                          width:
-                                                                              100.0,
-                                                                          height:
-                                                                              110.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'Hello World',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Inter',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                            textAlign: TextAlign
+                                                                .center,
                                                           ),
                                                         ],
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  );
+                                                },
                                               ),
-                                              Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            -1.0, 0.0),
-                                                    child: Text(
-                                                      'Buku Favorit',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .titleSmall
-                                                          .override(
-                                                            fontFamily:
-                                                                'Inter Tight',
-                                                            letterSpacing: 0.0,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Buku Favorit
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(20.0, 20.0, 20.0, 0.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Buku Favorit',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .override(
+                                                        fontFamily:
+                                                            'Inter Tight',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            ),
+                                            SizedBox(
+                                              height: 200.0,
+                                              child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: books.length,
+                                                itemBuilder: (context, index) {
+                                                  final book = books[index];
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      context.pushNamed(
+                                                          'DetailBuku');
+                                                    },
+                                                    child: Container(
+                                                      width: 120.0,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 10.0),
+                                                      child: Column(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child:
+                                                                Image.network(
+                                                              'https://picsum.photos/seed/760/600',
+                                                              width: 100.0,
+                                                              height: 110.0,
+                                                              fit: BoxFit.cover,
+                                                            ),
                                                           ),
+                                                          const SizedBox(
+                                                              height: 8.0),
+                                                          Text(
+                                                            book['judul']
+                                                                        .length >
+                                                                    20
+                                                                ? '${book['judul'].substring(0, 20)}...'
+                                                                : book['judul'],
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Container(
-                                                    width: double.infinity,
-                                                    height: 300.0,
-                                                    decoration:
-                                                        const BoxDecoration(),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // Tab Tugas Akhir
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      20.0, 20.0, 20.0, 20.0),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF7F7F7),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              20.0, 20.0, 20.0, 20.0),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Align(
+                                              alignment:
+                                                  const AlignmentDirectional(
+                                                      0.0, 0.0),
+                                              child: Text(
+                                                'Fakultas',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Inter',
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: 120.0,
+                                                  height: 150.0,
+                                                  decoration:
+                                                      const BoxDecoration(),
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                          'HalamanTugasAkhirFITE');
+                                                    },
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                  0.0,
-                                                                  10.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  context.pushNamed(
-                                                                      'DetailBuku');
-                                                                },
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        'https://picsum.photos/seed/760/600',
-                                                                        width:
-                                                                            100.0,
-                                                                        height:
-                                                                            110.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      'Hello World',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  context.pushNamed(
-                                                                      'DetailBuku');
-                                                                },
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        'https://picsum.photos/seed/760/600',
-                                                                        width:
-                                                                            100.0,
-                                                                        height:
-                                                                            110.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      'Hello World',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  context.pushNamed(
-                                                                      'DetailBuku');
-                                                                },
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        'https://picsum.photos/seed/760/600',
-                                                                        width:
-                                                                            100.0,
-                                                                        height:
-                                                                            110.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      'Hello World',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
+                                                        const Icon(
+                                                          Icons.folder_rounded,
+                                                          color:
+                                                              Color(0xFF686D76),
+                                                          size: 24.0,
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                  0.0,
-                                                                  10.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  context.pushNamed(
-                                                                      'DetailBuku');
-                                                                },
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        'https://picsum.photos/seed/760/600',
-                                                                        width:
-                                                                            100.0,
-                                                                        height:
-                                                                            110.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      'Hello World',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
+                                                        Text(
+                                                          'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: const Color(
+                                                                    0xFF686D76),
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
                                                               ),
-                                                              InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  context.pushNamed(
-                                                                      'DetailBuku');
-                                                                },
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        'https://picsum.photos/seed/760/600',
-                                                                        width:
-                                                                            100.0,
-                                                                        height:
-                                                                            110.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      'Hello World',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  context.pushNamed(
-                                                                      'DetailBuku');
-                                                                },
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                      child: Image
-                                                                          .network(
-                                                                        'https://picsum.photos/seed/760/600',
-                                                                        width:
-                                                                            100.0,
-                                                                        height:
-                                                                            110.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      'Hello World',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 20.0, 20.0, 20.0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFF7F7F7),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(20.0, 20.0, 20.0, 20.0),
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Align(
-                                                alignment:
-                                                    const AlignmentDirectional(
-                                                        0.0, 0.0),
-                                                child: Text(
-                                                  'Fakultas',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
                                                 ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: 120.0,
-                                                    height: 150.0,
-                                                    decoration:
-                                                        const BoxDecoration(),
-                                                    child: InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        context.pushNamed(
-                                                            'HalamanTugasAkhirFITE');
-                                                      },
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          const Icon(
-                                                            Icons
-                                                                .folder_rounded,
-                                                            color: Color(
-                                                                0xFF686D76),
-                                                            size: 24.0,
-                                                          ),
-                                                          Text(
-                                                            'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
+                                                Container(
+                                                  width: 120.0,
+                                                  height: 150.0,
+                                                  decoration:
+                                                      const BoxDecoration(),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.folder_rounded,
+                                                        color:
+                                                            Color(0xFF686D76),
+                                                        size: 24.0,
+                                                      ),
+                                                      Text(
+                                                        'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
@@ -1143,152 +622,112 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                       FontWeight
                                                                           .w600,
                                                                 ),
-                                                          ),
-                                                        ],
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                  Container(
-                                                    width: 120.0,
-                                                    height: 150.0,
-                                                    decoration:
-                                                        const BoxDecoration(),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.folder_rounded,
-                                                          color:
-                                                              Color(0xFF686D76),
-                                                          size: 24.0,
-                                                        ),
-                                                        Text(
-                                                          'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                color: const Color(
-                                                                    0xFF686D76),
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: 120.0,
+                                                  height: 150.0,
+                                                  decoration:
+                                                      const BoxDecoration(),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.folder_rounded,
+                                                        color:
+                                                            Color(0xFF686D76),
+                                                        size: 24.0,
+                                                      ),
+                                                      Text(
+                                                        'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  color: const Color(
+                                                                      0xFF686D76),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: 120.0,
-                                                    height: 150.0,
-                                                    decoration:
-                                                        const BoxDecoration(),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.folder_rounded,
-                                                          color:
-                                                              Color(0xFF686D76),
-                                                          size: 24.0,
-                                                        ),
-                                                        Text(
-                                                          'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                color: const Color(
-                                                                    0xFF686D76),
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                ),
+                                                Container(
+                                                  width: 120.0,
+                                                  height: 150.0,
+                                                  decoration:
+                                                      const BoxDecoration(),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.folder_rounded,
+                                                        color:
+                                                            Color(0xFF686D76),
+                                                        size: 24.0,
+                                                      ),
+                                                      Text(
+                                                        'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  color: const Color(
+                                                                      0xFF686D76),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  Container(
-                                                    width: 120.0,
-                                                    height: 150.0,
-                                                    decoration:
-                                                        const BoxDecoration(),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.folder_rounded,
-                                                          color:
-                                                              Color(0xFF686D76),
-                                                          size: 24.0,
-                                                        ),
-                                                        Text(
-                                                          'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                color: const Color(
-                                                                    0xFF686D76),
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
