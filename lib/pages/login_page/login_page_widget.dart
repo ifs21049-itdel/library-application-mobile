@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/flutter_flow/flutter_flow_util.dart';
+import 'package:library_application/pages/complete_data/complete_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -32,10 +33,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
     try {
       final response = await http.post(
-        // Uri.parse('https://103.167.217.134/api/jwt-api/do-auth'),
-
-        // sesuaikan nanti ini sama url server ya ger
-        Uri.parse('${dotenv.env['API_URL']!}/api/auth/login'),
+        Uri.parse('${dotenv.env['API_URL']!}/api/auth/login-mobile'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -53,21 +51,22 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       debugPrint(data.toString());
 
       if (response.statusCode == 200) {
-        if (data['data']['user']['role'] == 'Mahasiswa') {
-          // Simpan data user ke SharedPreferences
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('user_data', jsonEncode(data['data']['user']));
+
+          if (!mounted) return;
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(data['message'])),
           );
-          context.pushNamed('HomePage'); // Navigasi ke halaman utama
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(data['message'])),
-          );
-        }
+
+          if (data['data']['is_complete']) {
+            context.pushNamed('HomePage'); // Navigasi ke halaman utama
+          } else {
+            Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CompleteData()));
+          }
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(data['message'])),
@@ -133,11 +132,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 FFButtonWidget(
                   onPressed: loginUser,
                   text: 'Login',
-                  options: FFButtonOptions(
+                  options: const FFButtonOptions(
                     width: double.infinity,
                     height: 40.0,
-                    color: const Color(0xFF5B4D81),
-                    textStyle: const TextStyle(color: Colors.white),
+                    color: Color(0xFF5B4D81),
+                    textStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ],
