@@ -1,9 +1,8 @@
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'halaman_tugas_akhir_f_t_i_model.dart';
-export 'halaman_tugas_akhir_f_t_i_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:library_application/config.dart';
+import 'dart:convert';
+import 'halaman_tugas_akhir_f_t_i_model.dart'; // Adjust the import according to your project structure
 
 class HalamanTugasAkhirFTIWidget extends StatefulWidget {
   const HalamanTugasAkhirFTIWidget({super.key});
@@ -16,25 +15,44 @@ class HalamanTugasAkhirFTIWidget extends StatefulWidget {
 class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
     with TickerProviderStateMixin {
   late HalamanTugasAkhirFTIModel _model;
-
+  List<Thesis> _manajemenRekayasaList = [];
+  List<Thesis> _teknikMetalurgiList = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HalamanTugasAkhirFTIModel());
+    _model = HalamanTugasAkhirFTIModel();
+    _model.tabBarController = TabController(length: 2, vsync: this);
+    fetchThesisData(
+        'Manajemen Rekayasa'); // Fetch initial data for Manajemen Rekayasa
+  }
 
-    _model.tabBarController = TabController(
-      vsync: this,
-      length: 2,
-      initialIndex: 0,
-    )..addListener(() => safeSetState(() {}));
+  Future<void> fetchThesisData(String program) async {
+    final response = await http.get(
+      Uri.parse(
+          '$apiUrl/api/tugasakhir/by-program?fakultas=FTI&prodi=$program'),
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body)['data'];
+      setState(() {
+        if (program == 'Manajemen Rekayasa') {
+          _manajemenRekayasaList =
+              data.map((thesis) => Thesis.fromJson(thesis)).toList();
+        } else if (program == 'Teknik Metalurgi') {
+          _teknikMetalurgiList =
+              data.map((thesis) => Thesis.fromJson(thesis)).toList();
+        }
+      });
+    } else {
+      throw Exception('Failed to load thesis data');
+    }
   }
 
   @override
   void dispose() {
-    _model.dispose();
-
+    _model.tabBarController?.dispose();
     super.dispose();
   }
 
@@ -47,7 +65,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
           child: Column(
@@ -57,7 +75,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                 width: double.infinity,
                 height: 64.0,
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  color: Colors.grey[200],
                 ),
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(
@@ -68,1192 +86,103 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      FlutterFlowIconButton(
-                        borderRadius: 8.0,
-                        buttonSize: 40.0,
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          size: 24.0,
-                        ),
+                      IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () {
-                          print('IconButton pressed ...');
+                          Navigator.pop(context);
                         },
                       ),
-                      FlutterFlowIconButton(
-                        borderRadius: 8.0,
-                        buttonSize: 40.0,
-                        icon: Icon(
-                          Icons.search_sharp,
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          size: 24.0,
-                        ),
+                      Text(
+                        'Tugas Akhir FTI',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.search, color: Colors.black),
                         onPressed: () {
-                          print('IconButton pressed ...');
+                          // Navigate to search page
                         },
                       ),
                     ],
                   ),
                 ),
               ),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                ),
-                child: Stack(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(0.0),
-                      child: Image.asset(
-                        'assets/images/fti.jpg',
-                        width: double.infinity,
-                        height: 200.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
-                      child: Text(
-                        'Fakultas Teknik Industri',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Inter',
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w800,
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
+              TabBar(
+                controller: _model.tabBarController,
+                isScrollable: true,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                tabs: const [
+                  Tab(text: 'Manajemen Rekayasa'),
+                  Tab(text: 'Teknik Metalurgi'),
+                ],
+                onTap: (index) {
+                  // Fetch data based on the selected tab
+                  if (index == 0) {
+                    fetchThesisData('Manajemen Rekayasa');
+                  } else if (index == 1) {
+                    fetchThesisData('Teknik Metalurgi');
+                  }
+                },
               ),
               Expanded(
-                child: Column(
+                child: TabBarView(
+                  controller: _model.tabBarController,
                   children: [
-                    Align(
-                      alignment: const Alignment(-1.0, 0),
-                      child: TabBar(
-                        labelColor: FlutterFlowTheme.of(context).primaryText,
-                        unselectedLabelColor:
-                            FlutterFlowTheme.of(context).secondaryText,
-                        labelStyle:
-                            FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: 'Inter Tight',
-                                  fontSize: 14.0,
-                                  letterSpacing: 0.0,
-                                ),
-                        unselectedLabelStyle:
-                            FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: 'Inter Tight',
-                                  fontSize: 14.0,
-                                  letterSpacing: 0.0,
-                                ),
-                        indicatorColor: FlutterFlowTheme.of(context).primary,
-                        tabs: const [
-                          Tab(
-                            text: 'Manajemen Rekayasa',
-                          ),
-                          Tab(
-                            text: 'Teknik Metalurgi',
-                          ),
-                        ],
-                        controller: _model.tabBarController,
-                        onTap: (i) async {
-                          [() async {}, () async {}][i]();
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: _model.tabBarController,
-                        children: [
-                          ListView(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Strategi Manajemen Resiko dalam Implemetasi Proyek Infrastruktur',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Penggunaan Agile untuk Sebuah Project Management ',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Analisis Faktor Keberhasilan Proyek TI dan Organisasi Multinasional',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Strategi Manajemen Resiko dalam Implemetasi Proyek Infrastruktur',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Optimasi Pengelolaan Sumber Daya Manusia dalam Proyek Rekayasa Menggunakan Sistem Enterprise Resource Planning (ERP)',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Perancangan Sistem Informasi Manajemen Rantai Pasok Berbasis Web untuk Optimasi Distribusi Produk',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Studi Komparasi Penerapan Metode Manajemen Proyek (Critical Path Method vs. Program Evaluation and Review Technique) pada Proyek Rekayasa Infrastruktur',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Analisis Risiko dalam Manajemen Proyek Rekayasa Menggunakan Teknik Failure Mode and Effect Analysis (FMEA)',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Optimasi Pengelolaan Sumber Daya Manusia dalam Proyek Rekayasa Menggunakan Sistem Enterprise Resource Planning (ERP)',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Manajemen Rekayasa, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          ListView(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Optimasi Proses Peleburan Baja dengan Penambahan Scrap untuk Efisiensi Energi',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Analisis Kualitas Panduan Alumunium-Silikon untuk Aplikasi Otomotif ',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pengaruh Penambahan Elemen Legir Pada Panduan Tembaga Terhadap Konduktivitas Listrik ',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Analisis Kualitas Panduan Alumunium-Silikon untuk Aplikasi Otomotif ',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Optimasi Proses Peleburan Baja dengan Penambahan Scrap untuk Efisiensi Energi',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pengaruh Penambahan Elemen Legir Pada Panduan Tembaga Terhadap Konduktivitas Listrik ',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Analisis Kualitas Panduan Alumunium-Silikon untuk Aplikasi Otomotif ',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Studi Perbaikan Proses Produksi Baja dengan Menggunakan Metode Electric Arc Furnace untuk Efisiensi Energi dan Pengurangan Emisi',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pengaruh Pencampuran Metalurgi Serbuk (Powder Metallurgy) terhadap Sifat Mekanis dan Keausan Baja Karbon',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Teknik Metalurgi, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Display Manajemen Rekayasa data
+                    _buildThesisList(_manajemenRekayasaList),
+                    // Display Teknik Metalurgi data
+                    _buildThesisList(_teknikMetalurgiList),
                   ],
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildThesisList(List<Thesis> thesisList) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          for (var thesis in thesisList) ...[
+            Divider(thickness: 2.0),
+            InkWell(
+              onTap: () {
+                // Navigate to detail page
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.feed, size: 50.0),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            thesis.title,
+                            style: TextStyle(
+                                fontSize: 12.0, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            '${thesis.program}, Tugas Akhir',
+                            style:
+                                TextStyle(fontSize: 10.0, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

@@ -1,9 +1,8 @@
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'halaman_tugas_akhir_bioproses_model.dart';
-export 'halaman_tugas_akhir_bioproses_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:library_application/config.dart';
+import 'dart:convert';
+import 'halaman_tugas_akhir_bioproses_model.dart'; // Adjust the import according to your project structure
 
 class HalamanTugasAkhirBioprosesWidget extends StatefulWidget {
   const HalamanTugasAkhirBioprosesWidget({super.key});
@@ -17,25 +16,36 @@ class _HalamanTugasAkhirBioprosesWidgetState
     extends State<HalamanTugasAkhirBioprosesWidget>
     with TickerProviderStateMixin {
   late HalamanTugasAkhirBioprosesModel _model;
-
+  List<Thesis> _bioprosesList = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HalamanTugasAkhirBioprosesModel());
+    _model = HalamanTugasAkhirBioprosesModel();
+    _model.tabBarController = TabController(length: 1, vsync: this);
+    fetchThesisData(); // Fetch initial data for Bioproses
+  }
 
-    _model.tabBarController = TabController(
-      vsync: this,
-      length: 1,
-      initialIndex: 0,
-    )..addListener(() => safeSetState(() {}));
+  Future<void> fetchThesisData() async {
+    final response = await http.get(
+      Uri.parse(
+          '$apiUrl/api/tugasakhir/by-program?fakultas=FTB&prodi=Bioproses'),
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body)['data'];
+      setState(() {
+        _bioprosesList = data.map((thesis) => Thesis.fromJson(thesis)).toList();
+      });
+    } else {
+      throw Exception('Failed to load thesis data');
+    }
   }
 
   @override
   void dispose() {
-    _model.dispose();
-
+    _model.tabBarController?.dispose();
     super.dispose();
   }
 
@@ -48,7 +58,7 @@ class _HalamanTugasAkhirBioprosesWidgetState
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
           child: Column(
@@ -58,7 +68,7 @@ class _HalamanTugasAkhirBioprosesWidgetState
                 width: double.infinity,
                 height: 64.0,
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  color: Colors.grey[200],
                 ),
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(
@@ -69,652 +79,98 @@ class _HalamanTugasAkhirBioprosesWidgetState
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      FlutterFlowIconButton(
-                        borderRadius: 8.0,
-                        buttonSize: 40.0,
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          size: 24.0,
-                        ),
+                      IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () {
-                          print('IconButton pressed ...');
+                          Navigator.pop(context);
                         },
                       ),
-                      FlutterFlowIconButton(
-                        borderRadius: 8.0,
-                        buttonSize: 40.0,
-                        icon: Icon(
-                          Icons.search_sharp,
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          size: 24.0,
-                        ),
+                      Text(
+                        'Tugas Akhir Bioproses',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.search, color: Colors.black),
                         onPressed: () {
-                          print('IconButton pressed ...');
+                          // Navigate to search page
                         },
                       ),
                     ],
                   ),
                 ),
               ),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                ),
-                child: Stack(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(0.0),
-                      child: Image.asset(
-                        'assets/images/fb.jpg',
-                        width: double.infinity,
-                        height: 200.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
-                      child: Text(
-                        'Fakultas Teknik Bioproses',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Inter',
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w800,
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
+              TabBar(
+                controller: _model.tabBarController,
+                isScrollable: true,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                tabs: const [
+                  Tab(text: 'Bioproses'),
+                ],
+                onTap: (index) {
+                  // Fetch data based on the selected tab
+                  if (index == 0) {
+                    fetchThesisData(); // Fetch data for Bioproses
+                  }
+                },
               ),
               Expanded(
-                child: Column(
+                child: TabBarView(
+                  controller: _model.tabBarController,
                   children: [
-                    Align(
-                      alignment: const Alignment(0.0, 0),
-                      child: TabBar(
-                        isScrollable: true,
-                        labelColor: FlutterFlowTheme.of(context).primaryText,
-                        unselectedLabelColor:
-                            FlutterFlowTheme.of(context).secondaryText,
-                        labelStyle:
-                            FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: 'Inter Tight',
-                                  fontSize: 14.0,
-                                  letterSpacing: 0.0,
-                                ),
-                        unselectedLabelStyle:
-                            FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: 'Inter Tight',
-                                  fontSize: 14.0,
-                                  letterSpacing: 0.0,
-                                ),
-                        indicatorColor: FlutterFlowTheme.of(context).primary,
-                        tabs: const [
-                          Tab(
-                            text: 'Bioproses',
-                          ),
-                        ],
-                        controller: _model.tabBarController,
-                        onTap: (i) async {
-                          [() async {}][i]();
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: _model.tabBarController,
-                        children: [
-                          ListView(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Optimasi Proses Fermentasi untuk Produksi Bioetanol dari Limbah Pertanian Menggunakan Saccharomyces cerevisiae',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pengaruh Kondisi Kultur terhadap Produksi Enzim Protease oleh Aspergillus niger dalam Proses Bioreaktor',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pemanfaatan Mikroorganisme Lokal untuk Produksi Biogas dari Limbah Organik di Skala Laboratorium',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Penggunaan Progressive Web App (PWA) untuk Meningkatkan Pengalaman Penggunaan E-Commerce ',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Studi Kinetika Proses Fermentasi dalam Produksi Asam Laktat Menggunakan Bakteri Lactobacillus sp.',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pengembangan Proses Bioproses untuk Produksi Biodiesel dari Minyak Jelantah melalui Rute Transesterifikasi',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Karakterisasi dan Peningkatan Aktivitas Enzim Lipase pada Proses Hidrolisis Lemak oleh Candida rugosa',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Pemanfaatan Mikroalga untuk Produksi Biofuel dalam Sistem Fotobioreaktor Tertutup',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15.0, 10.0, 15.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.feed,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 50.0,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Analisis Kinerja Bioreaktor untuk Produksi Biomassa Mikroalga sebagai Sumber Pakan Akuakultur',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            Text(
-                                              'Bioproses, Tugas Akhir ',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Inter',
-                                                    color:
-                                                        const Color(0xFF6E6E6E),
-                                                    fontSize: 10.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                            ),
-                                          ].divide(const SizedBox(height: 5.0)),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(width: 5.0)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Display Bioproses data
+                    _buildThesisList(_bioprosesList),
                   ],
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildThesisList(List<Thesis> thesisList) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          for (var thesis in thesisList) ...[
+            Divider(thickness: 2.0),
+            InkWell(
+              onTap: () {
+                // Navigate to detail page
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.feed, size: 50.0),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            thesis.title,
+                            style: TextStyle(
+                                fontSize: 12.0, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            '${thesis.program}, Tugas Akhir',
+                            style:
+                                TextStyle(fontSize: 10.0, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
