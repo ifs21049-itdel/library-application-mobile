@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:library_application/index.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CompleteData extends StatefulWidget {
   const CompleteData({super.key});
@@ -8,6 +13,52 @@ class CompleteData extends StatefulWidget {
 }
 
 class _CompleteData extends State<CompleteData> {
+  final TextEditingController _name = TextEditingController();
+
+  Future<void> postData() async {
+    final url = Uri.parse(
+        '${dotenv.env['API_URL']}/api/auth/complete-data'); // Ganti dengan URL API-mu
+    final headers = {'Content-Type': 'application/json'};
+
+    final prefs = await SharedPreferences.getInstance();
+    final Map<String, dynamic> previousUserData =
+        jsonDecode(prefs.getString('user_data')!);
+
+    final body = jsonEncode(
+        {'user_id': previousUserData['user_id'], 'name': _name.text});
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        await prefs.setString('user_data', jsonEncode(data['data'][0]));
+
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'])),
+        );
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (ctx) => const HomePageWidget()));
+      } else {
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'])),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error : ${e.toString()}')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +82,18 @@ class _CompleteData extends State<CompleteData> {
                 const SizedBox(
                   height: 24,
                 ),
-                const TextField(
+                TextField(
+                  controller: _name,
                   textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(), label: Text('Your Name')),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                FilledButton(onPressed: () {}, child: const Text('Simpan dan Lanjutkan'))
+                FilledButton(
+                    onPressed: postData,
+                    child: const Text('Simpan dan Lanjutkan'))
               ],
             ),
           ),
