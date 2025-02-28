@@ -101,7 +101,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'DetailPengumuman',
           path: '/detailPengumuman',
-          builder: (context, params) => const DetailPengumumanWidget(),
+          builder: (context, params) => const DetailPengumumanWidget(
+            id: '',
+          ),
         ),
         FFRoute(
           name: 'PinjamBuku',

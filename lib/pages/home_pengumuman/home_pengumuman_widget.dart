@@ -1,3 +1,6 @@
+import 'package:library_application/config.dart';
+import 'package:library_application/pages/detail_pengumuman/detail_pengumuman_widget.dart';
+
 import '/components/bottom_bar_pengumuman_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -30,26 +33,14 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
 
   Future<void> fetchPengumuman() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://10.0.2.2:3000/api/pengumuman/'));
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      final response = await http.get(Uri.parse('$apiUrl/api/pengumuman'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print('Data from API: $data'); // Cetak data yang diterima dari API
-
-        if (data['data'] != null) {
-          setState(() {
-            pengumuman = data['data'];
-            isLoading = false;
-          });
-        } else {
-          print('Key "data" not found in API response');
-          setState(() {
-            isLoading = false;
-          });
-        }
+        setState(() {
+          pengumuman = data['data'];
+          isLoading = false;
+        });
       } else {
         print('Failed to load pengumuman: ${response.statusCode}');
         setState(() {
@@ -186,7 +177,14 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                 final item = pengumuman[index];
                                 return InkWell(
                                   onTap: () {
-                                    context.pushNamed('DetailPengumuman');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailPengumumanWidget(
+                                                id: item['id'].toString()),
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     width: double.infinity,

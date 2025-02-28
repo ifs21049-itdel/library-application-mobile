@@ -3,10 +3,15 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'detail_pengumuman_model.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '/config.dart'; // Pastikan config.dart berisi apiUrl
+
 export 'detail_pengumuman_model.dart';
 
 class DetailPengumumanWidget extends StatefulWidget {
-  const DetailPengumumanWidget({super.key});
+  final String id; // Tambahkan parameter id
+  const DetailPengumumanWidget({Key? key, required this.id}) : super(key: key);
 
   @override
   State<DetailPengumumanWidget> createState() => _DetailPengumumanWidgetState();
@@ -14,19 +19,51 @@ class DetailPengumumanWidget extends StatefulWidget {
 
 class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
   late DetailPengumumanModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  dynamic pengumuman;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => DetailPengumumanModel());
+    fetchPengumuman();
+  }
+
+  Future<void> fetchPengumuman() async {
+    try {
+      final response =
+          await http.get(Uri.parse('$apiUrl/api/pengumuman/${widget.id}'));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data is Map<String, dynamic> && data.containsKey('data')) {
+          setState(() {
+            pengumuman = data['data'];
+            isLoading = false;
+          });
+        } else {
+          print('Invalid data format from API: ${response.body}');
+          setState(() {
+            isLoading = false;
+          });
+        }
+      } else {
+        print('Failed to load pengumuman: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching pengumuman: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
   }
 
@@ -70,91 +107,107 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                     child: Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(
                           0.0, 20.0, 0.0, 10.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(0.0),
-                                    bottomRight: Radius.circular(0.0),
-                                    topLeft: Radius.circular(0.0),
-                                    topRight: Radius.circular(0.0),
-                                  ),
-                                  border: Border.all(
-                                    color: const Color(0xFFE4E4E4),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      20.0, 10.0, 20.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
+                      child: isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : pengumuman == null
+                              ? const Center(
+                                  child: Text('Pengumuman tidak ditemukan.'))
+                              : SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        '[PERPUSTAKAAN]',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              color: const Color(0xFFFF0000),
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(20.0, 0.0, 20.0, 0.0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              bottomLeft: Radius.circular(0.0),
+                                              bottomRight: Radius.circular(0.0),
+                                              topLeft: Radius.circular(0.0),
+                                              topRight: Radius.circular(0.0),
                                             ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Webinar Mendeley',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                letterSpacing: 0.0,
-                                              ),
+                                            border: Border.all(
+                                              color: const Color(0xFFE4E4E4),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(
+                                                20.0, 10.0, 20.0, 10.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  '[${pengumuman['kategori'] ?? 'Tanpa Kategori'}]',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Inter',
+                                                        color: const Color(
+                                                            0xFFFF0000),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    pengumuman['judul'] ??
+                                                        'Judul Tidak Tersedia',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Inter',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ].divide(
+                                                  const SizedBox(width: 10.0)),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ].divide(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(0.0),
-                                    bottomRight: Radius.circular(0.0),
-                                    topLeft: Radius.circular(0.0),
-                                    topRight: Radius.circular(0.0),
-                                  ),
-                                  border: Border.all(
-                                    color: const Color(0xFFE4E4E4),
-                                  ),
-                                ),
-                                alignment: const AlignmentDirectional(0.0, 1.0),
-                                child: Text(
-                                  'Dear Students,\nPerpustakaan IT Del mengadakan kegiatan Webinar dengan tema “Pelatihan Pemanfaatan Reference Manager: Mendeley”\nHari/Tanggal: Kamis, 09 November 2023\nWaktu: 15.00-17.00 WIB\nMedia: Zoom\nNarasumber: Ibu Tiurma Lumban Gaol, SP., M.P\nModerator: Ibu Jesicha Ulina Hutabarat, S.Sos\nPendaftaran:\nhttps://bit.ly/PelatihanMendeley_09November2023\nInfo lebih lanjut:\nNo Hp : +62 896 5746 8685 (Trislevia)\n[TERBUKA UNTUK UMUM]\n\n\n\n\nFile: Flayer-Webinar.jpeg',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        letterSpacing: 0.0,
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(20.0, 0.0, 20.0, 0.0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              bottomLeft: Radius.circular(0.0),
+                                              bottomRight: Radius.circular(0.0),
+                                              topLeft: Radius.circular(0.0),
+                                              topRight: Radius.circular(0.0),
+                                            ),
+                                            border: Border.all(
+                                              color: const Color(0xFFE4E4E4),
+                                            ),
+                                          ),
+                                          alignment: const AlignmentDirectional(
+                                              0.0, 1.0),
+                                          child: Text(
+                                            pengumuman['isi'] ??
+                                                'Tidak ada konten.',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Inter',
+                                                  letterSpacing: 0.0,
+                                                ),
+                                          ),
+                                        ),
                                       ),
+                                    ].divide(const SizedBox(height: 10.0)),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ].divide(const SizedBox(height: 10.0)),
-                        ),
-                      ),
                     ),
                   ),
                 ),
