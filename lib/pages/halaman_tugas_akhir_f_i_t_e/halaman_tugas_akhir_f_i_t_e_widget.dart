@@ -1,18 +1,9 @@
-<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
 import 'dart:convert';
 import 'halaman_tugas_akhir_f_i_t_e_model.dart'; // Adjust the import according to your project structure
 import 'halaman_tugas_akhir_f_i_t_e_model.dart'; // Import your model
-=======
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
-import 'halaman_tugas_akhir_f_i_t_e_model.dart';
-export 'halaman_tugas_akhir_f_i_t_e_model.dart';
->>>>>>> 9f81bbaf2c9de7a8a6a03cc22d94b5aeebefcf4a
 
 class HalamanTugasAkhirFITEWidget extends StatefulWidget {
   const HalamanTugasAkhirFITEWidget({super.key});
