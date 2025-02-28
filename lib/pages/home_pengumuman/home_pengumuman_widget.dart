@@ -1,3 +1,5 @@
+import 'package:library_application/config.dart';
+
 import '/components/bottom_bar_pengumuman_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -35,8 +37,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
 
   Future<void> fetchPengumuman() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://10.0.2.2:3000/api/pengumuman/'));
+      final response = await http.get(Uri.parse('$apiUrl/api/pengumuman'));
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
