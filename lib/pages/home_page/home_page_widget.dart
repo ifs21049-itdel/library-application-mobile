@@ -361,13 +361,54 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 BorderRadius
                                                                     .circular(
                                                                         8.0),
-                                                            child:
-                                                                Image.network(
-                                                              'https://picsum.photos/seed/760/600',
-                                                              width: 100.0,
-                                                              height: 110.0,
-                                                              fit: BoxFit.cover,
-                                                            ),
+                                                            child: book['gambar'] !=
+                                                                        null &&
+                                                                    book['gambar'] !=
+                                                                        'null'
+                                                                ? Image.network(
+                                                                    '$apiUrl/${book['gambar']}',
+                                                                    width:
+                                                                        100.0,
+                                                                    height:
+                                                                        110.0,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    alignment:
+                                                                        const Alignment(
+                                                                            0.0,
+                                                                            1.0),
+                                                                    errorBuilder:
+                                                                        (context,
+                                                                            error,
+                                                                            stackTrace) {
+                                                                      return Image
+                                                                          .asset(
+                                                                        'assets/img/placeholder_buku.jpg',
+                                                                        width:
+                                                                            100.0,
+                                                                        height:
+                                                                            110.0,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                        alignment: const Alignment(
+                                                                            0.0,
+                                                                            1.0),
+                                                                      );
+                                                                    },
+                                                                  )
+                                                                : Image.asset(
+                                                                    'assets/img/placeholder_buku.jpg',
+                                                                    width:
+                                                                        100.0,
+                                                                    height:
+                                                                        110.0,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    alignment:
+                                                                        const Alignment(
+                                                                            0.0,
+                                                                            1.0),
+                                                                  ),
                                                           ),
                                                           const SizedBox(
                                                               height: 8.0),
@@ -395,7 +436,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   );
                                                 },
                                               ),
-                                            ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -452,13 +493,54 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 BorderRadius
                                                                     .circular(
                                                                         8.0),
-                                                            child:
-                                                                Image.network(
-                                                              'https://picsum.photos/seed/760/600',
-                                                              width: 100.0,
-                                                              height: 110.0,
-                                                              fit: BoxFit.cover,
-                                                            ),
+                                                            child: book['gambar'] !=
+                                                                        null &&
+                                                                    book['gambar'] !=
+                                                                        'null'
+                                                                ? Image.network(
+                                                                    '$apiUrl/${book['gambar']}',
+                                                                    width:
+                                                                        100.0,
+                                                                    height:
+                                                                        110.0,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    alignment:
+                                                                        const Alignment(
+                                                                            0.0,
+                                                                            1.0),
+                                                                    errorBuilder:
+                                                                        (context,
+                                                                            error,
+                                                                            stackTrace) {
+                                                                      return Image
+                                                                          .asset(
+                                                                        'assets/img/placeholder_buku.jpg',
+                                                                        width:
+                                                                            100.0,
+                                                                        height:
+                                                                            110.0,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                        alignment: const Alignment(
+                                                                            0.0,
+                                                                            1.0),
+                                                                      );
+                                                                    },
+                                                                  )
+                                                                : Image.asset(
+                                                                    'assets/img/placeholder_buku.jpg',
+                                                                    width:
+                                                                        100.0,
+                                                                    height:
+                                                                        110.0,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    alignment:
+                                                                        const Alignment(
+                                                                            0.0,
+                                                                            1.0),
+                                                                  ),
                                                           ),
                                                           const SizedBox(
                                                               height: 8.0),
@@ -486,7 +568,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   );
                                                 },
                                               ),
-                                            ),
+                                            )
                                           ],
                                         ),
                                       ),
