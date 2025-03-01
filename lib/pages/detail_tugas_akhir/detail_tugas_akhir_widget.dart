@@ -1,33 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:library_application/config.dart'; // Pastikan ini berisi URL API Anda
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
-import 'detail_tugas_akhir_model.dart';
-export 'detail_tugas_akhir_model.dart';
 
 class DetailTugasAkhirWidget extends StatefulWidget {
-  const DetailTugasAkhirWidget({super.key});
+  final String id; // ID tugas akhir untuk mengambil detail
+
+  const DetailTugasAkhirWidget({Key? key, required this.id}) : super(key: key);
 
   @override
   State<DetailTugasAkhirWidget> createState() => _DetailTugasAkhirWidgetState();
 }
 
 class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
-  late DetailTugasAkhirModel _model;
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  dynamic thesisDetail;
+  bool isLoading = true;
+  String errorMessage = '';
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => DetailTugasAkhirModel());
+    fetchThesisDetail();
   }
 
-  @override
-  void dispose() {
-    _model.dispose();
+  Future<void> fetchThesisDetail() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$apiUrl/api/tugasakhir/${widget.id}'),
+      );
 
-    super.dispose();
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          thesisDetail = data['data'];
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Gagal memuat detail tugas akhir');
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        errorMessage = 'Terjadi kesalahan: $e';
+      });
+    }
   }
 
   @override
@@ -38,7 +57,6 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        key: scaffoldKey,
         backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
@@ -78,7 +96,8 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     10.0, 0.0, 10.0, 0.0),
                                 child: Text(
-                                  'Pembangunan Aplikasi Auto Grading Del Code Checker Menggunakan Unity Game Engine: Studi Kasus Institut Teknologi Del',
+                                  thesisDetail?['judul'] ??
+                                      'Judul Tidak Tersedia',
                                   textAlign: TextAlign.center,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -131,7 +150,8 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Arie Satia Dharma, S.T., M.Kom\nTahan HJ Sihombing, S.Pd., M. App Ling (TESOL)',
+                                              thesisDetail?['pembimbing'] ??
+                                                  'Tidak Tersedia',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -191,7 +211,8 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Sondang Kevin Sihaloho [11S190044]\nBintang Lumban Raja [11S19033]',
+                                              thesisDetail?['penulis'] ??
+                                                  'Tidak Tersedia',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -251,7 +272,8 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Sondang Kevin Sihaloho [11S190044]\nBintang Lumban Raja [11S19033]',
+                                              thesisDetail?['fakultas'] ??
+                                                  'Tidak Tersedia',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -311,7 +333,8 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Auto Grading, Code Checker, Unity, Game Engineer',
+                                              thesisDetail?['katakunci'] ??
+                                                  'Tidak Tersedia',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -370,7 +393,9 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '2019',
+                                            thesisDetail?['tahun']
+                                                    ?.toString() ??
+                                                'Tidak Tersedia',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -428,7 +453,8 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'The development of auto grading and code checker applications is an effective solution in increasing the efficiency of programming assignment assessment, especially in academic environments. This research focuses on developing the Del Code Checker application using the Unity Game Engine as a development platform. A case study was conducted at the Del Institute of Technology to integrate this technology into the programming learning process.',
+                                              thesisDetail?['abstrak'] ??
+                                                  'Tidak Tersedia',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -488,7 +514,8 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Lantai 2',
+                                              thesisDetail?['lokasi'] ??
+                                                  'Tidak Tersedia',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium

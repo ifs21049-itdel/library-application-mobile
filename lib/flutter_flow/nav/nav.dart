@@ -67,8 +67,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         ),
         FFRoute(
           name: 'DetailTugasAkhir',
-          path: '/detailTugasAkhir',
-          builder: (context, params) => const DetailTugasAkhirWidget(),
+          path: '/detailTugasAkhir/:id',
+          builder: (context, params) => const DetailTugasAkhirWidget(
+            id: '',
+          ),
         ),
         FFRoute(
           name: 'HalamanPencarianTugasAkhir',
