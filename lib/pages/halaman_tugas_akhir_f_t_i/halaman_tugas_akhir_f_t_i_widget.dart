@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
 import 'dart:convert';
+import '../detail_tugas_akhir/detail_tugas_akhir_widget.dart';
 import 'halaman_tugas_akhir_f_t_i_model.dart'; // Adjust the import according to your project structure
 
 class HalamanTugasAkhirFTIWidget extends StatefulWidget {
@@ -152,7 +153,14 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
             Divider(thickness: 2.0),
             InkWell(
               onTap: () {
-                // Navigate to detail page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailTugasAkhirWidget(
+                      id: thesis.id.toString(), // Kirim ID sebagai string
+                    ),
+                  ),
+                );
               },
               child: Container(
                 width: double.infinity,

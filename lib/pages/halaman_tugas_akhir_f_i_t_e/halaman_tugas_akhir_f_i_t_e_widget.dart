@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
 import 'dart:convert';
 import 'halaman_tugas_akhir_f_i_t_e_model.dart'; // Adjust the import according to your project structure
+import 'package:library_application/pages/detail_tugas_akhir/detail_tugas_akhir_widget.dart'; // Import the DetailTugasAkhirWidget
 
 class HalamanTugasAkhirFITEWidget extends StatefulWidget {
   const HalamanTugasAkhirFITEWidget({super.key});
@@ -36,7 +37,6 @@ class _HalamanTugasAkhirFITEWidgetState
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body)['data'];
-      print('Data received: $data'); // Log data yang diterima
       setState(() {
         if (program == 'Informatika') {
           _informatikaList =
@@ -161,7 +161,14 @@ class _HalamanTugasAkhirFITEWidgetState
             Divider(thickness: 2.0),
             InkWell(
               onTap: () {
-                // Navigate to detail page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailTugasAkhirWidget(
+                      id: thesis.id.toString(), // Kirim ID sebagai string
+                    ),
+                  ),
+                );
               },
               child: Container(
                 width: double.infinity,

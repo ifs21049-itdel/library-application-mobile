@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
 import 'dart:convert';
 import 'halaman_tugas_akhir_bioproses_model.dart'; // Adjust the import according to your project structure
+import 'package:library_application/pages/detail_tugas_akhir/detail_tugas_akhir_widget.dart'; // Import the DetailTugasAkhirWidget
 
 class HalamanTugasAkhirBioprosesWidget extends StatefulWidget {
   const HalamanTugasAkhirBioprosesWidget({super.key});
@@ -141,6 +142,15 @@ class _HalamanTugasAkhirBioprosesWidgetState
             InkWell(
               onTap: () {
                 // Navigate to detail page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailTugasAkhirWidget(
+                      id: thesis.id
+                          .toString(), // Ensure thesis ID is passed correctly
+                    ),
+                  ),
+                );
               },
               child: Container(
                 width: double.infinity,
