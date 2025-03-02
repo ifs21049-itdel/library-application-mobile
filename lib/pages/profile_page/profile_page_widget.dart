@@ -38,25 +38,39 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _getUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    final tempUserData = jsonDecode(prefs.getString('user_data')!);
 
-    final String url = '${dotenv.env['API_URL']}/api/users/${tempUserData['id']}';
+    if (prefs.getString('user_data') == null) {
+      setState(() {
+        currentUser = null;
+        isLoading = false;
+      });
+    } else {
+      final tempUserData = await jsonDecode(prefs.getString('user_data')!);
 
-    try {
-      final response = await http.get(Uri.parse(url));
+      final String url = '${dotenv.env['API_URL']}/api/users/${tempUserData['id']}';
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        prefs.setString('user_data', jsonEncode(data['data']));
+      try {
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          prefs.setString('user_data', jsonEncode(data['data']));
+          setState(() {
+            currentUser = data['data'];
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          debugPrint('Failed to fetch data. Status Code: ${response.statusCode}');
+        }
+      } catch (e) {
         setState(() {
-          currentUser = data['data'];
           isLoading = false;
         });
-      } else {
-        debugPrint('Failed to fetch data. Status Code: ${response.statusCode}');
+        debugPrint('Error fetching data: $e');
       }
-    } catch (e) {
-      debugPrint('Error fetching data: $e');
     }
   }
 
