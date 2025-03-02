@@ -26,19 +26,21 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   bool isLoading = true;
   bool isEditing = false;
   TextEditingController nameController = TextEditingController();
+  int totalVisitor = 0;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => ProfilePageModel());
     _getUserData();
+    _getTotalVisitor();
   }
 
   Future<void> _getUserData() async {
     final prefs = await SharedPreferences.getInstance();
     final tempUserData = jsonDecode(prefs.getString('user_data')!);
 
-    final String url = '${dotenv.env['API_URL']}/api/users/${tempUserData['id']}'; // Ganti dengan URL server kamu
+    final String url = '${dotenv.env['API_URL']}/api/users/${tempUserData['id']}';
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -57,6 +59,26 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
       debugPrint('Error fetching data: $e');
     }
   }
+
+  Future<void> _getTotalVisitor() async {
+    final String url = '${dotenv.env['API_URL']}/api/auth/visitor';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          totalVisitor = data['data'].length;
+        });
+      } else {
+        debugPrint('Failed to fetch data. Status Code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
+
 
   @override
   void dispose() {
@@ -472,6 +494,64 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                               fontFamily: 'Inter',
                                               letterSpacing: 0.0,
                                             ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16.0, 12.0, 16.0, 0.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: Material(
+                              color: Colors.transparent,
+                              elevation: 0.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Container(
+                                width: double.infinity,
+                                height: 60.0,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      blurRadius: 3.0,
+                                      color: Color(0x33000000),
+                                      offset: Offset(0.0, 1.0),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    width: 0.0,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 4.0, 0.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Today Visitor : $totalVisitor',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyLarge
+                                            .override(
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0.0,
+                                        ),
                                       ),
                                     ],
                                   ),
