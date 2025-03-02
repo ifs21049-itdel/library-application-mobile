@@ -81,10 +81,55 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
     });
   }
 
-  // Fungsi helper untuk menangani konversi tipe data dengan aman
   String safeToString(dynamic value) {
     if (value == null) return '';
     return value.toString();
+  }
+
+  Future<void> _pinjamBuku(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userDataString = prefs.getString('user_data');
+
+    if (userDataString == null) {
+      LoginModal.showLoginModal(context);
+      return;
+    }
+
+    final userData = jsonDecode(userDataString);
+    final userId = userData['id'];
+
+    try {
+      final response = await http.post(
+        Uri.parse(
+            '$apiUrl/api/pinjam-buku'), // Endpoint API untuk membuat peminjaman baru
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'id_buku': int.parse(widget.bookId),
+          'id_user': userId,
+          'tanggal_pinjam': DateTime.now().toIso8601String(),
+          'status': 'REQ',
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Permintaan peminjaman berhasil dikirim!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text(
+                  'Terjadi kesalahan saat mengirim permintaan peminjaman.')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Terjadi kesalahan. Mohon coba lagi.')),
+      );
+    }
   }
 
   @override
@@ -745,36 +790,32 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                               ),
                             ),
                             FFButtonWidget(
-                              onPressed: () {
-                                if (userData.isNotEmpty) {
-                                  // Jika user sudah login, lanjutkan proses peminjaman buku
-                                  print('Pinjam Buku');
-                                  // Tambahkan logika peminjaman buku di sini
-                                } else {
-                                  LoginModal.showLoginModal(context);
-                                }
+                              onPressed: () async {
+                                await _pinjamBuku(context);
                               },
                               text: 'Pinjam Buku',
                               options: FFButtonOptions(
-                                width: 170.0,
+                                width: 130.0,
                                 height: 40.0,
                                 padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 16.0, 0.0),
+                                    0.0, 0.0, 0.0, 0.0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primary,
                                 textStyle: FlutterFlowTheme.of(context)
-                                    .bodyLarge
+                                    .titleSmall
                                     .override(
                                       fontFamily: 'Inter',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
                                     ),
-                                elevation: 0.0,
+                                borderSide: const BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1.0,
+                                ),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
