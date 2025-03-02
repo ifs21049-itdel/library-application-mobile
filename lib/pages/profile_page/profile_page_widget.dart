@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:library_application/index.dart';
 import 'package:library_application/pages/edit_profile/edit_profile.dart';
-
+import 'package:http/http.dart' as http;
 import '/components/bottom_bar_profile_widget.dart';
 import '/components/informasi_akun_modal_widget.dart';
 import '/components/staff_perpustakaan_modal_widget.dart';
@@ -22,7 +22,7 @@ class ProfilePageWidget extends StatefulWidget {
 class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   late ProfilePageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  Map<String, dynamic>? currentUser;
+  dynamic currentUser;
   bool isLoading = true;
   bool isEditing = false;
   TextEditingController nameController = TextEditingController();
@@ -36,19 +36,24 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _getUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    final userData = prefs.getString('user_data');
+    final tempUserData = jsonDecode(prefs.getString('user_data')!);
 
-    if (userData != null) {
-      final parsedUser = jsonDecode(userData);
-      setState(() {
-        currentUser = parsedUser;
-        nameController.text = currentUser?['name'] ?? '';
-        isLoading = false;
-      });
-    } else {
-      setState(() {
-        isLoading = false;
-      });
+    final String url = '${dotenv.env['API_URL']}/api/users/${tempUserData['id']}'; // Ganti dengan URL server kamu
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          currentUser = data['data'];
+          isLoading = false;
+        });
+      } else {
+        debugPrint('Failed to fetch data. Status Code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
     }
   }
 
@@ -76,12 +81,11 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           width: MediaQuery.sizeOf(context).width,
                           height: 160.0,
                           decoration: const BoxDecoration(
-                              color: Color(0xFF2679C2),
-
+                            color: Color(0xFF2679C2),
                           ),
                           child: Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
-                                20.0,0.0, 20.0, 0.0),
+                                20.0, 0.0, 20.0, 0.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,17 +157,19 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                                             color:
                                                                 Colors.white)),
                                                   ),
-                                                  IconButton(
-                                                    icon: const Icon(Icons.edit,
-                                                        color: Colors.white),
-                                                    onPressed: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (ctx) =>
-                                                                  const EditProfile()));
-                                                    },
-                                                  ),
+                                                  if (currentUser != null)
+                                                    IconButton(
+                                                      icon: const Icon(
+                                                          Icons.edit,
+                                                          color: Colors.white),
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (ctx) =>
+                                                                    const EditProfile()));
+                                                      },
+                                                    ),
                                                 ],
                                               ),
                                         if (currentUser != null)

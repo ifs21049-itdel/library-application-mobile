@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
+import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +60,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
+    fetchVisitorLog();
   }
 
   void setThemeMode(ThemeMode mode) => safeSetState(() {
@@ -87,5 +89,21 @@ class _MyAppState extends State<MyApp> {
       themeMode: _themeMode,
       routerConfig: _router,
     );
+  }
+}
+
+Future<void> fetchVisitorLog() async {
+  final String url = '${dotenv.env['API_URL']}/api/auth/log'; // Ganti dengan URL server kamu
+
+  try {
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      debugPrint('Log fetched successfully: ${response.body}');
+    } else {
+      debugPrint('Failed to fetch log. Status Code: ${response.statusCode}');
+    }
+  } catch (e) {
+    debugPrint('Error fetching log: $e');
   }
 }

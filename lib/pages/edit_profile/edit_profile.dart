@@ -108,63 +108,65 @@ class _EditProfile extends State<EditProfile> {
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Edit Profil',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    )),
-                SizedBox(
-                  height: 70,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(1000),
-                  child: _image != null
-                      ? Image.file(
-                          _image!,
-                          width: 200.0,
-                          height: 200.0,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(
-                          'assets/images/me.png',
-                          width: 80.0,
-                          height: 80.0,
-                          fit: BoxFit.cover,
-                        ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: takePicture,
-                      child: const Text("Ambil Foto"),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Edit Profil',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  SizedBox(
+                    height: 70,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(1000),
+                    child: _image != null
+                        ? Image.file(
+                      _image!,
+                      width: 200.0,
+                      height: 200.0,
+                      fit: BoxFit.cover,
+                    )
+                        : Image.asset(
+                      'assets/images/me.png',
+                      width: 80.0,
+                      height: 80.0,
+                      fit: BoxFit.cover,
                     ),
-                    TextButton(
-                      onPressed: takePicture,
-                      child: const Text("Pilih dari Galeri"),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _nameController,
-                  textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), label: Text('Your Name')),
-                ),
-                SizedBox(
-                  height: 24,
-                ),
-                SizedBox(
-                  width: 800,
-                  child: FilledButton(onPressed: updateUser, child: Text('Simpan')),
-                )
-              ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: takePicture,
+                        child: const Text("Ambil Foto"),
+                      ),
+                      TextButton(
+                        onPressed: takePicture,
+                        child: const Text("Pilih dari Galeri"),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _nameController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), label: Text('Your Name')),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  SizedBox(
+                    width: 800,
+                    child: FilledButton(onPressed: updateUser, child: Text('Simpan')),
+                  )
+                ],
+              ),
             ),
           ),
         ),
