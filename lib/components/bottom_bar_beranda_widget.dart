@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,17 @@ class BottomBarBerandaWidget extends StatefulWidget {
 
 class _BottomBarBerandaWidgetState extends State<BottomBarBerandaWidget> {
   late BottomBarBerandaModel _model;
+  Map<String, dynamic> userData = {};
+
+  Future<void> loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      debugPrint(prefs.getString('user_data'));
+      userData = prefs.getString('user_data') == null
+          ? {}
+          : jsonDecode(prefs.getString('user_data')!);
+    });
+  }
 
   @override
   void setState(VoidCallback callback) {
@@ -24,6 +37,7 @@ class _BottomBarBerandaWidgetState extends State<BottomBarBerandaWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => BottomBarBerandaModel());
+    loadData();
   }
 
   @override
@@ -105,39 +119,40 @@ class _BottomBarBerandaWidgetState extends State<BottomBarBerandaWidget> {
                 ),
               ),
             ),
-            InkWell(
-              splashColor: Colors.transparent,
-              focusColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: () async {
-                context.pushNamed('HomePengumuman');
-              },
-              child: Container(
-                width: 100.0,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.announcement_outlined,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 24.0,
+        if (userData.isNotEmpty)
+          InkWell(
+            splashColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () async {
+              context.pushNamed('HomePengumuman');
+            },
+            child: Container(
+              width: 100.0,
+              decoration: BoxDecoration(
+                color: FlutterFlowTheme.of(context).secondaryBackground,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.announcement_outlined,
+                    color: FlutterFlowTheme.of(context).primaryText,
+                    size: 24.0,
+                  ),
+                  Text(
+                    'Pengumuman',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: 'Inter',
+                      letterSpacing: 0.0,
                     ),
-                    Text(
-                      'Pengumuman',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
-                            letterSpacing: 0.0,
-                          ),
-                    ),
-                  ].divide(const SizedBox(height: 5.0)),
-                ),
+                  ),
+                ].divide(const SizedBox(height: 5.0)),
               ),
             ),
+          ),
             InkWell(
               splashColor: Colors.transparent,
               focusColor: Colors.transparent,
