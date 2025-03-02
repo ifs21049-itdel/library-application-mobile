@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:library_application/config.dart';
+import 'package:library_application/pages/home_page/home_page_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -9,6 +10,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'detail_buku_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:library_application/components/login_modal.dart' as LoginModal;
 
 export 'detail_buku_model.dart';
 
@@ -23,6 +26,7 @@ class DetailBukuWidget extends StatefulWidget {
 class _DetailBukuWidgetState extends State<DetailBukuWidget> {
   late DetailBukuModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  Map<String, dynamic>? currentUser;
   Map<String, dynamic>? bookData;
   bool isLoading = true;
 
@@ -31,6 +35,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
     super.initState();
     _model = createModel(context, () => DetailBukuModel());
     fetchBookData();
+    loadData();
   }
 
   Future<void> fetchBookData() async {
@@ -62,6 +67,18 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
   void dispose() {
     _model.dispose();
     super.dispose();
+  }
+
+  Map<String, dynamic> userData = {};
+
+  Future<void> loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      debugPrint(prefs.getString('user_data'));
+      userData = prefs.getString('user_data') == null
+          ? {}
+          : jsonDecode(prefs.getString('user_data')!);
+    });
   }
 
   // Fungsi helper untuk menangani konversi tipe data dengan aman
@@ -729,7 +746,13 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                             ),
                             FFButtonWidget(
                               onPressed: () {
-                                print('Pinjam Buku');
+                                if (userData.isNotEmpty) {
+                                  // Jika user sudah login, lanjutkan proses peminjaman buku
+                                  print('Pinjam Buku');
+                                  // Tambahkan logika peminjaman buku di sini
+                                } else {
+                                  LoginModal.showLoginModal(context);
+                                }
                               },
                               text: 'Pinjam Buku',
                               options: FFButtonOptions(
@@ -751,7 +774,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                 elevation: 0.0,
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),
