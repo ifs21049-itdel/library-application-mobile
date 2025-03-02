@@ -45,6 +45,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+        prefs.setString('user_data', jsonEncode(data['data']));
         setState(() {
           currentUser = data['data'];
           isLoading = false;

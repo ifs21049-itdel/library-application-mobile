@@ -82,20 +82,53 @@ class _EditProfile extends State<EditProfile> {
       final response = await request.send();
       final Map<String, dynamic> data = json.decode(await response.stream.bytesToString());
 
-      if (response.statusCode == 200) {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(data['message'])),
-        );
-        Navigator.push(context, MaterialPageRoute(builder: (ctx) => ProfilePageWidget()));
-      } else {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(data['message'])),
-        );
-      }
+      if (!mounted) return;
+
+      // Tampilkan AlertDialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(response.statusCode == 200 ? 'Sukses' : 'Gagal'),
+            content: Text(data['message']),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Tutup dialog
+                  if (response.statusCode == 200) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => ProfilePageWidget()),
+                    );
+                  }
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     } catch (e) {
       debugPrint("Error updating user: $e");
+
+      if (!mounted) return;
+
+      // Tampilkan dialog error jika terjadi exception
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: Text("Terjadi kesalahan: $e"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -146,7 +179,7 @@ class _EditProfile extends State<EditProfile> {
                         child: const Text("Ambil Foto"),
                       ),
                       TextButton(
-                        onPressed: takePicture,
+                        onPressed: pickImage,
                         child: const Text("Pilih dari Galeri"),
                       ),
                     ],
