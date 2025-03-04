@@ -98,10 +98,13 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
     final userData = jsonDecode(userDataString);
     final userId = userData['id'];
 
+    // Get the book image path and title
+    final String? bookImage = bookData?['gambar'];
+    final String? bookTitle = bookData?['judul'];
+
     try {
       final response = await http.post(
-        Uri.parse(
-            '$apiUrl/api/pinjam-buku'), // Endpoint API untuk membuat peminjaman baru
+        Uri.parse('$apiUrl/api/pinjam-buku'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -110,6 +113,8 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
           'id_user': userId,
           'tanggal_pinjam': DateTime.now().toIso8601String(),
           'status': 'REQ',
+          'gambar': bookImage,
+          'judul_buku': bookTitle,
         }),
       );
 
@@ -126,6 +131,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
         );
       }
     } catch (e) {
+      print('Error saat peminjaman: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Terjadi kesalahan. Mohon coba lagi.')),
       );

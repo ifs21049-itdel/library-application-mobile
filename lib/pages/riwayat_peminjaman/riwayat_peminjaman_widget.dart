@@ -275,13 +275,38 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
-                  riwayat['gambar_buku'] ??
-                      'URL_GAMBAR_DEFAULT', // Ganti dengan URL gambar default jika tidak ada
+                  riwayat['gambar'] != null && riwayat['gambar'].isNotEmpty
+                      ? '$apiUrl/${riwayat['gambar']}'
+                      : 'https://via.placeholder.com/70x100?text=No+Image', // Default image URL
                   width: 70.0,
                   height: 70.0,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => const Icon(Icons
-                      .error), // Tampilkan ikon error jika gagal memuat gambar
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: 70.0,
+                    height: 70.0,
+                    color: Colors.grey[300],
+                    child: const Icon(
+                      Icons.book,
+                      size: 30.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      width: 70.0,
+                      height: 70.0,
+                      color: Colors.grey[200],
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 16.0),

@@ -521,7 +521,7 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
     );
   }
 
-  Widget buildBookCard(dynamic book) {
+  Widget buildBookCard(dynamic peminjaman) {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 8.0),
       child: Container(
@@ -545,13 +545,39 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
-                  book['gambar'] ??
-                      'URL_GAMBAR_DEFAULT', // Ganti dengan URL gambar default jika tidak ada
+                  peminjaman['gambar'] != null &&
+                          peminjaman['gambar'].isNotEmpty
+                      ? '$apiUrl/${peminjaman['gambar']}'
+                      : 'https://via.placeholder.com/70x100?text=No+Image', // Default image URL
                   width: 70.0,
                   height: 70.0,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => const Icon(Icons
-                      .error), // Tampilkan ikon error jika gagal memuat gambar
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: 70.0,
+                    height: 70.0,
+                    color: Colors.grey[300],
+                    child: const Icon(
+                      Icons.book,
+                      size: 30.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      width: 70.0,
+                      height: 70.0,
+                      color: Colors.grey[200],
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 16.0),
@@ -560,7 +586,7 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      book['judul_buku'].toString(),
+                      peminjaman['judul_buku'].toString(),
                       style: FlutterFlowTheme.of(context).titleMedium.override(
                             fontFamily: 'Inter Tight',
                             color: FlutterFlowTheme.of(context).primaryText,
@@ -569,7 +595,7 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      'Tgl. Pinjam: ${formatDate(book['tanggal_pinjam'].toString())}',
+                      'Tgl. Pinjam: ${formatDate(peminjaman['tanggal_pinjam'].toString())}',
                       style: FlutterFlowTheme.of(context).bodySmall.override(
                             fontFamily: 'Inter',
                             color: FlutterFlowTheme.of(context).secondaryText,
@@ -577,7 +603,7 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
                           ),
                     ),
                     Text(
-                      'Tgl. Kembali: ${formatDate(book['tanggal_kembali']?.toString() ?? '')}',
+                      'Tgl. Kembali: ${formatDate(peminjaman['tanggal_kembali']?.toString() ?? '')}',
                       style: FlutterFlowTheme.of(context).bodySmall.override(
                             fontFamily: 'Inter',
                             color: FlutterFlowTheme.of(context).secondaryText,
