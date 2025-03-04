@@ -803,7 +803,51 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                             ),
                             FFButtonWidget(
                               onPressed: () async {
-                                await _pinjamBuku(context);
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                final userDataString =
+                                    prefs.getString('user_data');
+
+                                if (userDataString == null) {
+                                  // Jika pengguna belum login, tampilkan modal login
+                                  LoginModal.showLoginModal(context);
+                                  return; // Batalkan peminjaman jika pengguna belum login
+                                }
+
+                                // Jika pengguna sudah login, tampilkan pesan konfirmasi
+                                final bool? shouldProceed =
+                                    await showDialog<bool>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title:
+                                          const Text('Konfirmasi Peminjaman'),
+                                      content: const Text(
+                                          'Apakah Anda yakin ingin meminjam buku ini?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop(
+                                                false); // Menutup dialog dan mengembalikan false
+                                          },
+                                          child: const Text('Batal'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop(
+                                                true); // Menutup dialog dan mengembalikan true
+                                          },
+                                          child: const Text('Ya'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+
+                                // Jika pengguna mengonfirmasi, lanjutkan dengan peminjaman buku
+                                if (shouldProceed == true) {
+                                  await _pinjamBuku(context);
+                                }
                               },
                               text: 'Pinjam Buku',
                               options: FFButtonOptions(
