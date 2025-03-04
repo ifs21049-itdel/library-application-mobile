@@ -181,39 +181,45 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
             flexibleSpace: FlexibleSpaceBar(
               background: ClipRRect(
                 borderRadius: BorderRadius.circular(0.0),
-                child: bookData?['gambar'] != null &&
-                        bookData?['gambar'] != 'null'
-                    ? Image.network(
-                        '$apiUrl/${bookData!['gambar']}', // Menggunakan template string
-                        fit: BoxFit.cover,
-                        alignment: const Alignment(0.0, 1.0),
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            'assets/img/placeholder_buku.jpg', // Path ke placeholder
-                            fit: BoxFit.cover,
-                            alignment: const Alignment(0.0, 1.0),
-                          );
-                        },
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
-                      )
-                    : Image.asset(
-                        'assets/img/placeholder_buku.jpg', // Path ke placeholder
-                        fit: BoxFit.cover,
-                        alignment: const Alignment(0.0, 1.0),
+                child: Image.network(
+                  bookData?['gambar'] != null && bookData?['gambar'] != 'null'
+                      ? '$apiUrl/${bookData!['gambar']}'
+                      : 'https://via.placeholder.com/100x100?text=No+Image', // Default image URL
+                  width: 100.0, // Tambahkan ukuran lebar
+                  height: 100.0, // Tambahkan ukuran tinggi
+                  fit: BoxFit.cover,
+                  alignment: const Alignment(0.0, 1.0),
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width:
+                        100.0, // Pastikan ukuran container sesuai dengan gambar
+                    height:
+                        100.0, // Pastikan ukuran container sesuai dengan gambar
+                    color: Colors.grey[300],
+                    child: const Icon(
+                      Icons.book,
+                      size: 50.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      width:
+                          100.0, // Pastikan ukuran container sesuai dengan gambar
+                      height:
+                          100.0, // Pastikan ukuran container sesuai dengan gambar
+                      color: Colors.grey[200],
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
                       ),
+                    );
+                  },
+                ),
               ),
             ),
             centerTitle: false,

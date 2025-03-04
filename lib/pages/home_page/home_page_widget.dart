@@ -361,54 +361,63 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 BorderRadius
                                                                     .circular(
                                                                         8.0),
-                                                            child: book['gambar'] !=
-                                                                        null &&
-                                                                    book['gambar'] !=
-                                                                        'null'
-                                                                ? Image.network(
-                                                                    '$apiUrl/${book['gambar']}',
-                                                                    width:
-                                                                        100.0,
-                                                                    height:
-                                                                        110.0,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    alignment:
-                                                                        const Alignment(
-                                                                            0.0,
-                                                                            1.0),
-                                                                    errorBuilder:
-                                                                        (context,
-                                                                            error,
-                                                                            stackTrace) {
-                                                                      return Image
-                                                                          .asset(
-                                                                        'assets/img/placeholder_buku.jpg',
-                                                                        width:
-                                                                            100.0,
-                                                                        height:
-                                                                            110.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                        alignment: const Alignment(
-                                                                            0.0,
-                                                                            1.0),
-                                                                      );
-                                                                    },
-                                                                  )
-                                                                : Image.asset(
-                                                                    'assets/img/placeholder_buku.jpg',
-                                                                    width:
-                                                                        100.0,
-                                                                    height:
-                                                                        110.0,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    alignment:
-                                                                        const Alignment(
-                                                                            0.0,
-                                                                            1.0),
+                                                            child:
+                                                                Image.network(
+                                                              book['gambar'] !=
+                                                                          null &&
+                                                                      book['gambar'] !=
+                                                                          'null'
+                                                                  ? '$apiUrl/${book['gambar']}'
+                                                                  : 'https://via.placeholder.com/100x110?text=No+Image', // Default image URL
+                                                              width: 100.0,
+                                                              height: 110.0,
+                                                              fit: BoxFit.cover,
+                                                              alignment:
+                                                                  const Alignment(
+                                                                      0.0, 1.0),
+                                                              errorBuilder:
+                                                                  (context,
+                                                                          error,
+                                                                          stackTrace) =>
+                                                                      Container(
+                                                                width: 100.0,
+                                                                height: 110.0,
+                                                                color: Colors
+                                                                    .grey[300],
+                                                                child:
+                                                                    const Icon(
+                                                                  Icons.book,
+                                                                  size: 50.0,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              ),
+                                                              loadingBuilder:
+                                                                  (context,
+                                                                      child,
+                                                                      loadingProgress) {
+                                                                if (loadingProgress ==
+                                                                    null)
+                                                                  return child;
+                                                                return Container(
+                                                                  width: 100.0,
+                                                                  height: 110.0,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      200],
+                                                                  child: Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      value: loadingProgress.expectedTotalBytes !=
+                                                                              null
+                                                                          ? loadingProgress.cumulativeBytesLoaded /
+                                                                              loadingProgress.expectedTotalBytes!
+                                                                          : null,
+                                                                    ),
                                                                   ),
+                                                                );
+                                                              },
+                                                            ),
                                                           ),
                                                           const SizedBox(
                                                               height: 8.0),
@@ -493,54 +502,63 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 BorderRadius
                                                                     .circular(
                                                                         8.0),
-                                                            child: book['gambar'] !=
-                                                                        null &&
-                                                                    book['gambar'] !=
-                                                                        'null'
-                                                                ? Image.network(
-                                                                    '$apiUrl/${book['gambar']}',
-                                                                    width:
-                                                                        100.0,
-                                                                    height:
-                                                                        110.0,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    alignment:
-                                                                        const Alignment(
-                                                                            0.0,
-                                                                            1.0),
-                                                                    errorBuilder:
-                                                                        (context,
-                                                                            error,
-                                                                            stackTrace) {
-                                                                      return Image
-                                                                          .asset(
-                                                                        'assets/img/placeholder_buku.jpg',
-                                                                        width:
-                                                                            100.0,
-                                                                        height:
-                                                                            110.0,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                        alignment: const Alignment(
-                                                                            0.0,
-                                                                            1.0),
-                                                                      );
-                                                                    },
-                                                                  )
-                                                                : Image.asset(
-                                                                    'assets/img/placeholder_buku.jpg',
-                                                                    width:
-                                                                        100.0,
-                                                                    height:
-                                                                        110.0,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    alignment:
-                                                                        const Alignment(
-                                                                            0.0,
-                                                                            1.0),
+                                                            child:
+                                                                Image.network(
+                                                              book['gambar'] !=
+                                                                          null &&
+                                                                      book['gambar'] !=
+                                                                          'null'
+                                                                  ? '$apiUrl/${book['gambar']}'
+                                                                  : 'https://via.placeholder.com/100x110?text=No+Image', // Default image URL
+                                                              width: 100.0,
+                                                              height: 110.0,
+                                                              fit: BoxFit.cover,
+                                                              alignment:
+                                                                  const Alignment(
+                                                                      0.0, 1.0),
+                                                              errorBuilder:
+                                                                  (context,
+                                                                          error,
+                                                                          stackTrace) =>
+                                                                      Container(
+                                                                width: 100.0,
+                                                                height: 110.0,
+                                                                color: Colors
+                                                                    .grey[300],
+                                                                child:
+                                                                    const Icon(
+                                                                  Icons.book,
+                                                                  size: 50.0,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              ),
+                                                              loadingBuilder:
+                                                                  (context,
+                                                                      child,
+                                                                      loadingProgress) {
+                                                                if (loadingProgress ==
+                                                                    null)
+                                                                  return child;
+                                                                return Container(
+                                                                  width: 100.0,
+                                                                  height: 110.0,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      200],
+                                                                  child: Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      value: loadingProgress.expectedTotalBytes !=
+                                                                              null
+                                                                          ? loadingProgress.cumulativeBytesLoaded /
+                                                                              loadingProgress.expectedTotalBytes!
+                                                                          : null,
+                                                                    ),
                                                                   ),
+                                                                );
+                                                              },
+                                                            ),
                                                           ),
                                                           const SizedBox(
                                                               height: 8.0),
