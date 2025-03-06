@@ -36,9 +36,11 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
     super.initState();
     _model = createModel(context, () => PinjamBukuModel());
 
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
+    // Inisialisasi textController dan textFieldFocusNode
+    _model.textController = TextEditingController();
+    _model.textFieldFocusNode = FocusNode();
 
+    // Inisialisasi tab controller
     _model.tabBarController = TabController(
       vsync: this,
       length: 3,
@@ -48,19 +50,19 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
         // Fetch data when tab changes
         switch (_model.tabBarController!.index) {
           case 0:
-            fetchBookData(status: 'REQ');
+            fetchBookData(status: 'REQ'); // Diproses
             break;
           case 1:
-            fetchBookData(status: 'ACCEPTED');
+            fetchBookData(status: 'ACCEPTED'); // Diterima
             break;
           case 2:
-            fetchBookData(status: 'REJECTED');
+            fetchBookData(status: 'REJECTED'); // Ditolak
             break;
         }
       });
 
     // Fetch data for the initial tab
-    fetchBookData(status: 'REQ');
+    fetchBookData(status: 'REQ'); // Ambil data untuk tab Diproses
 
     // Listen for search query changes
     _model.textController!.addListener(() {
@@ -88,7 +90,6 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
     });
 
     try {
-      // Construct the URL with the status query parameter
       var url = Uri.parse('$apiUrl/api/pinjam-buku');
       if (status != null) {
         url = url.replace(queryParameters: {'status': status});
@@ -98,37 +99,33 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
         url,
         headers: {
           'Content-Type': 'application/json',
-          // Add any authentication headers here if needed
         },
       );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
+        // Tambahkan log di sini untuk memeriksa respons API
+        print('Respons API: ${response.body}'); // Log respons API
+        print('Data dari API: $data'); // Log data yang diterima
+
         if (data['data'] != null) {
-          // Update books
           setState(() {
-            switch (status) {
-              case 'REQ':
-                processingBooks = data['data'];
-                break;
-              case 'ACCEPTED':
-                acceptedBooks = data['data'];
-                break;
-              case 'REJECTED':
-                rejectedBooks = data['data'];
-                break;
-              default:
-                processingBooks = data['data'];
-                acceptedBooks = data['data'];
-                rejectedBooks = data['data'];
-                break;
-            }
+            // Filter data berdasarkan status
+            processingBooks = data['data']
+                .where((book) => book['status_peminjaman'] == 'REQ')
+                .toList();
+            acceptedBooks = data['data']
+                .where(
+                    (book) => book['status_peminjaman'] == 'IS BEING BORROWED')
+                .toList();
+            rejectedBooks = data['data']
+                .where((book) => book['status_peminjaman'] == 'REJECTED')
+                .toList();
             isLoading = false;
           });
         }
       } else {
-        // Handle error
         setState(() {
           isLoading = false;
         });

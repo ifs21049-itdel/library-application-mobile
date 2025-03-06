@@ -53,7 +53,8 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
 
     try {
       final response = await http.get(
-        Uri.parse('$apiUrl/api/pinjam-buku?status=DONE'),
+        Uri.parse(
+            '$apiUrl/api/pinjam-buku?status=DONE'), // Pastikan endpoint ini sesuai
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -62,8 +63,11 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
         final List<dynamic> filteredData =
             data['data'] != null ? List<dynamic>.from(data['data']) : [];
 
+        // Filter data untuk memastikan hanya yang memiliki tanggal_kembali
         setState(() {
-          riwayatPeminjaman = filteredData;
+          riwayatPeminjaman = filteredData
+              .where((riwayat) => riwayat['tanggal_kembali'] != null)
+              .toList();
           isLoading = false;
         });
       } else {
@@ -252,6 +256,10 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
   }
 
   Widget buildRiwayatCard(dynamic riwayat) {
+    if (riwayat == null || riwayat['tanggal_kembali'] == null) {
+      return Container(); // Skip jika data tidak valid
+    }
+
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 8.0),
       child: Container(
@@ -263,7 +271,7 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
               blurRadius: 4.0,
               color: Color(0x33000000),
               offset: Offset(0.0, 2.0),
-            )
+            ),
           ],
           borderRadius: BorderRadius.circular(12.0),
         ),
@@ -277,7 +285,7 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
                 child: Image.network(
                   riwayat['gambar'] != null && riwayat['gambar'].isNotEmpty
                       ? '$apiUrl/${riwayat['gambar']}'
-                      : 'https://via.placeholder.com/70x100?text=No+Image', // Default image URL
+                      : 'https://via.placeholder.com/70x100?text=No+Image',
                   width: 70.0,
                   height: 70.0,
                   fit: BoxFit.cover,
@@ -324,7 +332,7 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      'Tgl. Pinjam: ${formatDate(riwayat['tanggal_pinjam'].toString())}',
+                      'Tgl. Pinjam: ${formatDate(riwayat['tanggal_pinjam']?.toString() ?? '')}',
                       style: FlutterFlowTheme.of(context).bodySmall.override(
                             fontFamily: 'Inter',
                             color: FlutterFlowTheme.of(context).secondaryText,
