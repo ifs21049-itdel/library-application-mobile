@@ -195,6 +195,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       padding: const EdgeInsetsDirectional.fromSTEB(
                           15.0, 20.0, 15.0, 20.0), // Tambahkan padding bottom
                       child: TextFormField(
+                        readOnly: true,
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (ctx) => SearchBookPage()));
                         },
