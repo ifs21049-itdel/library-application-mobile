@@ -1,5 +1,6 @@
 import 'package:library_application/config.dart';
 import 'package:library_application/pages/detail_buku/detail_buku_widget.dart';
+import 'package:library_application/pages/search_book_page/search_book_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/components/bottom_bar_beranda_widget.dart';
@@ -194,6 +195,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       padding: const EdgeInsetsDirectional.fromSTEB(
                           15.0, 20.0, 15.0, 20.0), // Tambahkan padding bottom
                       child: TextFormField(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => SearchBookPage()));
+                        },
                         controller: _model.textController,
                         focusNode: _model.textFieldFocusNode,
                         autofocus: false,
