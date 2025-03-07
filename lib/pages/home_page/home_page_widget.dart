@@ -53,7 +53,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
-          books = data['data'];
+          books = data['data'].take(10).toList();
           isLoading = false;
         });
       } else {
@@ -197,7 +197,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       child: TextFormField(
                         readOnly: true,
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => SearchBookPage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (ctx) => SearchBookPage()));
                         },
                         controller: _model.textController,
                         focusNode: _model.textFieldFocusNode,
