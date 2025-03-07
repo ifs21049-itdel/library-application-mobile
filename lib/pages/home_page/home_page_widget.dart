@@ -110,7 +110,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
   Future<void> loadData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      debugPrint(prefs.getString('user_data'));
       userData = prefs.getString('user_data') == null
           ? {}
           : jsonDecode(prefs.getString('user_data')!);
@@ -547,11 +546,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                             ),
                                             SizedBox(
                                               height: 170.0,
-                                              child: favBook.length > 0
+                                              child: favBook.isNotEmpty
                                                   ? ListView.builder(
                                                       scrollDirection:
                                                           Axis.horizontal,
-                                                      itemCount: books.length,
+                                                      itemCount: favBook.length,
                                                       itemBuilder:
                                                           (context, index) {
                                                         final book =

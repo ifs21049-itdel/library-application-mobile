@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:library_application/config.dart';
 import 'package:http/http.dart' as http;
+import 'package:library_application/index.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'detail_buku_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:library_application/components/login_modal.dart' as LoginModal;
-
 export 'detail_buku_model.dart';
 
 class DetailBukuWidget extends StatefulWidget {
@@ -25,7 +25,9 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Map<String, dynamic>? currentUser;
   Map<String, dynamic>? bookData;
+  List<dynamic> favBook = [];
   bool isLoading = true;
+  bool isAlreadyFav = false;
 
   @override
   void initState() {
@@ -71,16 +73,112 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
   Future<void> loadData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      debugPrint(prefs.getString('user_data'));
       userData = prefs.getString('user_data') == null
           ? {}
           : jsonDecode(prefs.getString('user_data')!);
+      getFavoriteBook(userData['id']);
     });
   }
 
   String safeToString(dynamic value) {
     if (value == null || value.toString().isEmpty) return '-';
     return value.toString();
+  }
+
+  Future<void> getFavoriteBook(userId) async {
+    try {
+      final response =
+          await http.get(Uri.parse('$apiUrl/api/book/favorite/$userId'));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          favBook = data['data'];
+          // debugPrint('Body : ${data['data'][0]['id'].toString() == widget.bookId}');
+          // debugPrint('${data['data']
+          //     .where((book) => book["id"] == widget.bookId)
+          //     .toList().length}');
+
+          if (data['data']
+              .where((book) => book["id"].toString() == widget.bookId)
+              .toList().length > 0) {
+            isAlreadyFav = true;
+          }
+          isLoading = false;
+        });
+      } else {
+        debugPrint('Failed to load books: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching books: $e');
+    }
+  }
+
+  Future<void> _addToFavorites() async {
+    final String apiUrl = '${dotenv.env['API_URL']}/api/book/favorite';
+    final Map<String, dynamic> requestBody = {
+      "user_id": userData['id'],
+      "book_id": widget.bookId,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(requestBody),
+      );
+
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(responseData['message'])),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+                  "Gagal menambahkan ke favorit: ${responseData['message']}")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Terjadi kesalahan: $e")),
+      );
+    }
+  }
+
+  Future<void> _removeFromFavorites() async {
+    final String apiUrl = '${dotenv.env['API_URL']}/api/book/remove-favorite';
+    final Map<String, dynamic> requestBody = {
+      "user_id": userData['id'],
+      "book_id": widget.bookId,
+    };
+
+    try {
+      final response = await http.delete(
+        Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(requestBody),
+      );
+
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(responseData['message'])),
+        );
+        Navigator.push(context, MaterialPageRoute(builder: (ctx) => HomePageWidget()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("${responseData['message']}")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Terjadi kesalahan: $e")),
+      );
+    }
   }
 
   Future<void> _pinjamBuku(BuildContext context) async {
@@ -303,21 +401,27 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                         children: [
                           OutlinedButton(
                             onPressed: () {
-                              print('Simpan ke Favorit');
+                              if (isAlreadyFav) {
+                                _removeFromFavorites();
+                              } else {
+                                _addToFavorites();
+                              }
                             },
                             style: ButtonStyle(
                                 shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(5)))),
-                            child: Text('Simpan ke Favorit'),
+                                            BorderRadius.circular(5)))),
+                            child: Text(isAlreadyFav == false
+                                ? 'Simpan ke Favorit'
+                                : 'Hapus dari Favorit'),
                           ),
                           FilledButton(
                             onPressed: () async {
                               final prefs =
-                              await SharedPreferences.getInstance();
+                                  await SharedPreferences.getInstance();
                               final userDataString =
-                              prefs.getString('user_data');
+                                  prefs.getString('user_data');
 
                               if (userDataString == null) {
                                 // Jika pengguna belum login, tampilkan modal login
@@ -327,12 +431,11 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
 
                               // Jika pengguna sudah login, tampilkan pesan konfirmasi
                               final bool? shouldProceed =
-                              await showDialog<bool>(
+                                  await showDialog<bool>(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title:
-                                    const Text('Konfirmasi Peminjaman'),
+                                    title: const Text('Konfirmasi Peminjaman'),
                                     content: const Text(
                                         'Apakah Anda yakin ingin meminjam buku ini?'),
                                     actions: <Widget>[
@@ -364,12 +467,14 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                 shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(5)))),
+                                            BorderRadius.circular(5)))),
                             child: Text('Pinjam Buku'),
                           ),
                         ],
                       ),
-                      SizedBox(height: 10,)
+                      SizedBox(
+                        height: 10,
+                      )
                     ],
                   ),
                 ),
