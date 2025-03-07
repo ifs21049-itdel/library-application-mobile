@@ -26,6 +26,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
   late HomePageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<dynamic> books = [];
+  List<dynamic> favBook = [];
   bool isLoading = true;
 
   @override
@@ -60,13 +61,38 @@ class _HomePageWidgetState extends State<HomePageWidget>
           isLoading = false;
         });
       } else {
-        print('Failed to load books: ${response.statusCode}');
+        debugPrint('Failed to load books: ${response.statusCode}');
         setState(() {
           isLoading = false;
         });
       }
     } catch (e) {
-      print('Error fetching books: $e');
+      debugPrint('Error fetching books: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> getFavoriteBook(userId) async {
+    try {
+      final response =
+          await http.get(Uri.parse('$apiUrl/api/book/favorite/$userId'));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          favBook = data['data'];
+          isLoading = false;
+        });
+      } else {
+        debugPrint('Failed to load books: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error fetching books: $e');
       setState(() {
         isLoading = false;
       });
@@ -89,6 +115,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
           ? {}
           : jsonDecode(prefs.getString('user_data')!);
     });
+    getFavoriteBook(userData['id']);
   }
 
   @override
@@ -125,9 +152,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(15),
-                              bottomLeft: Radius.circular(15)
-                            ),
+                                bottomRight: Radius.circular(15),
+                                bottomLeft: Radius.circular(15)),
                             child: Image.asset(
                               'assets/images/Plaza_IT_Del_1.png',
                               width: double.infinity,
@@ -142,8 +168,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               color: Color(0x5E000000),
                               borderRadius: BorderRadius.only(
                                   bottomRight: Radius.circular(15),
-                                  bottomLeft: Radius.circular(15)
-                              ),
+                                  bottomLeft: Radius.circular(15)),
                             ),
                           ),
                           Padding(
@@ -318,16 +343,16 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               },
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Expanded(
                             child: TabBarView(
                               controller: _model.tabBarController,
                               children: [
-                                // Tab Katalog Buku
                                 SingleChildScrollView(
                                   child: Column(
                                     children: [
-                                      // Buku Terbaru
                                       Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 15),
@@ -346,7 +371,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         letterSpacing: 0.0,
                                                       ),
                                             ),
-                                            SizedBox(height: 15,),
+                                            SizedBox(
+                                              height: 15,
+                                            ),
                                             SizedBox(
                                               height: 180.0,
                                               child: ListView.builder(
@@ -467,11 +494,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                           ],
                                         ),
                                       ),
-                                      // Buku Favorit
                                       Padding(
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: 15
-                                        ),
+                                            horizontal: 15),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -487,123 +512,155 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         letterSpacing: 0.0,
                                                       ),
                                             ),
-                                            SizedBox(height: 15,),
                                             SizedBox(
-                                              height: 200.0,
-                                              child: ListView.builder(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount: books.length,
-                                                itemBuilder: (context, index) {
-                                                  final book = books[index];
-                                                  return InkWell(
-                                                    onTap: () {
-                                                      // Navigasi ke halaman detail buku
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              DetailBukuWidget(
-                                                            bookId: book['id']
-                                                                .toString(),
+                                              height: 15,
+                                            ),
+                                            SizedBox(
+                                              height: 170.0,
+                                              child: favBook.length > 0
+                                                  ? ListView.builder(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      itemCount: books.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        final book =
+                                                            favBook[index];
+                                                        return InkWell(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        DetailBukuWidget(
+                                                                  bookId: book[
+                                                                          'id']
+                                                                      .toString(),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          child: Container(
+                                                            width: 120.0,
+                                                            child: Column(
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                  child: Image
+                                                                      .network(
+                                                                    book['gambar'] !=
+                                                                                null &&
+                                                                            book['gambar'] !=
+                                                                                'null'
+                                                                        ? '$apiUrl/${book['gambar']}'
+                                                                        : 'https://via.placeholder.com/100x110?text=No+Image',
+                                                                    // Default image URL
+                                                                    width:
+                                                                        100.0,
+                                                                    height:
+                                                                        110.0,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    alignment:
+                                                                        const Alignment(
+                                                                            0.0,
+                                                                            1.0),
+                                                                    errorBuilder: (context,
+                                                                            error,
+                                                                            stackTrace) =>
+                                                                        Container(
+                                                                      width:
+                                                                          100.0,
+                                                                      height:
+                                                                          110.0,
+                                                                      color: Colors
+                                                                              .grey[
+                                                                          300],
+                                                                      child:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .book,
+                                                                        size:
+                                                                            50.0,
+                                                                        color: Colors
+                                                                            .grey,
+                                                                      ),
+                                                                    ),
+                                                                    loadingBuilder:
+                                                                        (context,
+                                                                            child,
+                                                                            loadingProgress) {
+                                                                      if (loadingProgress ==
+                                                                          null)
+                                                                        return child;
+                                                                      return Container(
+                                                                        width:
+                                                                            100.0,
+                                                                        height:
+                                                                            110.0,
+                                                                        color: Colors
+                                                                            .grey[200],
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              CircularProgressIndicator(
+                                                                            value: loadingProgress.expectedTotalBytes != null
+                                                                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                                                                : null,
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height:
+                                                                        8.0),
+                                                                Text(
+                                                                  book['judul']
+                                                                              .length >
+                                                                          20
+                                                                      ? '${book['judul'].substring(0, 20)}...'
+                                                                      : book[
+                                                                          'judul'],
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Inter',
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      width: 120.0,
-                                                      child: Column(
-                                                        children: [
-                                                          ClipRRect(
+                                                        );
+                                                      },
+                                                    )
+                                                  : SizedBox(
+                                                      width: double.infinity,
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .grey[200],
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        8.0),
-                                                            child:
-                                                                Image.network(
-                                                              book['gambar'] !=
-                                                                          null &&
-                                                                      book['gambar'] !=
-                                                                          'null'
-                                                                  ? '$apiUrl/${book['gambar']}'
-                                                                  : 'https://via.placeholder.com/100x110?text=No+Image',
-                                                              // Default image URL
-                                                              width: 100.0,
-                                                              height: 110.0,
-                                                              fit: BoxFit.cover,
-                                                              alignment:
-                                                                  const Alignment(
-                                                                      0.0, 1.0),
-                                                              errorBuilder:
-                                                                  (context,
-                                                                          error,
-                                                                          stackTrace) =>
-                                                                      Container(
-                                                                width: 100.0,
-                                                                height: 110.0,
-                                                                color: Colors
-                                                                    .grey[300],
-                                                                child:
-                                                                    const Icon(
-                                                                  Icons.book,
-                                                                  size: 50.0,
-                                                                  color: Colors
-                                                                      .grey,
-                                                                ),
-                                                              ),
-                                                              loadingBuilder:
-                                                                  (context,
-                                                                      child,
-                                                                      loadingProgress) {
-                                                                if (loadingProgress ==
-                                                                    null)
-                                                                  return child;
-                                                                return Container(
-                                                                  width: 100.0,
-                                                                  height: 110.0,
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      200],
-                                                                  child: Center(
-                                                                    child:
-                                                                        CircularProgressIndicator(
-                                                                      value: loadingProgress.expectedTotalBytes !=
-                                                                              null
-                                                                          ? loadingProgress.cumulativeBytesLoaded /
-                                                                              loadingProgress.expectedTotalBytes!
-                                                                          : null,
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 8.0),
-                                                          Text(
-                                                            book['judul']
-                                                                        .length >
-                                                                    20
-                                                                ? '${book['judul'].substring(0, 20)}...'
-                                                                : book['judul'],
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        ],
+                                                                        10)),
+                                                        child: Center(
+                                                            child: Text(
+                                                                'Belum ada buku favorit ditambahkan.')),
                                                       ),
                                                     ),
-                                                  );
-                                                },
-                                              ),
                                             )
                                           ],
                                         ),
@@ -611,7 +668,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     ],
                                   ),
                                 ),
-                                // Tab Tugas Akhir
                                 if (userData.isNotEmpty)
                                   Padding(
                                     padding:
