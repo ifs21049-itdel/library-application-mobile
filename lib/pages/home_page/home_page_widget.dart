@@ -48,11 +48,14 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   Future<void> fetchBooks() async {
     try {
-      final response = await http.get(Uri.parse('$apiUrl/api/book'));
+      // Assuming your API supports sorting by creation date
+      final response = await http
+          .get(Uri.parse('$apiUrl/api/book?sort=created_at&order=desc'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
+          // Take the first 10 books from the sorted list
           books = data['data'].take(10).toList();
           isLoading = false;
         });
