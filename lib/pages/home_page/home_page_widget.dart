@@ -124,19 +124,26 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         alignment: const AlignmentDirectional(0.0, 0.0),
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(0.0),
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(15),
+                              bottomLeft: Radius.circular(15)
+                            ),
                             child: Image.asset(
                               'assets/images/Plaza_IT_Del_1.png',
                               width: double.infinity,
-                              height: 200.0,
+                              height: 130.0,
                               fit: BoxFit.cover,
                             ),
                           ),
                           Container(
                             width: double.infinity,
-                            height: 200.0,
+                            height: 130.0,
                             decoration: const BoxDecoration(
                               color: Color(0x5E000000),
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(15),
+                                  bottomLeft: Radius.circular(15)
+                              ),
                             ),
                           ),
                           Padding(
@@ -266,7 +273,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                             alignment: const Alignment(0.0, 0),
                             child: FlutterFlowButtonTabBar(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 30.0),
+                                  const EdgeInsets.symmetric(horizontal: 13.0),
                               useToggleButtonStyle: true,
                               labelStyle: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -311,6 +318,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               },
                             ),
                           ),
+                          SizedBox(height: 20,),
                           Expanded(
                             child: TabBarView(
                               controller: _model.tabBarController,
@@ -321,8 +329,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     children: [
                                       // Buku Terbaru
                                       Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(20.0, 20.0, 20.0, 0.0),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 15),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -338,8 +346,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         letterSpacing: 0.0,
                                                       ),
                                             ),
+                                            SizedBox(height: 15,),
                                             SizedBox(
-                                              height: 200.0,
+                                              height: 180.0,
                                               child: ListView.builder(
                                                 scrollDirection:
                                                     Axis.horizontal,
@@ -362,9 +371,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                     },
                                                     child: Container(
                                                       width: 120.0,
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              right: 10.0),
                                                       child: Column(
                                                         children: [
                                                           ClipRRect(
@@ -379,7 +385,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                       book['gambar'] !=
                                                                           'null'
                                                                   ? '$apiUrl/${book['gambar']}'
-                                                                  : 'https://via.placeholder.com/100x110?text=No+Image', // Default image URL
+                                                                  : 'https://via.placeholder.com/100x110?text=No+Image',
+                                                              // Default image URL
                                                               width: 100.0,
                                                               height: 110.0,
                                                               fit: BoxFit.cover,
@@ -462,8 +469,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       ),
                                       // Buku Favorit
                                       Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(20.0, 20.0, 20.0, 0.0),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 15
+                                        ),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -479,6 +487,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         letterSpacing: 0.0,
                                                       ),
                                             ),
+                                            SizedBox(height: 15,),
                                             SizedBox(
                                               height: 200.0,
                                               child: ListView.builder(
@@ -503,9 +512,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                     },
                                                     child: Container(
                                                       width: 120.0,
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              right: 10.0),
                                                       child: Column(
                                                         children: [
                                                           ClipRRect(
@@ -520,7 +526,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                       book['gambar'] !=
                                                                           'null'
                                                                   ? '$apiUrl/${book['gambar']}'
-                                                                  : 'https://via.placeholder.com/100x110?text=No+Image', // Default image URL
+                                                                  : 'https://via.placeholder.com/100x110?text=No+Image',
+                                                              // Default image URL
                                                               width: 100.0,
                                                               height: 110.0,
                                                               fit: BoxFit.cover,

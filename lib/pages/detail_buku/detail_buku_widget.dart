@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:library_application/config.dart';
-import 'package:library_application/pages/home_page/home_page_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -17,6 +13,7 @@ export 'detail_buku_model.dart';
 
 class DetailBukuWidget extends StatefulWidget {
   final String bookId;
+
   const DetailBukuWidget({super.key, required this.bookId});
 
   @override
@@ -184,9 +181,12 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                 child: Image.network(
                   bookData?['gambar'] != null && bookData?['gambar'] != 'null'
                       ? '$apiUrl/${bookData!['gambar']}'
-                      : 'https://via.placeholder.com/100x100?text=No+Image', // Default image URL
-                  width: 100.0, // Tambahkan ukuran lebar
-                  height: 100.0, // Tambahkan ukuran tinggi
+                      : 'https://via.placeholder.com/100x100?text=No+Image',
+                  // Default image URL
+                  width: 100.0,
+                  // Tambahkan ukuran lebar
+                  height: 100.0,
+                  // Tambahkan ukuran tinggi
                   fit: BoxFit.cover,
                   alignment: const Alignment(0.0, 1.0),
                   errorBuilder: (context, error, stackTrace) => Container(
@@ -297,113 +297,79 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                         thickness: 2.0,
                         color: FlutterFlowTheme.of(context).alternate,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            FFButtonWidget(
-                              onPressed: () {
-                                print('Simpan ke Favorit');
-                              },
-                              text: 'Simpan ke Favorit',
-                              options: FFButtonOptions(
-                                width: 170.0,
-                                height: 40.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 16.0, 0.0),
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .override(
-                                      fontFamily: 'Inter',
-                                      fontSize: 20.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                elevation: 0.0,
-                                borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                            FFButtonWidget(
-                              onPressed: () async {
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                final userDataString =
-                                    prefs.getString('user_data');
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () {
+                              print('Simpan ke Favorit');
+                            },
+                            style: ButtonStyle(
+                                shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(5)))),
+                            child: Text('Simpan ke Favorit'),
+                          ),
+                          FilledButton(
+                            onPressed: () async {
+                              final prefs =
+                              await SharedPreferences.getInstance();
+                              final userDataString =
+                              prefs.getString('user_data');
 
-                                if (userDataString == null) {
-                                  // Jika pengguna belum login, tampilkan modal login
-                                  LoginModal.showLoginModal(context);
-                                  return; // Batalkan peminjaman jika pengguna belum login
-                                }
+                              if (userDataString == null) {
+                                // Jika pengguna belum login, tampilkan modal login
+                                LoginModal.showLoginModal(context);
+                                return; // Batalkan peminjaman jika pengguna belum login
+                              }
 
-                                // Jika pengguna sudah login, tampilkan pesan konfirmasi
-                                final bool? shouldProceed =
-                                    await showDialog<bool>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title:
-                                          const Text('Konfirmasi Peminjaman'),
-                                      content: const Text(
-                                          'Apakah Anda yakin ingin meminjam buku ini?'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop(
-                                                false); // Menutup dialog dan mengembalikan false
-                                          },
-                                          child: const Text('Batal'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop(
-                                                true); // Menutup dialog dan mengembalikan true
-                                          },
-                                          child: const Text('Ya'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
+                              // Jika pengguna sudah login, tampilkan pesan konfirmasi
+                              final bool? shouldProceed =
+                              await showDialog<bool>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title:
+                                    const Text('Konfirmasi Peminjaman'),
+                                    content: const Text(
+                                        'Apakah Anda yakin ingin meminjam buku ini?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(
+                                              false); // Menutup dialog dan mengembalikan false
+                                        },
+                                        child: const Text('Batal'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(
+                                              true); // Menutup dialog dan mengembalikan true
+                                        },
+                                        child: const Text('Ya'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
 
-                                // Jika pengguna mengonfirmasi, lanjutkan dengan peminjaman buku
-                                if (shouldProceed == true) {
-                                  await _pinjamBuku(context);
-                                }
-                              },
-                              text: 'Pinjam Buku',
-                              options: FFButtonOptions(
-                                width: 130.0,
-                                height: 40.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                iconPadding:
-                                    const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'Inter',
-                                      color: Colors.white,
-                                    ),
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                          ],
-                        ),
+                              // Jika pengguna mengonfirmasi, lanjutkan dengan peminjaman buku
+                              if (shouldProceed == true) {
+                                await _pinjamBuku(context);
+                              }
+                            },
+                            style: ButtonStyle(
+                                shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(5)))),
+                            child: Text('Pinjam Buku'),
+                          ),
+                        ],
                       ),
+                      SizedBox(height: 10,)
                     ],
                   ),
                 ),
