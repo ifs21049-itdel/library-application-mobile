@@ -134,6 +134,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(responseData['message'])),
         );
+        Navigator.push(context, MaterialPageRoute(builder: (ctx) => HomePageWidget()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -213,16 +214,18 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
         }),
       );
 
-      if (response.statusCode == 201) {
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Permintaan peminjaman berhasil dikirim!')),
+          SnackBar(
+              content: Text(responseData['message'])),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
               content: Text(
-                  'Terjadi kesalahan saat mengirim permintaan peminjaman.')),
+                  responseData['message'])),
         );
       }
     } catch (e) {
@@ -326,7 +329,8 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: SingleChildScrollView(
+          child: RefreshIndicator(onRefresh: fetchBookData, child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -339,7 +343,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          FlutterFlowTheme.of(context).secondaryBackground,
                         ),
                         child: Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -353,11 +357,11 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Inter',
-                                      fontSize: 25.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  fontFamily: 'Inter',
+                                  fontSize: 25.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),
@@ -411,7 +415,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                 shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(5)))),
+                                        BorderRadius.circular(5)))),
                             child: Text(isAlreadyFav == false
                                 ? 'Simpan ke Favorit'
                                 : 'Hapus dari Favorit'),
@@ -419,9 +423,9 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                           FilledButton(
                             onPressed: () async {
                               final prefs =
-                                  await SharedPreferences.getInstance();
+                              await SharedPreferences.getInstance();
                               final userDataString =
-                                  prefs.getString('user_data');
+                              prefs.getString('user_data');
 
                               if (userDataString == null) {
                                 // Jika pengguna belum login, tampilkan modal login
@@ -429,9 +433,16 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                 return; // Batalkan peminjaman jika pengguna belum login
                               }
 
+                              if (bookData?['banyak_buku'] == 0) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Buku sudah tidak tersedia.')),
+                                );
+                                return;
+                              }
+
                               // Jika pengguna sudah login, tampilkan pesan konfirmasi
                               final bool? shouldProceed =
-                                  await showDialog<bool>(
+                              await showDialog<bool>(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
@@ -467,7 +478,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                                 shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(5)))),
+                                        BorderRadius.circular(5)))),
                             child: Text('Pinjam Buku'),
                           ),
                         ],
@@ -480,7 +491,7 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
                 ),
               ],
             ),
-          ),
+          )),
         ),
       ),
     );
