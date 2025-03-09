@@ -1,16 +1,14 @@
-import '/components/bottom_bar_pengumuman_widget.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'detail_pengumuman_model.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '/config.dart'; // Pastikan config.dart berisi apiUrl
 
-export 'detail_pengumuman_model.dart';
-
 class DetailPengumumanWidget extends StatefulWidget {
-  final String id; // Tambahkan parameter id
+  final String id;
   const DetailPengumumanWidget({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -18,15 +16,12 @@ class DetailPengumumanWidget extends StatefulWidget {
 }
 
 class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
-  late DetailPengumumanModel _model;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   dynamic pengumuman;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => DetailPengumumanModel());
     fetchPengumuman();
   }
 
@@ -36,9 +31,22 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
           await http.get(Uri.parse('$apiUrl/api/pengumuman/${widget.id}'));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+        print('API Response: $data'); // Log the response
+
         if (data is Map<String, dynamic> && data.containsKey('data')) {
+          final pengumumanData = data['data'];
           setState(() {
-            pengumuman = data['data'];
+            pengumuman = pengumumanData;
+
+            // Pastikan file adalah List
+            if (pengumumanData['file'] != null &&
+                pengumumanData['file'] is List) {
+              // Tidak perlu mem-parsing lagi, sudah dalam bentuk List
+            } else {
+              pengumumanData['file'] =
+                  []; // Set default value if file is null or not a list
+            }
+
             isLoading = false;
           });
         } else {
@@ -61,166 +69,119 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
     }
   }
 
-  @override
-  void dispose() {
-    _model.dispose();
-    super.dispose();
+  // Fungsi untuk meminta izin penyimpanan
+  Future<void> requestStoragePermission() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+  }
+
+  // Fungsi untuk mengunduh file
+  Future<void> downloadFile(String fileUrl, String fileName) async {
+    try {
+      // Minta izin penyimpanan
+      await requestStoragePermission();
+
+      // Dapatkan direktori penyimpanan
+      Directory? directory = await getExternalStorageDirectory();
+      String savePath = "${directory!.path}/$fileName";
+
+      // Unduh file menggunakan Dio
+      Dio dio = Dio();
+      await dio.download(
+        fileUrl,
+        savePath,
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            print(
+                "Download progress: ${(received / total * 100).toStringAsFixed(0)}%");
+          }
+        },
+      );
+
+      // Tampilkan pesan sukses
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("File berhasil diunduh ke $savePath")),
+      );
+    } catch (e) {
+      // Tampilkan pesan error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Gagal mengunduh file: $e")),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-        body: SafeArea(
-          top: true,
-          child: Align(
-            alignment: const AlignmentDirectional(0.0, -1.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(
-                        0.0, 25.0, 0.0, 0.0),
-                    child: Text(
-                      'Pengumuman Perpustakaan',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
-                            fontSize: 16.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
-                  ),
-                ),
-                Flexible(
-                  child: Align(
-                    alignment: const AlignmentDirectional(0.0, -1.0),
-                    child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(
-                          0.0, 20.0, 0.0, 10.0),
-                      child: isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : pengumuman == null
-                              ? const Center(
-                                  child: Text('Pengumuman tidak ditemukan.'))
-                              : SingleChildScrollView(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(20.0, 0.0, 20.0, 0.0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomLeft: Radius.circular(0.0),
-                                              bottomRight: Radius.circular(0.0),
-                                              topLeft: Radius.circular(0.0),
-                                              topRight: Radius.circular(0.0),
-                                            ),
-                                            border: Border.all(
-                                              color: const Color(0xFFE4E4E4),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .fromSTEB(
-                                                20.0, 10.0, 20.0, 10.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  '[${pengumuman['kategori'] ?? 'Tanpa Kategori'}]',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color: const Color(
-                                                            0xFFFF0000),
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    pengumuman['judul'] ??
-                                                        'Judul Tidak Tersedia',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ].divide(
-                                                  const SizedBox(width: 10.0)),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(20.0, 0.0, 20.0, 0.0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomLeft: Radius.circular(0.0),
-                                              bottomRight: Radius.circular(0.0),
-                                              topLeft: Radius.circular(0.0),
-                                              topRight: Radius.circular(0.0),
-                                            ),
-                                            border: Border.all(
-                                              color: const Color(0xFFE4E4E4),
-                                            ),
-                                          ),
-                                          alignment: const AlignmentDirectional(
-                                              0.0, 1.0),
-                                          child: Text(
-                                            pengumuman['isi'] ??
-                                                'Tidak ada konten.',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Inter',
-                                                  letterSpacing: 0.0,
-                                                ),
-                                          ),
-                                        ),
-                                      ),
-                                    ].divide(const SizedBox(height: 10.0)),
-                                  ),
-                                ),
-                    ),
-                  ),
-                ),
-                wrapWithModel(
-                  model: _model.bottomBarPengumumanModel,
-                  updateCallback: () => safeSetState(() {}),
-                  child: const BottomBarPengumumanWidget(),
-                ),
-              ],
-            ),
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detail Pengumuman'),
       ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : pengumuman == null
+              ? const Center(child: Text('Pengumuman tidak ditemukan.'))
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '[${pengumuman['kategori'] ?? 'Tanpa Kategori'}]',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        pengumuman['judul'] ?? 'Judul Tidak Tersedia',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        pengumuman['isi'] ?? 'Tidak ada konten.',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 24),
+                      if (pengumuman['file'] != null &&
+                          pengumuman['file'] is List)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'File Terlampir:',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            ...(pengumuman['file'] as List<dynamic>)
+                                .map((file) {
+                              return ListTile(
+                                title: Text(file['originalFilename']),
+                                subtitle: Text(file['fileSize']),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.download),
+                                  onPressed: () {
+                                    downloadFile(
+                                      '$apiUrl/${file['location']}', // URL file
+                                      file['originalFilename'],
+                                    );
+                                  },
+                                ),
+                              );
+                            }).toList(),
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
     );
   }
 }
