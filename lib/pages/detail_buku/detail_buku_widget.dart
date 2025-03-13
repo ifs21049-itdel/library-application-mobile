@@ -100,8 +100,10 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
           //     .toList().length}');
 
           if (data['data']
-              .where((book) => book["id"].toString() == widget.bookId)
-              .toList().length > 0) {
+                  .where((book) => book["id"].toString() == widget.bookId)
+                  .toList()
+                  .length >
+              0) {
             isAlreadyFav = true;
           }
           isLoading = false;
@@ -134,7 +136,8 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(responseData['message'])),
         );
-        Navigator.push(context, MaterialPageRoute(builder: (ctx) => HomePageWidget()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (ctx) => HomePageWidget()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -169,7 +172,8 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(responseData['message'])),
         );
-        Navigator.push(context, MaterialPageRoute(builder: (ctx) => HomePageWidget()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (ctx) => HomePageWidget()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("${responseData['message']}")),
@@ -218,14 +222,11 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(responseData['message'])),
+          SnackBar(content: Text(responseData['message'])),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  responseData['message'])),
+          SnackBar(content: Text(responseData['message'])),
         );
       }
     } catch (e) {
@@ -329,169 +330,186 @@ class _DetailBukuWidgetState extends State<DetailBukuWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: RefreshIndicator(onRefresh: fetchBookData, child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Align(
-                  alignment: const AlignmentDirectional(0.0, -1.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color:
-                          FlutterFlowTheme.of(context).secondaryBackground,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              20.0, 10.0, 20.0, 0.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+          child: RefreshIndicator(
+              onRefresh: fetchBookData,
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Align(
+                      alignment: const AlignmentDirectional(0.0, -1.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  20.0, 10.0, 20.0, 0.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    safeToString(bookData?['judul']),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'Inter',
+                                          fontSize: 25.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            thickness: 2.0,
+                            color: FlutterFlowTheme.of(context).alternate,
+                          ),
+                          // Repeat for other fields
+                          buildDetailRow(
+                              'Penulis', safeToString(bookData?['penulis'])),
+                          buildDetailRow(
+                              'Penerbit', safeToString(bookData?['penerbit'])),
+                          buildDetailRow('Tahun Terbit',
+                              safeToString(bookData?['tahun_terbit'])),
+                          buildDetailRow(
+                              'ISBN', safeToString(bookData?['isbn'])),
+                          buildDetailRow('Jumlah Halaman',
+                              safeToString(bookData?['jumlah_halaman'])),
+                          buildDetailRow(
+                              'Bahasa', safeToString(bookData?['bahasa'])),
+                          buildDetailRow(
+                              'Edisi', safeToString(bookData?['edisi'])),
+                          buildDetailRow('Banyak Buku',
+                              safeToString(bookData?['banyak_buku'])),
+                          buildDetailRow(
+                              'Status',
+                              (bookData?['status'] == 1)
+                                  ? 'Tersedia'
+                                  : 'Tidak Tersedia'),
+                          buildDetailRow(
+                              'Abstract', safeToString(bookData?['abstrak'])),
+                          buildDetailRow(
+                              'Lokasi', safeToString(bookData?['lokasi'])),
+                          Divider(
+                            thickness: 2.0,
+                            color: FlutterFlowTheme.of(context).alternate,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(
-                                safeToString(bookData?['judul']),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                  fontFamily: 'Inter',
-                                  fontSize: 25.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              OutlinedButton(
+                                onPressed: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  final userDataString =
+                                      prefs.getString('user_data');
+
+                                  if (isAlreadyFav) {
+                                    _removeFromFavorites();
+                                  } else {
+                                    if (userDataString == null) {
+                                      LoginModal.showLoginModal(context);
+                                      return;
+                                    }
+
+                                    _addToFavorites();
+                                  }
+                                },
+                                style: ButtonStyle(
+                                    shape: WidgetStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5)))),
+                                child: Text(isAlreadyFav == false
+                                    ? 'Simpan ke Favorit'
+                                    : 'Hapus dari Favorit'),
+                              ),
+                              FilledButton(
+                                onPressed: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  final userDataString =
+                                      prefs.getString('user_data');
+
+                                  if (userDataString == null) {
+                                    // Jika pengguna belum login, tampilkan modal login
+                                    LoginModal.showLoginModal(context);
+                                    return; // Batalkan peminjaman jika pengguna belum login
+                                  }
+
+                                  if (bookData?['banyak_buku'] == 0) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Buku sudah tidak tersedia.')),
+                                    );
+                                    return;
+                                  }
+
+                                  // Jika pengguna sudah login, tampilkan pesan konfirmasi
+                                  final bool? shouldProceed =
+                                      await showDialog<bool>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title:
+                                            const Text('Konfirmasi Peminjaman'),
+                                        content: const Text(
+                                            'Apakah Anda yakin ingin meminjam buku ini?'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(
+                                                  false); // Menutup dialog dan mengembalikan false
+                                            },
+                                            child: const Text('Batal'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(
+                                                  true); // Menutup dialog dan mengembalikan true
+                                            },
+                                            child: const Text('Ya'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                  // Jika pengguna mengonfirmasi, lanjutkan dengan peminjaman buku
+                                  if (shouldProceed == true) {
+                                    await _pinjamBuku(context);
+                                  }
+                                },
+                                style: ButtonStyle(
+                                    shape: WidgetStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5)))),
+                                child: Text('Pinjam Buku'),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      Divider(
-                        thickness: 2.0,
-                        color: FlutterFlowTheme.of(context).alternate,
-                      ),
-                      // Repeat for other fields
-                      buildDetailRow(
-                          'Penulis', safeToString(bookData?['penulis'])),
-                      buildDetailRow(
-                          'Penerbit', safeToString(bookData?['penerbit'])),
-                      buildDetailRow('Tahun Terbit',
-                          safeToString(bookData?['tahun_terbit'])),
-                      buildDetailRow('ISBN', safeToString(bookData?['isbn'])),
-                      buildDetailRow('Jumlah Halaman',
-                          safeToString(bookData?['jumlah_halaman'])),
-                      buildDetailRow(
-                          'Bahasa', safeToString(bookData?['bahasa'])),
-                      buildDetailRow('Edisi', safeToString(bookData?['edisi'])),
-                      buildDetailRow('Banyak Buku',
-                          safeToString(bookData?['banyak_buku'])),
-                      buildDetailRow(
-                          'Status',
-                          (bookData?['status'] == 1)
-                              ? 'Tersedia'
-                              : 'Tidak Tersedia'),
-                      buildDetailRow(
-                          'Abstract', safeToString(bookData?['abstrak'])),
-                      buildDetailRow(
-                          'Lokasi', safeToString(bookData?['lokasi'])),
-                      Divider(
-                        thickness: 2.0,
-                        color: FlutterFlowTheme.of(context).alternate,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () {
-                              if (isAlreadyFav) {
-                                _removeFromFavorites();
-                              } else {
-                                _addToFavorites();
-                              }
-                            },
-                            style: ButtonStyle(
-                                shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(5)))),
-                            child: Text(isAlreadyFav == false
-                                ? 'Simpan ke Favorit'
-                                : 'Hapus dari Favorit'),
-                          ),
-                          FilledButton(
-                            onPressed: () async {
-                              final prefs =
-                              await SharedPreferences.getInstance();
-                              final userDataString =
-                              prefs.getString('user_data');
-
-                              if (userDataString == null) {
-                                // Jika pengguna belum login, tampilkan modal login
-                                LoginModal.showLoginModal(context);
-                                return; // Batalkan peminjaman jika pengguna belum login
-                              }
-
-                              if (bookData?['banyak_buku'] == 0) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Buku sudah tidak tersedia.')),
-                                );
-                                return;
-                              }
-
-                              // Jika pengguna sudah login, tampilkan pesan konfirmasi
-                              final bool? shouldProceed =
-                              await showDialog<bool>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text('Konfirmasi Peminjaman'),
-                                    content: const Text(
-                                        'Apakah Anda yakin ingin meminjam buku ini?'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop(
-                                              false); // Menutup dialog dan mengembalikan false
-                                        },
-                                        child: const Text('Batal'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop(
-                                              true); // Menutup dialog dan mengembalikan true
-                                        },
-                                        child: const Text('Ya'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-
-                              // Jika pengguna mengonfirmasi, lanjutkan dengan peminjaman buku
-                              if (shouldProceed == true) {
-                                await _pinjamBuku(context);
-                              }
-                            },
-                            style: ButtonStyle(
-                                shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(5)))),
-                            child: Text('Pinjam Buku'),
-                          ),
+                          SizedBox(
+                            height: 10,
+                          )
                         ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      )
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )),
+              )),
         ),
       ),
     );
