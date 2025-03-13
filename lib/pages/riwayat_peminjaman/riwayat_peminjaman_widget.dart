@@ -26,6 +26,7 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
 
   List<dynamic> riwayatPeminjaman = [];
   bool isLoading = true;
+  String searchQuery = '';
 
   @override
   void initState() {
@@ -120,6 +121,23 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
         ),
       );
     }
+  }
+
+  void filterRiwayatPeminjaman(String query) {
+    setState(() {
+      searchQuery = query;
+    });
+  }
+
+  List<dynamic> getFilteredRiwayatPeminjaman() {
+    if (searchQuery.isEmpty) {
+      return riwayatPeminjaman; // Jika tidak ada kata kunci, kembalikan semua data
+    }
+
+    return riwayatPeminjaman.where((riwayat) {
+      final judulBuku = riwayat['judul_buku']?.toString().toLowerCase() ?? '';
+      return judulBuku.contains(searchQuery.toLowerCase());
+    }).toList();
   }
 
   @override
@@ -241,6 +259,10 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
                       validator:
                           _model.textControllerValidator.asValidator(context),
+                      onChanged: (value) {
+                        filterRiwayatPeminjaman(
+                            value); // Panggil fungsi pencarian saat teks berubah
+                      },
                     ),
                   ),
                 ),
@@ -249,17 +271,20 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
                 Expanded(
                   child: isLoading
                       ? const Center(child: CircularProgressIndicator())
-                      : riwayatPeminjaman.isEmpty
+                      : getFilteredRiwayatPeminjaman().isEmpty
                           ? const Center(
                               child:
-                                  Text('Tidak ada riwayat peminjaman selesai'))
+                                  Text('Tidak ada riwayat peminjaman selesai'),
+                            )
                           : Padding(
                               padding: EdgeInsets.only(bottom: bottomBarHeight),
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
-                                itemCount: riwayatPeminjaman.length,
+                                itemCount:
+                                    getFilteredRiwayatPeminjaman().length,
                                 itemBuilder: (context, index) {
-                                  final riwayat = riwayatPeminjaman[index];
+                                  final riwayat =
+                                      getFilteredRiwayatPeminjaman()[index];
                                   return buildRiwayatCard(riwayat);
                                 },
                               ),

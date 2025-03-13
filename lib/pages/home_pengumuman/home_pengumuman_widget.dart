@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'home_pengumuman_model.dart';
 export 'home_pengumuman_model.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomePengumumanWidget extends StatefulWidget {
   const HomePengumumanWidget({super.key});
@@ -21,6 +22,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<dynamic> pengumuman = [];
   bool isLoading = true;
+  String searchQuery = '';
 
   @override
   void initState() {
@@ -53,6 +55,23 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
         isLoading = false;
       });
     }
+  }
+
+  void filterPengumuman(String query) {
+    setState(() {
+      searchQuery = query;
+    });
+  }
+
+  List<dynamic> getFilteredPengumuman() {
+    if (searchQuery.isEmpty) {
+      return pengumuman; // Jika tidak ada kata kunci, kembalikan semua data
+    }
+
+    return pengumuman.where((item) {
+      final judul = item['judul']?.toString().toLowerCase() ?? '';
+      return judul.contains(searchQuery.toLowerCase());
+    }).toList();
   }
 
   @override
@@ -161,6 +180,10 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
                       validator:
                           _model.textControllerValidator.asValidator(context),
+                      onChanged: (value) {
+                        filterPengumuman(
+                            value); // Panggil fungsi pencarian saat teks berubah
+                      },
                     ),
                   ),
                 ),
@@ -169,12 +192,12 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                 Flexible(
                   child: isLoading
                       ? Center(child: CircularProgressIndicator())
-                      : pengumuman.isEmpty
+                      : getFilteredPengumuman().isEmpty
                           ? Center(child: Text('Tidak ada pengumuman.'))
                           : ListView.builder(
-                              itemCount: pengumuman.length,
+                              itemCount: getFilteredPengumuman().length,
                               itemBuilder: (context, index) {
-                                final item = pengumuman[index];
+                                final item = getFilteredPengumuman()[index];
                                 return InkWell(
                                   onTap: () {
                                     Navigator.push(
