@@ -58,7 +58,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
         // Simpan ID user ke SharedPreferences
         final int userId =
-            data['data']['user']['id']; // Ambil ID user dari respons API
+            data['data']['user']['id'] ?? 0; // Ambil ID user dari respons API
         await prefs.setInt('userId', userId); // Simpan ID user
         debugPrint('User ID saved: $userId'); // Log ID user yang disimpan
 
