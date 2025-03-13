@@ -51,25 +51,33 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       debugPrint(data.toString());
 
       if (response.statusCode == 200) {
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('user_data', jsonEncode(data['data']['user']));
+        final prefs = await SharedPreferences.getInstance();
 
-          if (!mounted) return;
+        // Simpan data user ke SharedPreferences
+        await prefs.setString('user_data', jsonEncode(data['data']['user']));
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(data['message'])),
-          );
+        // Simpan ID user ke SharedPreferences
+        final int userId =
+            data['data']['user']['id']; // Ambil ID user dari respons API
+        await prefs.setInt('userId', userId); // Simpan ID user
+        debugPrint('User ID saved: $userId'); // Log ID user yang disimpan
 
-          if (data['data']['is_complete']) {
-            context.pushNamed('HomePage'); // Navigasi ke halaman utama
-          } else {
-            Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CompleteData()));
-          }
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'])),
+        );
+
+        if (data['data']['is_complete']) {
+          context.pushNamed('HomePage'); // Navigasi ke halaman utama
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (ctx) => const CompleteData()));
+        }
       } else {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(data['message'])),
+          SnackBar(content: Text(data['message'])),
         );
       }
     } catch (error) {
@@ -99,8 +107,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller:
-                      _usernameController, // Menggunakan controller yang sudah dideklarasikan
+                  controller: _usernameController,
                   decoration: const InputDecoration(
                     labelText: 'Username',
                     border: OutlineInputBorder(),

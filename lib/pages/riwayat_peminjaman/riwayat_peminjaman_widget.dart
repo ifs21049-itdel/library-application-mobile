@@ -1,4 +1,5 @@
 import 'package:library_application/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '/components/bottom_bar_profile_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -46,15 +47,42 @@ class _RiwayatPeminjamanWidgetState extends State<RiwayatPeminjamanWidget> {
     }
   }
 
+  Future<void> saveUserId(int userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('userId', userId);
+  }
+
+  Future<int?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('userId');
+    print('User ID retrieved: $userId'); // Log ID yang diambil
+    return userId;
+  }
+
   Future<void> fetchRiwayatPeminjaman() async {
     setState(() {
       isLoading = true;
     });
 
     try {
+      final userId = await getUserId(); // Ambil ID user yang sedang login
+
+      if (userId == null) {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('User ID tidak ditemukan. Silakan login ulang.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
       final response = await http.get(
         Uri.parse(
-            '$apiUrl/api/pinjam-buku?status=DONE'), // Pastikan endpoint ini sesuai
+            '$apiUrl/api/pinjam-buku?status=DONE&id_user=$userId'), // Kirim id_user sebagai parameter
         headers: {'Content-Type': 'application/json'},
       );
 

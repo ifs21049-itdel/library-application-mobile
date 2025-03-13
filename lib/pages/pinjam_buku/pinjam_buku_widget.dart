@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'pinjam_buku_model.dart';
 export 'pinjam_buku_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PinjamBukuWidget extends StatefulWidget {
   const PinjamBukuWidget({super.key});
@@ -83,6 +84,16 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
     }
   }
 
+  Future<void> saveUserId(int userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('userId', userId);
+  }
+
+  Future<int?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId');
+  }
+
   // Function to fetch book data from API
   Future<void> fetchBookData({String? status}) async {
     setState(() {
@@ -90,9 +101,29 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
     });
 
     try {
+      final prefs = await SharedPreferences.getInstance();
+      final int? userId =
+          prefs.getInt('userId'); // Ambil ID user dari SharedPreferences
+
+      if (userId == null) {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('User ID tidak ditemukan. Silakan login ulang.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
       var url = Uri.parse('$apiUrl/api/pinjam-buku');
       if (status != null) {
-        url = url.replace(queryParameters: {'status': status});
+        url = url.replace(
+            queryParameters: {'status': status, 'id_user': userId.toString()});
+      } else {
+        url = url.replace(queryParameters: {'id_user': userId.toString()});
       }
 
       final response = await http.get(
@@ -105,13 +136,11 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
-        // Tambahkan log di sini untuk memeriksa respons API
-        print('Respons API: ${response.body}'); // Log respons API
-        print('Data dari API: $data'); // Log data yang diterima
+        print('Respons API: ${response.body}');
+        print('Data dari API: $data');
 
         if (data['data'] != null) {
           setState(() {
-            // Filter data berdasarkan status
             processingBooks = data['data']
                 .where((book) => book['status_peminjaman'] == 'REQ')
                 .toList();
