@@ -1,5 +1,6 @@
 import 'package:library_application/config.dart';
 import 'package:library_application/pages/detail_buku/detail_buku_widget.dart';
+import 'package:library_application/pages/notification_page/notification_page.dart';
 import 'package:library_application/pages/search_book_page/search_book_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -206,12 +207,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   borderRadius: 8.0,
                                   buttonSize: 60.0,
                                   icon: Icon(
-                                    Icons.notifications_active_outlined,
+                                    Icons.notifications_outlined,
                                     color: FlutterFlowTheme.of(context).info,
                                     size: 24.0,
                                   ),
                                   onPressed: () {
-                                    print('IconButton pressed ...');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NotificationPage()), // Pindah ke NotificationPage
+                                    );
                                   },
                                 ),
                               ],
@@ -522,7 +528,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 10,),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 15),
