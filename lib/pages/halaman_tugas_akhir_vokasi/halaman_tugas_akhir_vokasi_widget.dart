@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
 import 'dart:convert';
 import '../detail_tugas_akhir/detail_tugas_akhir_widget.dart';
+import '../halaman_pencarian_tugas_akhir/halaman_pencarian_tugas_akhir_widget.dart';
 import 'halaman_tugas_akhir_vokasi_model.dart'; // Adjust the import according to your project structure
 
 class HalamanTugasAkhirVokasiWidget extends StatefulWidget {
@@ -104,9 +105,9 @@ class _HalamanTugasAkhirVokasiWidgetState
                       IconButton(
                         icon: Icon(Icons.search, color: Colors.black),
                         onPressed: () {
-                          // Navigate to search page
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => HalamanPencarianTugasAkhirWidget()));
                         },
-                      ),
+                      )
                     ],
                   ),
                 ),

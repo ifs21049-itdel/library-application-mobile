@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
+import 'package:library_application/index.dart';
 import 'dart:convert';
 import 'halaman_tugas_akhir_f_i_t_e_model.dart'; // Adjust the import according to your project structure
 import 'package:library_application/pages/detail_tugas_akhir/detail_tugas_akhir_widget.dart'; // Import the DetailTugasAkhirWidget
@@ -104,7 +105,7 @@ class _HalamanTugasAkhirFITEWidgetState
                       IconButton(
                         icon: Icon(Icons.search, color: Colors.black),
                         onPressed: () {
-                          // Navigate to search page
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => HalamanPencarianTugasAkhirWidget()));
                         },
                       ),
                     ],

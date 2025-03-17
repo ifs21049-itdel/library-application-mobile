@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
 import 'dart:convert';
+import '../halaman_pencarian_tugas_akhir/halaman_pencarian_tugas_akhir_widget.dart';
 import 'halaman_tugas_akhir_bioproses_model.dart'; // Adjust the import according to your project structure
 import 'package:library_application/pages/detail_tugas_akhir/detail_tugas_akhir_widget.dart'; // Import the DetailTugasAkhirWidget
 
@@ -94,9 +95,9 @@ class _HalamanTugasAkhirBioprosesWidgetState
                       IconButton(
                         icon: Icon(Icons.search, color: Colors.black),
                         onPressed: () {
-                          // Navigate to search page
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => HalamanPencarianTugasAkhirWidget()));
                         },
-                      ),
+                      )
                     ],
                   ),
                 ),
