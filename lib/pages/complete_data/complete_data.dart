@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,29 +15,51 @@ class CompleteData extends StatefulWidget {
 
 class _CompleteData extends State<CompleteData> {
   final TextEditingController _name = TextEditingController();
+  String? _fcmToken;
+
+  @override
+  void initState() {
+    super.initState();
+    _getFcmToken();
+  }
+
+  Future<void> _getFcmToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    setState(() {
+      _fcmToken = token;
+    });
+    print("FCM Token: $_fcmToken"); // Debugging
+  }
 
   Future<void> postData() async {
-    final url = Uri.parse(
-        '${dotenv.env['API_URL']}/api/auth/complete-data'); // Ganti dengan URL API-mu
+    if (_fcmToken == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gagal mendapatkan FCM Token')),
+      );
+      return;
+    }
+
+    final url = Uri.parse('${dotenv.env['API_URL']}/api/auth/complete-data');
     final headers = {'Content-Type': 'application/json'};
 
     final prefs = await SharedPreferences.getInstance();
     final Map<String, dynamic> previousUserData =
         jsonDecode(prefs.getString('user_data')!);
 
-    final body = jsonEncode(
-        {'user_id': previousUserData['user_id'], 'name': _name.text});
+    final body = jsonEncode({
+      'user_id': previousUserData['user_id'],
+      'name': _name.text,
+      'fcm_token': _fcmToken, // Kirim token FCM ke server
+    });
 
     try {
       final response = await http.post(url, headers: headers, body: body);
-
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         await prefs.setString('user_data', jsonEncode(data['data'][0]));
 
         if (!mounted) return;
-
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(data['message'])),
         );
@@ -45,14 +68,12 @@ class _CompleteData extends State<CompleteData> {
             MaterialPageRoute(builder: (ctx) => const HomePageWidget()));
       } else {
         if (!mounted) return;
-
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(data['message'])),
         );
       }
     } catch (e) {
       if (!mounted) return;
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error : ${e.toString()}')),
       );
@@ -79,18 +100,14 @@ class _CompleteData extends State<CompleteData> {
                   'Masukkan nama anda!',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
+                const SizedBox(height: 24),
                 TextField(
                   controller: _name,
                   textCapitalization: TextCapitalization.words,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), label: Text('Your Name')),
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
+                const SizedBox(height: 16),
                 FilledButton(
                     onPressed: postData,
                     child: const Text('Simpan dan Lanjutkan'))

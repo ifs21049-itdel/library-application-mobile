@@ -1,15 +1,25 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:library_application/firebase_options.dart';
+import 'package:library_application/service/notification_service.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'package:http/http.dart' as http;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding
+      .ensureInitialized(); // ✅ Pastikan Flutter sudah siap sebelum inisialisasi
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   HttpOverrides.global = MyHttpOverrides(); // ✅ Bypass SSL Certificate
+  await NotificationService.instance.initialize();
 
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
@@ -93,7 +103,8 @@ class _MyAppState extends State<MyApp> {
 }
 
 Future<void> fetchVisitorLog() async {
-  final String url = '${dotenv.env['API_URL']}/api/auth/log'; // Ganti dengan URL server kamu
+  final String url =
+      '${dotenv.env['API_URL']}/api/auth/log'; // Ganti dengan URL server kamu
 
   try {
     final response = await http.get(Uri.parse(url));
