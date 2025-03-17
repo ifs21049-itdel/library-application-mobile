@@ -5,7 +5,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '/config.dart'; // Pastikan config.dart berisi apiUrl
+import '/config.dart';
+import 'package:intl/intl.dart';
 
 class DetailPengumumanWidget extends StatefulWidget {
   final String id;
@@ -83,9 +84,20 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
       // Minta izin penyimpanan
       await requestStoragePermission();
 
-      // Dapatkan direktori penyimpanan
+      // Dapatkan direktori penyimpanan eksternal (internal storage)
       Directory? directory = await getExternalStorageDirectory();
-      String savePath = "${directory!.path}/$fileName";
+
+      // Buat path khusus ke folder Download
+      String downloadPath = '${directory!.path}/Download';
+
+      // Buat folder Download jika belum ada
+      final downloadDir = Directory(downloadPath);
+      if (!await downloadDir.exists()) {
+        await downloadDir.create(recursive: true);
+      }
+
+      // Path lengkap untuk menyimpan file
+      String savePath = '$downloadPath/$fileName';
 
       // Unduh file menggunakan Dio
       Dio dio = Dio();
@@ -147,6 +159,15 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                         pengumuman['isi'] ?? 'Tidak ada konten.',
                         style: TextStyle(fontSize: 16),
                       ),
+                      // Tambahkan ini setelah menampilkan isi pengumuman
+                      const SizedBox(height: 16),
+                      Text(
+                        'Dibuat pada: ${_formatDate(pengumuman['created_at'])}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
                       const SizedBox(height: 24),
                       if (pengumuman['file'] != null &&
                           pengumuman['file'] is List)
@@ -183,5 +204,14 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                   ),
                 ),
     );
+  }
+}
+
+String _formatDate(String dateString) {
+  try {
+    final date = DateTime.parse(dateString);
+    return DateFormat('dd MMMM yyyy, HH:mm').format(date);
+  } catch (e) {
+    return '-';
   }
 }
