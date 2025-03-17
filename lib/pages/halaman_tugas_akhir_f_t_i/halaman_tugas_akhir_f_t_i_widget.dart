@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:library_application/config.dart';
 
 import '../detail_tugas_akhir/detail_tugas_akhir_widget.dart';
 import '../halaman_pencarian_tugas_akhir/halaman_pencarian_tugas_akhir_widget.dart';
@@ -33,7 +33,7 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
 
   Future<void> fetchTugasAkhir({String prodi = ''}) async {
     try {
-      final uri = Uri.parse('$apiUrl/api/tugasakhir/get-all');
+      final uri = Uri.parse('${dotenv.env['API_URL']}/api/tugasakhir/get-all');
 
       final Map<String, dynamic> requestBody = {
         'prodi': prodi,

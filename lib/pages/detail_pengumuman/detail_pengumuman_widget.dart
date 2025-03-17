@@ -1,14 +1,17 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 import '/config.dart'; // Pastikan config.dart berisi apiUrl
 
 class DetailPengumumanWidget extends StatefulWidget {
   final String id;
+
   const DetailPengumumanWidget({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -29,6 +32,8 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
     try {
       final response =
           await http.get(Uri.parse('$apiUrl/api/pengumuman/${widget.id}'));
+
+      debugPrint(widget.id);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         print('API Response: $data'); // Log the response
