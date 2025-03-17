@@ -39,8 +39,17 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+        final List<dynamic> pengumumanList = data['data'];
+
+        // Urutkan pengumuman berdasarkan created_at (dari yang terbaru ke terlama)
+        pengumumanList.sort((a, b) {
+          final dateA = DateTime.parse(a['created_at']);
+          final dateB = DateTime.parse(b['created_at']);
+          return dateB.compareTo(dateA); // Descending order
+        });
+
         setState(() {
-          pengumuman = data['data'];
+          pengumuman = pengumumanList;
           isLoading = false;
         });
       } else {
