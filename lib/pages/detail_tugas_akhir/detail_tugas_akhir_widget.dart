@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:library_application/config.dart'; // Pastikan ini berisi URL API Anda
+
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -9,7 +11,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 class DetailTugasAkhirWidget extends StatefulWidget {
   final String id; // ID tugas akhir untuk mengambil detail
 
-  const DetailTugasAkhirWidget({Key? key, required this.id}) : super(key: key);
+  const DetailTugasAkhirWidget({super.key, required this.id});
 
   @override
   State<DetailTugasAkhirWidget> createState() => _DetailTugasAkhirWidgetState();
@@ -127,7 +129,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Supervisor',
+                                  'Supervisoru',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -588,18 +590,6 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                           buttonSize: 40.0,
                           icon: Icon(
                             Icons.share_outlined,
-                            color: FlutterFlowTheme.of(context).info,
-                            size: 24.0,
-                          ),
-                          onPressed: () {
-                            print('IconButton pressed ...');
-                          },
-                        ),
-                        FlutterFlowIconButton(
-                          borderRadius: 8.0,
-                          buttonSize: 40.0,
-                          icon: Icon(
-                            Icons.search_rounded,
                             color: FlutterFlowTheme.of(context).info,
                             size: 24.0,
                           ),

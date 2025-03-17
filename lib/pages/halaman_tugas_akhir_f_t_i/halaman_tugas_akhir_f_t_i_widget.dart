@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
-import 'dart:convert';
+
 import '../detail_tugas_akhir/detail_tugas_akhir_widget.dart';
 import '../halaman_pencarian_tugas_akhir/halaman_pencarian_tugas_akhir_widget.dart';
 import 'halaman_tugas_akhir_f_t_i_model.dart'; // Adjust the import according to your project structure
@@ -17,38 +19,51 @@ class HalamanTugasAkhirFTIWidget extends StatefulWidget {
 class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
     with TickerProviderStateMixin {
   late HalamanTugasAkhirFTIModel _model;
-  List<Thesis> _manajemenRekayasaList = [];
-  List<Thesis> _teknikMetalurgiList = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<dynamic> tugasAkhir = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _model = HalamanTugasAkhirFTIModel();
     _model.tabBarController = TabController(length: 2, vsync: this);
-    fetchThesisData(
-        'Manajemen Rekayasa'); // Fetch initial data for Manajemen Rekayasa
+    fetchTugasAkhir(prodi: 'Program Studi Manaja');
   }
 
-  Future<void> fetchThesisData(String program) async {
-    final response = await http.get(
-      Uri.parse(
-          '$apiUrl/api/tugasakhir/by-program?fakultas=FTI&prodi=$program'),
-    );
+  Future<void> fetchTugasAkhir({String prodi = ''}) async {
+    try {
+      final uri = Uri.parse('$apiUrl/api/tugasakhir/get-all');
 
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body)['data'];
+      final Map<String, dynamic> requestBody = {
+        'prodi': prodi,
+      };
+
+      debugPrint(requestBody.toString());
+
+      final response = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          tugasAkhir = data['data'];
+          isLoading = false;
+        });
+      } else {
+        debugPrint('Failed to load books: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error fetching books: $e');
       setState(() {
-        if (program == 'Manajemen Rekayasa') {
-          _manajemenRekayasaList =
-              data.map((thesis) => Thesis.fromJson(thesis)).toList();
-        } else if (program == 'Teknik Metalurgi') {
-          _teknikMetalurgiList =
-              data.map((thesis) => Thesis.fromJson(thesis)).toList();
-        }
+        isLoading = false;
       });
-    } else {
-      throw Exception('Failed to load thesis data');
     }
   }
 
@@ -69,7 +84,6 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
         key: scaffoldKey,
         backgroundColor: Colors.white,
         body: SafeArea(
-          top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -102,7 +116,11 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                       IconButton(
                         icon: Icon(Icons.search, color: Colors.black),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => HalamanPencarianTugasAkhirWidget()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (ctx) =>
+                                      HalamanPencarianTugasAkhirWidget()));
                         },
                       )
                     ],
@@ -119,11 +137,10 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                   Tab(text: 'Teknik Metalurgi'),
                 ],
                 onTap: (index) {
-                  // Fetch data based on the selected tab
                   if (index == 0) {
-                    fetchThesisData('Manajemen Rekayasa');
+                    fetchTugasAkhir(prodi: 'Program Studi Manaja');
                   } else if (index == 1) {
-                    fetchThesisData('Teknik Metalurgi');
+                    fetchTugasAkhir(prodi: 'Teknik Metalurgi');
                   }
                 },
               ),
@@ -131,10 +148,38 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
                 child: TabBarView(
                   controller: _model.tabBarController,
                   children: [
-                    // Display Manajemen Rekayasa data
-                    _buildThesisList(_manajemenRekayasaList),
-                    // Display Teknik Metalurgi data
-                    _buildThesisList(_teknikMetalurgiList),
+                    Expanded(
+                        child: ListView(
+                      children: tugasAkhir.map((tugasAkhirItem) {
+                        return TugasAkhirItem(
+                          judul: tugasAkhirItem['judul'],
+                          pengarang: tugasAkhirItem['penulis'],
+                          id: tugasAkhirItem['id'],
+                        );
+                      }).toList(),
+                    )),
+                    // Display Sistem Informasi data
+                    Expanded(
+                        child: ListView(
+                      children: tugasAkhir.map((tugasAkhirItem) {
+                        return TugasAkhirItem(
+                          judul: tugasAkhirItem['judul'],
+                          pengarang: tugasAkhirItem['penulis'],
+                          id: tugasAkhirItem['id'],
+                        );
+                      }).toList(),
+                    )),
+                    // Display Teknik Elektro data
+                    Expanded(
+                        child: ListView(
+                      children: tugasAkhir.map((tugasAkhirItem) {
+                        return TugasAkhirItem(
+                          judul: tugasAkhirItem['judul'],
+                          pengarang: tugasAkhirItem['penulis'],
+                          id: tugasAkhirItem['id'],
+                        );
+                      }).toList(),
+                    ))
                   ],
                 ),
               ),
@@ -144,54 +189,80 @@ class _HalamanTugasAkhirFTIWidgetState extends State<HalamanTugasAkhirFTIWidget>
       ),
     );
   }
+}
 
-  Widget _buildThesisList(List<Thesis> thesisList) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          for (var thesis in thesisList) ...[
-            Divider(thickness: 2.0),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailTugasAkhirWidget(
-                      id: thesis.id.toString(), // Kirim ID sebagai string
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.feed, size: 50.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            thesis.title,
-                            style: TextStyle(
-                                fontSize: 12.0, fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            '${thesis.program}, Tugas Akhir',
-                            style:
-                                TextStyle(fontSize: 10.0, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+class TugasAkhirItem extends StatelessWidget {
+  final String judul;
+  final String pengarang;
+  final int id;
+
+  const TugasAkhirItem({
+    super.key,
+    required this.judul,
+    required this.pengarang,
+    required this.id,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailTugasAkhirWidget(
+              id: id.toString(),
             ),
-          ],
-        ],
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(10),
+                spreadRadius: 2,
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/images/document.png',
+                  width: 50,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        judul,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        pengarang,
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

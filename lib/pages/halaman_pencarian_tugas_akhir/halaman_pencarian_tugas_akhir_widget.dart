@@ -1,8 +1,11 @@
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'halaman_pencarian_tugas_akhir_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:library_application/index.dart';
+
+import '../../config.dart';
+
 export 'halaman_pencarian_tugas_akhir_model.dart';
 
 class HalamanPencarianTugasAkhirWidget extends StatefulWidget {
@@ -15,159 +18,193 @@ class HalamanPencarianTugasAkhirWidget extends StatefulWidget {
 
 class _HalamanPencarianTugasAkhirWidgetState
     extends State<HalamanPencarianTugasAkhirWidget> {
-  late HalamanPencarianTugasAkhirModel _model;
+  final TextEditingController _searchController = TextEditingController();
+  List<dynamic> tugasAkhir = [];
+  bool isLoading = true;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  Future<void> fetchTugasAkhir({String search = ''}) async {
+    try {
+      final uri = Uri.parse('$apiUrl/api/tugasakhir/get-all');
+
+      final Map<String, dynamic> requestBody = {
+        'judul': _searchController.text,
+      };
+
+      final response = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          tugasAkhir = data['data'];
+          isLoading = false;
+        });
+      } else {
+        debugPrint('Failed to load books: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error fetching books: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HalamanPencarianTugasAkhirModel());
-
-    _model.searchTextController ??= TextEditingController();
-    _model.searchFocusNode ??= FocusNode();
   }
 
   @override
-  void dispose() {
-    _model.dispose();
-
-    super.dispose();
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SafeArea(
+            child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(25),
+                spreadRadius: 2,
+                blurRadius: 10,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back)),
+              Expanded(
+                  child: TextField(
+                      controller: _searchController,
+                      onSubmitted: (value) {
+                        fetchTugasAkhir(search: value);
+                      },
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          hintText: 'Search book',
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear),
+                            color: Colors.black,
+                            onPressed: () {
+                              setState(() {
+                                _searchController.clear();
+                                tugasAkhir = [];
+                              });
+                            },
+                          )))),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Expanded(
+            child: ListView(
+          children: tugasAkhir.map((tugasAkhirItem) {
+            return TugasAkhirItem(
+              judul: tugasAkhirItem['judul'],
+              pengarang: tugasAkhirItem['penulis'],
+              id: tugasAkhirItem['id'],
+            );
+          }).toList(),
+        ))
+      ],
+    )));
   }
+}
+
+class TugasAkhirItem extends StatelessWidget {
+  final String judul;
+  final String pengarang;
+  final int id;
+
+  const TugasAkhirItem({
+    super.key,
+    required this.judul,
+    required this.pengarang,
+    required this.id,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailTugasAkhirWidget(
+              id: id.toString(),
+            ),
+          ),
+        );
       },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: SafeArea(
-          top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 0.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 64.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(
-                        20.0, 0.0, 20.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        FlutterFlowIconButton(
-                          borderRadius: 8.0,
-                          buttonSize: 40.0,
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            size: 24.0,
-                          ),
-                          onPressed: () async {
-                            context.safePop();
-                          },
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            width: 200.0,
-                            child: TextFormField(
-                              controller: _model.searchTextController,
-                              focusNode: _model.searchFocusNode,
-                              autofocus: false,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Inter',
-                                      letterSpacing: 0.0,
-                                    ),
-                                hintText: 'Search',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Inter',
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0x00000000),
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0x00000000),
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                              ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                              cursorColor:
-                                  FlutterFlowTheme.of(context).primaryText,
-                              validator: _model.searchTextControllerValidator
-                                  .asValidator(context),
-                            ),
-                          ),
-                        ),
-                        FlutterFlowIconButton(
-                          borderRadius: 8.0,
-                          buttonSize: 40.0,
-                          icon: Icon(
-                            Icons.close,
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            size: 24.0,
-                          ),
-                          onPressed: () async {
-                            safeSetState(() {
-                              _model.searchTextController?.clear();
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(10),
+                spreadRadius: 2,
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
             ],
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/images/document.png',
+                  width: 50,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        judul,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        pengarang,
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

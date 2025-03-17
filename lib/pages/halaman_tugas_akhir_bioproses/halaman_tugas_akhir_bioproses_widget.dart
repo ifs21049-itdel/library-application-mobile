@@ -1,10 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
-import 'dart:convert';
+
 import '../halaman_pencarian_tugas_akhir/halaman_pencarian_tugas_akhir_widget.dart';
 import 'halaman_tugas_akhir_bioproses_model.dart'; // Adjust the import according to your project structure
-import 'package:library_application/pages/detail_tugas_akhir/detail_tugas_akhir_widget.dart'; // Import the DetailTugasAkhirWidget
 
 class HalamanTugasAkhirBioprosesWidget extends StatefulWidget {
   const HalamanTugasAkhirBioprosesWidget({super.key});
@@ -18,31 +19,51 @@ class _HalamanTugasAkhirBioprosesWidgetState
     extends State<HalamanTugasAkhirBioprosesWidget>
     with TickerProviderStateMixin {
   late HalamanTugasAkhirBioprosesModel _model;
-  List<Thesis> _bioprosesList = [];
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<dynamic> tugasAkhir = [];
+  bool isLoading = true;
+
+  Future<void> fetchTugasAkhir({String prodi = ''}) async {
+    try {
+      final uri = Uri.parse('$apiUrl/api/tugasakhir/get-all');
+
+      final Map<String, dynamic> requestBody = {
+        'prodi': prodi,
+      };
+
+      debugPrint(requestBody.toString());
+
+      final response = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          tugasAkhir = data['data'];
+          isLoading = false;
+        });
+      } else {
+        debugPrint('Failed to load books: ${response.statusCode}');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error fetching books: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _model = HalamanTugasAkhirBioprosesModel();
     _model.tabBarController = TabController(length: 1, vsync: this);
-    fetchThesisData(); // Fetch initial data for Bioproses
-  }
-
-  Future<void> fetchThesisData() async {
-    final response = await http.get(
-      Uri.parse(
-          '$apiUrl/api/tugasakhir/by-program?fakultas=FTB&prodi=Bioproses'),
-    );
-
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body)['data'];
-      setState(() {
-        _bioprosesList = data.map((thesis) => Thesis.fromJson(thesis)).toList();
-      });
-    } else {
-      throw Exception('Failed to load thesis data');
-    }
+    fetchTugasAkhir(prodi: 'Teknik Bioproses');
   }
 
   @override
@@ -59,7 +80,6 @@ class _HalamanTugasAkhirBioprosesWidgetState
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        key: scaffoldKey,
         backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
@@ -95,7 +115,11 @@ class _HalamanTugasAkhirBioprosesWidgetState
                       IconButton(
                         icon: Icon(Icons.search, color: Colors.black),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => HalamanPencarianTugasAkhirWidget()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (ctx) =>
+                                      HalamanPencarianTugasAkhirWidget()));
                         },
                       )
                     ],
@@ -113,7 +137,8 @@ class _HalamanTugasAkhirBioprosesWidgetState
                 onTap: (index) {
                   // Fetch data based on the selected tab
                   if (index == 0) {
-                    fetchThesisData(); // Fetch data for Bioproses
+                    fetchTugasAkhir(
+                        prodi: 'Teknik Bioproses'); // Fetch data for Bioproses
                   }
                 },
               ),
@@ -121,67 +146,22 @@ class _HalamanTugasAkhirBioprosesWidgetState
                 child: TabBarView(
                   controller: _model.tabBarController,
                   children: [
-                    // Display Bioproses data
-                    _buildThesisList(_bioprosesList),
+                    Expanded(
+                        child: ListView(
+                      children: tugasAkhir.map((tugasAkhirItem) {
+                        return TugasAkhirItem(
+                          judul: tugasAkhirItem['judul'],
+                          pengarang: tugasAkhirItem['penulis'],
+                          id: tugasAkhirItem['id'],
+                        );
+                      }).toList(),
+                    )),
                   ],
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildThesisList(List<Thesis> thesisList) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          for (var thesis in thesisList) ...[
-            Divider(thickness: 2.0),
-            InkWell(
-              onTap: () {
-                // Navigate to detail page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailTugasAkhirWidget(
-                      id: thesis.id
-                          .toString(), // Ensure thesis ID is passed correctly
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.feed, size: 50.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            thesis.title,
-                            style: TextStyle(
-                                fontSize: 12.0, fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            '${thesis.program}, Tugas Akhir',
-                            style:
-                                TextStyle(fontSize: 10.0, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ],
       ),
     );
   }
