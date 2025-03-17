@@ -34,7 +34,6 @@ class _SearchBookPage extends State<SearchBookPage> {
 
       final response = await http.get(uri);
 
-      debugPrint('Body : ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
