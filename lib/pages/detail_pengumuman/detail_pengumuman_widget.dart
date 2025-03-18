@@ -1,15 +1,17 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '/config.dart';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import '/config.dart';
 
 class DetailPengumumanWidget extends StatefulWidget {
   final String id;
+
   const DetailPengumumanWidget({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -78,28 +80,23 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
     }
   }
 
-  // Fungsi untuk mengunduh file
   Future<void> downloadFile(String fileUrl, String fileName) async {
     try {
-      // Minta izin penyimpanan
       await requestStoragePermission();
 
-      // Dapatkan direktori penyimpanan eksternal (internal storage)
-      Directory? directory = await getExternalStorageDirectory();
+      Directory? directory = Directory('/storage/emulated/0/Download');
 
-      // Buat path khusus ke folder Download
-      String downloadPath = '${directory!.path}/Download';
+      String? downloadPath = directory.path;
 
-      // Buat folder Download jika belum ada
+      debugPrint('Lokasi download : $downloadPath');
+
       final downloadDir = Directory(downloadPath);
       if (!await downloadDir.exists()) {
         await downloadDir.create(recursive: true);
       }
 
-      // Path lengkap untuk menyimpan file
       String savePath = '$downloadPath/$fileName';
 
-      // Unduh file menggunakan Dio
       Dio dio = Dio();
       await dio.download(
         fileUrl,
@@ -112,12 +109,10 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
         },
       );
 
-      // Tampilkan pesan sukses
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("File berhasil diunduh ke $savePath")),
       );
     } catch (e) {
-      // Tampilkan pesan error
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Gagal mengunduh file: $e")),
       );
