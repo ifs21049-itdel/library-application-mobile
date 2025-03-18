@@ -172,11 +172,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                20.0, 0.0, 20.0, 0.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.center, // Pusatkan elemen
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
@@ -187,39 +188,32 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                Align(
-                                  alignment:
-                                      const AlignmentDirectional(0.0, 0.0),
-                                  child: Text(
-                                    'Perpustakaan Digital\nIntitut Teknologi Del',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Inter',
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w800,
-                                        ),
+                                const SizedBox(
+                                    width: 10.0), // Jarak antar elemen
+                                Expanded(
+                                  // Agar teks bisa menyesuaikan ruang yang tersedia
+                                  child: Align(
+                                    alignment: Alignment
+                                        .center, // Teks tetap di tengah
+                                    child: Text(
+                                      'Perpustakaan Digital\nInstitut Teknologi Del',
+                                      textAlign: TextAlign
+                                          .center, // Pusatkan teks dalam elemen
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                    ),
                                   ),
                                 ),
-                                FlutterFlowIconButton(
-                                  borderRadius: 8.0,
-                                  buttonSize: 60.0,
-                                  icon: Icon(
-                                    Icons.notifications_outlined,
-                                    color: FlutterFlowTheme.of(context).info,
-                                    size: 24.0,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              NotificationPage()), // Pindah ke NotificationPage
-                                    );
-                                  },
-                                ),
+                                const SizedBox(
+                                    width:
+                                        50.0), // Tambahan ruang agar tetap rapi meski tanpa tombol
                               ],
                             ),
                           ),
