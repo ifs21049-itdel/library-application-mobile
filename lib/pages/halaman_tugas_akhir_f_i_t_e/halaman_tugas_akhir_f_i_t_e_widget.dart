@@ -5,8 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:library_application/index.dart';
 
-import 'halaman_tugas_akhir_f_i_t_e_model.dart'; // Adjust the import according to your project structure
-
 class HalamanTugasAkhirFITEWidget extends StatefulWidget {
   const HalamanTugasAkhirFITEWidget({super.key});
 
@@ -17,10 +15,11 @@ class HalamanTugasAkhirFITEWidget extends StatefulWidget {
 
 class _HalamanTugasAkhirFITEWidgetState
     extends State<HalamanTugasAkhirFITEWidget> with TickerProviderStateMixin {
-  late HalamanTugasAkhirFITEModel _model;
+  // late HalamanTugasAkhirFITEModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<dynamic> tugasAkhir = [];
   bool isLoading = true;
+  late TabController _tabController;
 
   Future<void> fetchTugasAkhir({String prodi = ''}) async {
     try {
@@ -61,15 +60,26 @@ class _HalamanTugasAkhirFITEWidgetState
   @override
   void initState() {
     super.initState();
-    _model = HalamanTugasAkhirFITEModel();
-    _model.tabBarController = TabController(length: 3, vsync: this);
     fetchTugasAkhir(prodi: 'Teknik Informatika');
+    _tabController = TabController(length: 3, vsync: this);
+
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        if (_tabController.index == 0) {
+          fetchTugasAkhir(prodi: 'Teknik Informatika');
+        } else if (_tabController.index == 1) {
+          fetchTugasAkhir(prodi: 'Sistem Informasi');
+        } else if (_tabController.index == 2) {
+          fetchTugasAkhir(prodi: 'Teknik Elektro');
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
-    _model.tabBarController?.dispose();
     super.dispose();
+    _tabController.dispose();
   }
 
   @override
@@ -84,108 +94,113 @@ class _HalamanTugasAkhirFITEWidgetState
         backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 64.0,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                ),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(
-                      20.0, 0.0, 20.0, 0.0),
-                  child: Flex(
-                    direction: Axis.horizontal,
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.black),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Text(
-                        'Tugas Akhir FITE',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.search, color: Colors.black),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (ctx) =>
-                                      HalamanPencarianTugasAkhirWidget()));
-                        },
-                      ),
-                    ],
+          child: Container(
+            color: Colors.grey[100],
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  color: Colors.white,
+                  width: double.infinity,
+                  height: 64.0,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        20.0, 0.0, 20.0, 0.0),
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.arrow_back, color: Colors.black),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        Text(
+                          'Tugas Akhir FITE',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.search, color: Colors.black),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) =>
+                                        HalamanPencarianTugasAkhirWidget()));
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              TabBar(
-                controller: _model.tabBarController,
-                isScrollable: true,
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey,
-                tabs: const [
-                  Tab(text: 'Informatika'),
-                  Tab(text: 'Sistem Informasi'),
-                  Tab(text: 'Teknik Elektro'),
-                ],
-                onTap: (index) {
-                  // Fetch data based on the selected tab
-                  if (index == 0) {
-                    fetchTugasAkhir(prodi: 'Teknik Informatika');
-                  } else if (index == 1) {
-                    fetchTugasAkhir(prodi: 'Sistem Informasi');
-                  } else if (index == 2) {
-                    fetchTugasAkhir(prodi: 'Teknik Elektro');
-                  }
-                },
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: _model.tabBarController,
-                  children: [
-                    Expanded(
-                        child: ListView(
-                      children: tugasAkhir.map((tugasAkhirItem) {
-                        return TugasAkhirItem(
-                          judul: tugasAkhirItem['judul'],
-                          pengarang: tugasAkhirItem['penulis'],
-                          id: tugasAkhirItem['id'],
-                        );
-                      }).toList(),
-                    )),
-                    Expanded(
-                        child: ListView(
-                      children: tugasAkhir.map((tugasAkhirItem) {
-                        return TugasAkhirItem(
-                          judul: tugasAkhirItem['judul'],
-                          pengarang: tugasAkhirItem['penulis'],
-                          id: tugasAkhirItem['id'],
-                        );
-                      }).toList(),
-                    )),
-                    Expanded(
-                        child: ListView(
-                      children: tugasAkhir.map((tugasAkhirItem) {
-                        return TugasAkhirItem(
-                          judul: tugasAkhirItem['judul'],
-                          pengarang: tugasAkhirItem['penulis'],
-                          id: tugasAkhirItem['id'],
-                        );
-                      }).toList(),
-                    ))
-                  ],
+                SizedBox(
+                    height: 60,
+                    width: double.infinity,
+                    child: Container(
+                        color: Colors.white,
+                        child: TabBar(
+                          tabs: [
+                            Text('Informatika'),
+                            Text('Sistem Informasi'),
+                            Text('Teknik Elektro'),
+                          ],
+                          controller: _tabController,
+                          isScrollable: true,
+                          labelColor: Colors.black,
+                          unselectedLabelColor: Colors.grey,
+                          onTap: (index) {
+                            // Fetch data based on the selected tab
+                            if (index == 0) {
+                              fetchTugasAkhir(prodi: 'Teknik Informatika');
+                            } else if (index == 1) {
+                              fetchTugasAkhir(prodi: 'Sistem Informasi');
+                            } else if (index == 2) {
+                              fetchTugasAkhir(prodi: 'Teknik Elektro');
+                            }
+                          },
+                        ))),
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-            ],
+                Expanded(
+                    child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    ListView(
+                      children: tugasAkhir.map((tugasAkhirItem) {
+                        return TugasAkhirItem(
+                          judul: tugasAkhirItem['judul'],
+                          pengarang: tugasAkhirItem['penulis'],
+                          id: tugasAkhirItem['id'],
+                        );
+                      }).toList(),
+                    ),
+                    ListView(
+                      children: tugasAkhir.map((tugasAkhirItem) {
+                        return TugasAkhirItem(
+                          judul: tugasAkhirItem['judul'],
+                          pengarang: tugasAkhirItem['penulis'],
+                          id: tugasAkhirItem['id'],
+                        );
+                      }).toList(),
+                    ),
+                    ListView(
+                      children: tugasAkhir.map((tugasAkhirItem) {
+                        return TugasAkhirItem(
+                          judul: tugasAkhirItem['judul'],
+                          pengarang: tugasAkhirItem['penulis'],
+                          id: tugasAkhirItem['id'],
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                )),
+              ],
+            ),
           ),
         ),
       ),

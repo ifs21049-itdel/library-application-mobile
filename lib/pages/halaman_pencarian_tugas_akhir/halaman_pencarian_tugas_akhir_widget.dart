@@ -117,8 +117,11 @@ class _HalamanPencarianTugasAkhirWidgetState
             ],
           ),
         ),
-        SizedBox(
-          height: 10,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          child: Text(_searchController.text.isEmpty
+              ? 'Tidak ada pencarian'
+              : 'Menampilkan ${tugasAkhir.length} untuk pencarian: ${_searchController.text}'),
         ),
         Expanded(
             child: ListView(
