@@ -1,7 +1,11 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
 import 'staff_perpustakaan_modal_model.dart';
+
 export 'staff_perpustakaan_modal_model.dart';
 
 class StaffPerpustakaanModalWidget extends StatefulWidget {
@@ -15,6 +19,21 @@ class StaffPerpustakaanModalWidget extends StatefulWidget {
 class _StaffPerpustakaanModalWidgetState
     extends State<StaffPerpustakaanModalWidget> {
   late StaffPerpustakaanModalModel _model;
+
+  Future<void> _launchEmail(String email) async {
+    final Uri uri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      throw 'Could not launch $email';
+    }
+  }
 
   @override
   void setState(VoidCallback callback) {
@@ -125,12 +144,24 @@ class _StaffPerpustakaanModalWidgetState
                   ),
             ),
             const SizedBox(height: 4.0),
-            Text(
-              email,
-              style: FlutterFlowTheme.of(context).labelMedium.override(
-                    fontFamily: 'Inter',
-                    letterSpacing: 0.0,
-                  ),
+            // Text(
+            //   email,
+            //   style: FlutterFlowTheme.of(context).labelMedium.override(
+            //         fontFamily: 'Inter',
+            //         letterSpacing: 0.0,
+            //       ),
+            // ),
+            RichText(
+              text: TextSpan(
+                text: email,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => _launchEmail(email),
+              ),
             ),
             const SizedBox(height: 4.0),
             Text(

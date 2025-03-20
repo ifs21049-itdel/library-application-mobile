@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:library_application/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +17,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfile extends State<EditProfile> {
   final TextEditingController _nameController = TextEditingController();
+  bool isLoading = false;
 
   File? _image; // Menyimpan gambar yang dipilih
   final ImagePicker _picker = ImagePicker();
@@ -62,6 +63,9 @@ class _EditProfile extends State<EditProfile> {
   }
 
   Future<void> updateUser() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       var uri = Uri.parse('${dotenv.env['API_URL']}/api/users');
       var request = http.MultipartRequest("PUT", uri);
@@ -80,7 +84,8 @@ class _EditProfile extends State<EditProfile> {
 
       // Kirim request
       final response = await request.send();
-      final Map<String, dynamic> data = json.decode(await response.stream.bytesToString());
+      final Map<String, dynamic> data =
+          json.decode(await response.stream.bytesToString());
 
       if (!mounted) return;
 
@@ -96,6 +101,9 @@ class _EditProfile extends State<EditProfile> {
                 onPressed: () {
                   Navigator.pop(context); // Tutup dialog
                   if (response.statusCode == 200) {
+                    setState(() {
+                      isLoading = false;
+                    });
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (ctx) => ProfilePageWidget()),
@@ -110,6 +118,9 @@ class _EditProfile extends State<EditProfile> {
       );
     } catch (e) {
       debugPrint("Error updating user: $e");
+      setState(() {
+        isLoading = false;
+      });
 
       if (!mounted) return;
 
@@ -157,17 +168,17 @@ class _EditProfile extends State<EditProfile> {
                     borderRadius: BorderRadius.circular(1000),
                     child: _image != null
                         ? Image.file(
-                      _image!,
-                      width: 200.0,
-                      height: 200.0,
-                      fit: BoxFit.cover,
-                    )
+                            _image!,
+                            width: 200.0,
+                            height: 200.0,
+                            fit: BoxFit.cover,
+                          )
                         : Image.asset(
-                      'assets/images/me.png',
-                      width: 80.0,
-                      height: 80.0,
-                      fit: BoxFit.cover,
-                    ),
+                            'assets/images/me.png',
+                            width: 80.0,
+                            height: 80.0,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -196,7 +207,17 @@ class _EditProfile extends State<EditProfile> {
                   ),
                   SizedBox(
                     width: 800,
-                    child: FilledButton(onPressed: updateUser, child: Text('Simpan')),
+                    child: FilledButton(
+                        onPressed: updateUser,
+                        child: isLoading == true
+                            ? SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text('Simpan')),
                   )
                 ],
               ),

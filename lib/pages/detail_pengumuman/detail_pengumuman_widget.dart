@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '/config.dart';
 
@@ -150,9 +152,47 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        pengumuman['isi'] ?? 'Tidak ada konten.',
-                        style: TextStyle(fontSize: 16),
+                      // Text(
+                      //   pengumuman['isi'] ?? 'Tidak ada konten.',
+                      //   style: TextStyle(fontSize: 16),
+                      // ),
+                      RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.black),
+                          children: pengumuman['isi']
+                              .split(' ')
+                              .map<InlineSpan>((word) {
+                                if (Uri.tryParse(word)?.hasAbsolutePath ??
+                                    false) {
+                                  return TextSpan(
+                                    text: '$word ',
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () async {
+                                        final uri = Uri.parse(word);
+                                        if (await canLaunchUrl(uri)) {
+                                          await launchUrl(
+                                            uri,
+                                            mode:
+                                                LaunchMode.externalApplication,
+                                          );
+                                        } else {
+                                          debugPrint('Could not launch $uri');
+                                        }
+                                      },
+                                  );
+                                } else {
+                                  return TextSpan(text: '$word ');
+                                }
+                              })
+                              .toList()
+                              .cast<
+                                  InlineSpan>(), // 👈 Cast ke List<InlineSpan>
+                        ),
                       ),
                       // Tambahkan ini setelah menampilkan isi pengumuman
                       const SizedBox(height: 16),

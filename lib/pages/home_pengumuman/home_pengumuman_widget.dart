@@ -1,14 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
 import 'package:library_application/pages/detail_pengumuman/detail_pengumuman_widget.dart';
 
 import '/components/bottom_bar_pengumuman_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
 import 'home_pengumuman_model.dart';
+
 export 'home_pengumuman_model.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class HomePengumumanWidget extends StatefulWidget {
   const HomePengumumanWidget({super.key});
@@ -25,8 +25,8 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
   String searchQuery = '';
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _model = createModel(context, () => HomePengumumanModel());
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
@@ -81,6 +81,15 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
       final judul = item['judul']?.toString().toLowerCase() ?? '';
       return judul.contains(searchQuery.toLowerCase());
     }).toList();
+  }
+
+  String _formatDate(String dateString) {
+    try {
+      final date = DateTime.parse(dateString);
+      return DateFormat('dd MMMM yyyy, HH:mm').format(date);
+    } catch (e) {
+      return '-';
+    }
   }
 
   @override
@@ -146,7 +155,7 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                         hintStyle:
                             FlutterFlowTheme.of(context).labelMedium.override(
                                   fontFamily: 'Inter',
-                                  color: const Color(0xFFD9D9D9),
+                                  color: Colors.black,
                                   letterSpacing: 0.0,
                                 ),
                         enabledBorder: OutlineInputBorder(
@@ -157,8 +166,8 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                           borderRadius: BorderRadius.circular(14.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Color(0x00000000),
+                          borderSide: BorderSide(
+                            color: Colors.black,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(14.0),
@@ -228,39 +237,69 @@ class _HomePengumumanWidgetState extends State<HomePengumumanWidget> {
                                       borderRadius: BorderRadius.circular(6.0),
                                     ),
                                     child: Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              20.0, 10.0, 20.0, 10.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            '[${item['kategori']}]',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Inter',
-                                                  color:
-                                                      const Color(0xFFFF0000),
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              item['judul'],
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(20.0, 10.0, 20.0, 10.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            RichText(
+                                              text: TextSpan(
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Inter',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        '[${item['kategori']}] ',
+                                                    style: const TextStyle(
+                                                      color: Color(0xFFFF0000),
+                                                      // 👈 Warna merah untuk kategori
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text: item['judul'],
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Inter',
+                                                          letterSpacing: 0.0,
+                                                          color: Colors
+                                                              .black, // 👈 Warna default untuk judul
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ].divide(const SizedBox(width: 10.0)),
-                                      ),
-                                    ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.access_time_outlined,
+                                                  size: 12,
+                                                ),
+                                                SizedBox(
+                                                  width: 3,
+                                                ),
+                                                Text(
+                                                  _formatDate(
+                                                      item['created_at']),
+                                                  style:
+                                                      TextStyle(fontSize: 10),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        )),
                                   ),
                                 );
                               },
