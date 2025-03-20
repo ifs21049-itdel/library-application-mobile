@@ -51,6 +51,74 @@ class _EditProfile extends State<EditProfile> {
     loadData();
   }
 
+  Future<void> deleteImage() async {
+    try {
+      var uri =
+          Uri.parse('${dotenv.env['API_URL']}/api/users/delete-profile-pict');
+      final http.Response response = await http.delete(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({'id': '${userData['id']}'}),
+      );
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (!mounted) return;
+
+      setState(() {
+        isLoading = false;
+      });
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(response.statusCode == 200 ? 'Sukses' : 'Gagal'),
+            content: Text(data['message']),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  if (response.statusCode == 200) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => ProfilePageWidget()),
+                    );
+                  }
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      debugPrint("Error updating user: $e");
+      setState(() {
+        isLoading = false;
+      });
+
+      if (!mounted) return;
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: Text("Terjadi kesalahan: $e"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   Future<void> loadData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -99,7 +167,7 @@ class _EditProfile extends State<EditProfile> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // Tutup dialog
+                  Navigator.pop(context);
                   if (response.statusCode == 200) {
                     Navigator.push(
                       context,
@@ -189,6 +257,10 @@ class _EditProfile extends State<EditProfile> {
                         onPressed: pickImage,
                         child: const Text("Pilih dari Galeri"),
                       ),
+                      TextButton(
+                        onPressed: deleteImage,
+                        child: const Text("Hapus Foto"),
+                      )
                     ],
                   ),
                   const SizedBox(height: 10),
