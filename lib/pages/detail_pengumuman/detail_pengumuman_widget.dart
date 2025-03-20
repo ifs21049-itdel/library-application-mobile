@@ -245,7 +245,8 @@ class _DetailPengumumanWidgetState extends State<DetailPengumumanWidget> {
 String _formatDate(String dateString) {
   try {
     final date = DateTime.parse(dateString);
-    return DateFormat('dd MMMM yyyy, HH:mm').format(date);
+    return DateFormat('dd MMMM yyyy, HH:mm')
+        .format(date.add(const Duration(hours: 7)));
   } catch (e) {
     return '-';
   }
