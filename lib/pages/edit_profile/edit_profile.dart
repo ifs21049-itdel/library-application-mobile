@@ -70,11 +70,9 @@ class _EditProfile extends State<EditProfile> {
       var uri = Uri.parse('${dotenv.env['API_URL']}/api/users');
       var request = http.MultipartRequest("PUT", uri);
 
-      // Tambahkan data id dan name
       request.fields['id'] = '${userData['id']}';
       request.fields['name'] = _nameController.text;
 
-      // Jika ada gambar, tambahkan ke request
       if (_image != null) {
         request.files.add(await http.MultipartFile.fromPath(
           'picture',
@@ -82,14 +80,16 @@ class _EditProfile extends State<EditProfile> {
         ));
       }
 
-      // Kirim request
       final response = await request.send();
       final Map<String, dynamic> data =
           json.decode(await response.stream.bytesToString());
 
       if (!mounted) return;
 
-      // Tampilkan AlertDialog
+      setState(() {
+        isLoading = false;
+      });
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -101,9 +101,6 @@ class _EditProfile extends State<EditProfile> {
                 onPressed: () {
                   Navigator.pop(context); // Tutup dialog
                   if (response.statusCode == 200) {
-                    setState(() {
-                      isLoading = false;
-                    });
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (ctx) => ProfilePageWidget()),
@@ -124,7 +121,6 @@ class _EditProfile extends State<EditProfile> {
 
       if (!mounted) return;
 
-      // Tampilkan dialog error jika terjadi exception
       showDialog(
         context: context,
         builder: (BuildContext context) {
