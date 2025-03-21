@@ -93,6 +93,9 @@ class _HalamanPencarianTugasAkhirWidgetState
                       onSubmitted: (value) {
                         fetchTugasAkhir(search: value);
                       },
+                      onChanged: (value) {
+                        fetchTugasAkhir(search: value);
+                      },
                       decoration: InputDecoration(
                           border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
