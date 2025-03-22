@@ -74,11 +74,17 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
     });
   }
 
-  // Function to format date
-  String formatDate(String dateString) {
+  // Function to format date with proper null handling
+  String formatDateTime(String? dateTimeString) {
+    if (dateTimeString == null ||
+        dateTimeString.isEmpty ||
+        dateTimeString == "null") {
+      return '-';
+    }
+
     try {
-      final date = DateTime.parse(dateString);
-      return DateFormat('dd MMM yyyy').format(date);
+      DateTime dateTime = DateTime.parse(dateTimeString).toLocal();
+      return DateFormat('dd MMMM yyyy HH:mm', 'id_ID').format(dateTime);
     } catch (e) {
       return '-';
     }
@@ -621,7 +627,7 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      'Tgl. Pinjam: ${formatDate(peminjaman['tanggal_pinjam'].toString())}',
+                      'Tanggal Peminjaman: ${formatDateTime(peminjaman['tanggal_pinjam']?.toString())}',
                       style: FlutterFlowTheme.of(context).bodySmall.override(
                             fontFamily: 'Inter',
                             color: FlutterFlowTheme.of(context).secondaryText,
@@ -629,7 +635,7 @@ class _PinjamBukuWidgetState extends State<PinjamBukuWidget>
                           ),
                     ),
                     Text(
-                      'Tgl. Kembali: ${formatDate(peminjaman['tanggal_kembali']?.toString() ?? '')}',
+                      'Batas Kembali: ${formatDateTime(peminjaman['batas_peminjaman']?.toString())}',
                       style: FlutterFlowTheme.of(context).bodySmall.override(
                             fontFamily: 'Inter',
                             color: FlutterFlowTheme.of(context).secondaryText,
