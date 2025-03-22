@@ -60,13 +60,13 @@ class _HalamanTugasAkhirFITEWidgetState
   @override
   void initState() {
     super.initState();
-    fetchTugasAkhir(prodi: 'Teknik Informatika');
+    fetchTugasAkhir(prodi: 'Informatika');
     _tabController = TabController(length: 3, vsync: this);
 
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
         if (_tabController.index == 0) {
-          fetchTugasAkhir(prodi: 'Teknik Informatika');
+          fetchTugasAkhir(prodi: 'Informatika');
         } else if (_tabController.index == 1) {
           fetchTugasAkhir(prodi: 'Sistem Informasi');
         } else if (_tabController.index == 2) {
@@ -155,7 +155,7 @@ class _HalamanTugasAkhirFITEWidgetState
                           onTap: (index) {
                             // Fetch data based on the selected tab
                             if (index == 0) {
-                              fetchTugasAkhir(prodi: 'Teknik Informatika');
+                              fetchTugasAkhir(prodi: 'Informatika');
                             } else if (index == 1) {
                               fetchTugasAkhir(prodi: 'Sistem Informasi');
                             } else if (index == 2) {

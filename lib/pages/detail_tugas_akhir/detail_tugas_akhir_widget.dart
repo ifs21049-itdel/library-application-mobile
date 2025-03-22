@@ -129,7 +129,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Supervisoru',
+                                  'Dosen Pembimbing',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -184,13 +184,74 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                           ),
                           child: Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
+                                20.0, 10.0, 20.0, 0.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Dosen Penguji',
+                                  textAlign: TextAlign.start,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 10.0, 0.0, 10.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              thesisDetail?['penguji'] ??
+                                                  'Tidak Tersedia',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Inter',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ].divide(const SizedBox(width: 20.0)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          thickness: 2.0,
+                          color: FlutterFlowTheme.of(context).alternate,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 20.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Author',
+                                  'Penulis',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -251,7 +312,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Faculty',
+                                  'Fakultas',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -312,7 +373,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Keywords',
+                                  'Kata Kunci',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -373,7 +434,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Year',
+                                  'Tahun',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -432,7 +493,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Abstract',
+                                  'Lokasi',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -455,7 +516,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              thesisDetail?['abstrak'] ??
+                                              thesisDetail?['lokasi'] ??
                                                   'Tidak Tersedia',
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -493,7 +554,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Locations',
+                                  'Abstrak',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -516,7 +577,7 @@ class _DetailTugasAkhirWidgetState extends State<DetailTugasAkhirWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              thesisDetail?['lokasi'] ??
+                                              thesisDetail?['abstrak'] ??
                                                   'Tidak Tersedia',
                                               style:
                                                   FlutterFlowTheme.of(context)
