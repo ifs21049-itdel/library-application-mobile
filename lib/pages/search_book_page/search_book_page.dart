@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:library_application/service/history_service.dart';
 
 import '../../config.dart';
 import '../detail_buku/detail_buku_widget.dart';
@@ -20,10 +20,25 @@ class _SearchBookPage extends State<SearchBookPage> {
   final TextEditingController _searchController = TextEditingController();
   List<dynamic> books = [];
   bool isLoading = true;
+  final HistoryService historyService = HistoryService();
+  List<dynamic>? history;
 
   @override
   void initState() {
     super.initState();
+    getHistory();
+  }
+
+  void getHistory() async {
+    final String? temp = await historyService.getBookHistory();
+
+    debugPrint('History $temp');
+
+    if (temp != null) {
+      setState(() {
+        history = json.decode(temp);
+      });
+    }
   }
 
   Future<void> fetchBooks({String search = ''}) async {
@@ -33,7 +48,6 @@ class _SearchBookPage extends State<SearchBookPage> {
           queryParameters: search.isNotEmpty ? {'search': search} : {});
 
       final response = await http.get(uri);
-
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -87,6 +101,10 @@ class _SearchBookPage extends State<SearchBookPage> {
                       onSubmitted: (value) {
                         fetchBooks(search: value);
                       },
+                      onChanged: (value) {
+                        setState(() {});
+                        fetchBooks(search: value);
+                      },
                       decoration: InputDecoration(
                           border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
@@ -111,18 +129,65 @@ class _SearchBookPage extends State<SearchBookPage> {
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: Text(_searchController.text.isEmpty
-              ? 'Tidak ada pencarian'
-              : 'Menampilkan ${books.length} untuk pencarian: ${_searchController.text}'),
-        ),
-        Expanded(
-            child: ListView(
-          children: books.map((book) {
-            return BookItem(judul: book['judul'], pengarang: book['penulis'], id: book['id'],);
-          }).toList(),
-        ))
+        history == null || _searchController.text.isNotEmpty
+            ? Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      child: Text(_searchController.text.isEmpty
+                          ? 'Tidak ada pencarian'
+                          : 'Menampilkan ${books.length} untuk pencarian: ${_searchController.text}'),
+                    ),
+                    Expanded(
+                        child: ListView(
+                      children: books.map((book) {
+                        return BookItem(
+                          judul: book['judul'],
+                          pengarang: book['penulis'],
+                          id: book['id'],
+                          historyService: historyService,
+                        );
+                      }).toList(),
+                    ))
+                  ],
+                ),
+              )
+            : Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      child: Text('Recent Search'),
+                    ),
+                    Expanded(
+                        child: ListView(
+                      children: history!.map((historyItem) {
+                        return TextButton(
+                            onPressed: () {
+                              debugPrint(historyItem);
+                              setState(() {
+                                _searchController.text = historyItem;
+                              });
+                              fetchBooks(search: historyItem);
+                            },
+                            style: TextButton.styleFrom(
+                              alignment: Alignment
+                                  .centerLeft, // Rata kiri untuk konten di dalam TextButton
+                            ),
+                            child: Text(
+                              historyItem,
+                              style: TextStyle(color: Colors.black),
+                            ));
+                      }).toList(),
+                    ))
+                  ],
+                ),
+              )
       ],
     )));
   }
@@ -132,18 +197,23 @@ class BookItem extends StatelessWidget {
   final String judul;
   final String pengarang;
   final int id;
+  final HistoryService? historyService;
 
-  const BookItem({
-    super.key,
-    required this.judul,
-    required this.pengarang,
-    required this.id,
-  });
+  const BookItem(
+      {super.key,
+      required this.judul,
+      required this.pengarang,
+      required this.id,
+      this.historyService});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (historyService != null) {
+          historyService?.saveTugasAkhirHistory(judul);
+        }
+
         Navigator.push(
           context,
           MaterialPageRoute(

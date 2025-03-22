@@ -165,6 +165,7 @@ class _HalamanTugasAkhirBioprosesWidgetState
                           judul: tugasAkhirItem['judul'],
                           pengarang: tugasAkhirItem['penulis'],
                           id: tugasAkhirItem['id'],
+                          historyService: null,
                         );
                       }).toList(),
                     ),
