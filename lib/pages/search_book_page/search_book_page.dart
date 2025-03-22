@@ -38,6 +38,10 @@ class _SearchBookPage extends State<SearchBookPage> {
       setState(() {
         history = json.decode(temp);
       });
+    } else {
+      setState(() {
+        history = [];
+      });
     }
   }
 
@@ -167,22 +171,34 @@ class _SearchBookPage extends State<SearchBookPage> {
                     Expanded(
                         child: ListView(
                       children: history!.map((historyItem) {
-                        return TextButton(
-                            onPressed: () {
-                              debugPrint(historyItem);
-                              setState(() {
-                                _searchController.text = historyItem;
-                              });
-                              fetchBooks(search: historyItem);
-                            },
-                            style: TextButton.styleFrom(
-                              alignment: Alignment
-                                  .centerLeft, // Rata kiri untuk konten di dalam TextButton
-                            ),
-                            child: Text(
-                              historyItem,
-                              style: TextStyle(color: Colors.black),
-                            ));
+                        return Row(
+                          children: [
+                            Expanded(
+                                child: TextButton(
+                                    onPressed: () {
+                                      debugPrint(historyItem);
+                                      setState(() {
+                                        _searchController.text = historyItem;
+                                      });
+                                      fetchBooks(search: historyItem);
+                                    },
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment.centerLeft,
+                                    ),
+                                    child: Text(
+                                      historyItem,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(color: Colors.black),
+                                    ))),
+                            IconButton(
+                                onPressed: () async {
+                                  historyService.removeBookHistory(historyItem);
+                                  getHistory();
+                                },
+                                icon: Icon(Icons.close))
+                          ],
+                        );
                       }).toList(),
                     ))
                   ],
@@ -211,7 +227,7 @@ class BookItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (historyService != null) {
-          historyService?.saveTugasAkhirHistory(judul);
+          historyService?.saveBookHistory(judul);
         }
 
         Navigator.push(

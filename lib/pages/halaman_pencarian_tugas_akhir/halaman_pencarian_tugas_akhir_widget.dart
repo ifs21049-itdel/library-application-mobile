@@ -74,6 +74,10 @@ class _HalamanPencarianTugasAkhirWidgetState
       setState(() {
         history = json.decode(temp);
       });
+    } else {
+      setState(() {
+        history = [];
+      });
     }
   }
 
@@ -122,7 +126,7 @@ class _HalamanPencarianTugasAkhirWidgetState
                           focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
-                          hintText: 'Search book',
+                          hintText: 'Search Tugas Akhir',
                           suffixIcon: IconButton(
                             icon: Icon(Icons.clear),
                             color: Colors.black,
@@ -174,22 +178,36 @@ class _HalamanPencarianTugasAkhirWidgetState
                     Expanded(
                         child: ListView(
                       children: history!.map((historyItem) {
-                        return TextButton(
-                            onPressed: () {
-                              debugPrint(historyItem);
-                              setState(() {
-                                _searchController.text = historyItem;
-                              });
-                              fetchTugasAkhir(search: historyItem);
-                            },
-                            style: TextButton.styleFrom(
-                              alignment: Alignment
-                                  .centerLeft, // Rata kiri untuk konten di dalam TextButton
-                            ),
-                            child: Text(
-                              historyItem,
-                              style: TextStyle(color: Colors.black),
-                            ));
+                        return Row(
+                          children: [
+                            Expanded(
+                                child: TextButton(
+                                    onPressed: () {
+                                      debugPrint(historyItem);
+                                      setState(() {
+                                        _searchController.text = historyItem;
+                                      });
+                                      fetchTugasAkhir(search: historyItem);
+                                    },
+                                    style: TextButton.styleFrom(
+                                      alignment: Alignment
+                                          .centerLeft, // Rata kiri untuk konten di dalam TextButton
+                                    ),
+                                    child: Text(
+                                      historyItem,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(color: Colors.black),
+                                    ))),
+                            IconButton(
+                                onPressed: () async {
+                                  historyService
+                                      .removeTugasAkhirHistory(historyItem);
+                                  getHistory();
+                                },
+                                icon: Icon(Icons.close))
+                          ],
+                        );
                       }).toList(),
                     ))
                   ],
