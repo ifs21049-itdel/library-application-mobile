@@ -1,17 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:library_application/config.dart';
 import 'package:library_application/pages/detail_buku/detail_buku_widget.dart';
-import 'package:library_application/pages/notification_page/notification_page.dart';
 import 'package:library_application/pages/search_book_page/search_book_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/components/bottom_bar_beranda_widget.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
 import 'home_page_model.dart';
-import 'package:http/http.dart' as http;
 
 export 'home_page_model.dart';
 
@@ -188,8 +186,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                const SizedBox(
-                                    width: 10.0), // Jarak antar elemen
+                                const SizedBox(width: 10.0),
+                                // Jarak antar elemen
                                 Expanded(
                                   // Agar teks bisa menyesuaikan ruang yang tersedia
                                   child: Align(
@@ -211,9 +209,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                    width:
-                                        50.0), // Tambahan ruang agar tetap rapi meski tanpa tombol
+                                const SizedBox(width: 50.0),
+                                // Tambahan ruang agar tetap rapi meski tanpa tombol
                               ],
                             ),
                           ),
@@ -709,10 +706,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   Padding(
                                     padding:
                                         const EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 20.0, 20.0, 20.0),
+                                            20.0, 20.0, 20.0, 90.0),
                                     child: Container(
                                       width: double.infinity,
-                                      height: double.infinity,
+                                      height: 300,
                                       decoration: BoxDecoration(
                                         color: const Color(0xFFF7F7F7),
                                         borderRadius:
@@ -783,7 +780,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 .folder_rounded,
                                                             color: Color(
                                                                 0xFF686D76),
-                                                            size: 24.0,
+                                                            size: 60.0,
                                                           ),
                                                           Text(
                                                             'FAKULTAS INFORMATIKA DAN TEKNIK ELEKTRO',
@@ -839,7 +836,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 .folder_rounded,
                                                             color: Color(
                                                                 0xFF686D76),
-                                                            size: 24.0,
+                                                            size: 60.0,
                                                           ),
                                                           Text(
                                                             'FAKULTAS TEKNIK INDUSTRI',
@@ -866,6 +863,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   ),
                                                 ],
                                               ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
                                               Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 mainAxisAlignment:
@@ -875,7 +875,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   // Folder Fakultas Bioproses
                                                   Container(
                                                     width: 120.0,
-                                                    height: 150.0,
+                                                    height: 120.0,
                                                     decoration:
                                                         const BoxDecoration(),
                                                     child: InkWell(
@@ -903,7 +903,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 .folder_rounded,
                                                             color: Color(
                                                                 0xFF686D76),
-                                                            size: 24.0,
+                                                            size: 60.0,
                                                           ),
                                                           Text(
                                                             'FAKULTAS BIOPROSES',
@@ -931,7 +931,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   // Folder Fakultas Vokasi
                                                   Container(
                                                     width: 120.0,
-                                                    height: 150.0,
+                                                    height: 120.0,
                                                     decoration:
                                                         const BoxDecoration(),
                                                     child: InkWell(
@@ -959,7 +959,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 .folder_rounded,
                                                             color: Color(
                                                                 0xFF686D76),
-                                                            size: 24.0,
+                                                            size: 60.0,
                                                           ),
                                                           Text(
                                                             'FAKULTAS VOKASI',
