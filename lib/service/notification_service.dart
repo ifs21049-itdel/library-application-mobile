@@ -62,7 +62,7 @@ class NotificationService {
         ?.createNotificationChannel(channel);
 
     const androidInitializationSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@drawable/ic_notification');
 
     final initializationSettings = InitializationSettings(
       android: androidInitializationSettings,
@@ -98,7 +98,7 @@ class NotificationService {
                 'This channel is used for important notifications.',
             importance: Importance.high,
             priority: Priority.high,
-            icon: '@mipmap/ic_launcher', // Fix the underscore
+            icon: '@drawable/ic_notification', // Fix the underscore
           ),
         ),
         payload: message.data.toString(),

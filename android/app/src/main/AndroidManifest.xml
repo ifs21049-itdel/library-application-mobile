@@ -39,7 +39,7 @@
     </queries>
 
     <application
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="Library Application "
         android:requestLegacyExternalStorage="true"
         tools:replace="android:label">

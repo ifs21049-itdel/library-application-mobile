@@ -119,40 +119,40 @@ class _BottomBarBerandaWidgetState extends State<BottomBarBerandaWidget> {
                 ),
               ),
             ),
-        if (userData.isNotEmpty)
-          InkWell(
-            splashColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () async {
-              context.pushNamed('HomePengumuman');
-            },
-            child: Container(
-              width: 100.0,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.announcement_outlined,
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    size: 24.0,
+            if (userData.isNotEmpty)
+              InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () async {
+                  context.pushNamed('HomePengumuman');
+                },
+                child: Container(
+                  width: 100.0,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
                   ),
-                  Text(
-                    'Pengumuman',
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Inter',
-                      letterSpacing: 0.0,
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.announcement_outlined,
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        size: 24.0,
+                      ),
+                      Text(
+                        'Pengumuman',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Inter',
+                              letterSpacing: 0.0,
+                            ),
+                      ),
+                    ].divide(const SizedBox(height: 5.0)),
                   ),
-                ].divide(const SizedBox(height: 5.0)),
+                ),
               ),
-            ),
-          ),
             InkWell(
               splashColor: Colors.transparent,
               focusColor: Colors.transparent,
